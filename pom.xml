@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.tp.math</groupId>
+    <artifactId>matlab-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>matlab-parent</name>
+    <description>Demo project for Spring Boot</description>
+
+    <!-- 父模块打包类型必须为pom -->
+    <packaging>pom</packaging>
+
+    <!-- parent指明继承关系，给出被继承的父项目的具体信息-->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.4.5</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+
+    <!-- 模块说明：这里声明多个子模块 -->
+    <modules>
+        <module>matlab</module>
+        <module>pamguard</module>
+    </modules>
+
+    <!-- 版本说明：这里统一管理依赖的版本号 -->
+<!--    <dependencyManagement>-->
+<!--        <dependencies>-->
+<!--            <dependency>-->
+<!--                <groupId>com.example</groupId>-->
+<!--                <artifactId>hangge-base</artifactId>-->
+<!--                <version>0.0.1-SNAPSHOT</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>com.example</groupId>-->
+<!--                <artifactId>hangge-dao</artifactId>-->
+<!--                <version>0.0.1-SNAPSHOT</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>com.example</groupId>-->
+<!--                <artifactId>hangge-service</artifactId>-->
+<!--                <version>0.0.1-SNAPSHOT</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>com.example</groupId>-->
+<!--                <artifactId>hangge-web</artifactId>-->
+<!--                <version>0.0.1-SNAPSHOT</version>-->
+<!--            </dependency>-->
+<!--        </dependencies>-->
+<!--    </dependencyManagement>-->
+</project>
