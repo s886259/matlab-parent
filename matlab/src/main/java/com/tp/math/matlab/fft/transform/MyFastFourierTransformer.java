@@ -1,6 +1,7 @@
 package com.tp.math.matlab.fft.transform;
 
 import fftManager.FastFFT;
+import lombok.NonNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,13 +18,13 @@ public class MyFastFourierTransformer extends FastFFT {
      *
      * @param x complex array
      */
-    public synchronized List<MyComplex> fft(MyComplex[] x) {
+    public synchronized List<MyComplex> fft(@NonNull final MyComplex[] x) {
         super.fft(x);
         return Arrays.stream(x).collect(Collectors.toList());
     }
 
-    public synchronized List<MyComplex> ifft(MyComplex[] x) {
-        super.ifft(x,3);
+    public synchronized List<MyComplex> ifft(@NonNull final MyComplex[] x) {
+        super.ifft(x, 3);
         return Arrays.stream(x).collect(Collectors.toList());
     }
 }

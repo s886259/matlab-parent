@@ -11,7 +11,7 @@ import java.text.DecimalFormat;
 @UtilityClass
 public class MathUtils {
 
-    public static String roundToString(double d, boolean formatZero) {
+    public static String roundToString(final double d, final boolean formatZero) {
         double round = round(d);
         if (round == 0 && formatZero) {
             return String.valueOf(0);
@@ -19,9 +19,8 @@ public class MathUtils {
         return new DecimalFormat("#0.0000").format(round);
     }
 
-    private static double round(double d) {
+    private static double round(final double d) {
         BigDecimal b = new BigDecimal(d);
-        d = b.setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue();
-        return d;
+        return b.setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
 }

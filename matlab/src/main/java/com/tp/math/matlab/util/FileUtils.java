@@ -1,5 +1,6 @@
 package com.tp.math.matlab.util;
 
+import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 
 import java.io.BufferedWriter;
@@ -15,7 +16,10 @@ import static java.util.stream.Collectors.joining;
 @UtilityClass
 public class FileUtils {
 
-    public void double2File(String fileName, List<Double> records) throws IOException {
+    public void double2File(
+            @NonNull final String fileName,
+            @NonNull final List<Double> records
+    ) throws IOException {
         BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
 //        for (List<Double> column : result.values()) {
 //            final String line = column.stream().map(Object::toString).collect(Collectors.joining(","));
@@ -26,7 +30,10 @@ public class FileUtils {
         out.close();
     }
 
-    public void string2File(String fileName, List<String> records) throws IOException {
+    public void string2File(
+            @NonNull final String fileName,
+            @NonNull final List<String> records
+    ) throws IOException {
         BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
         for (String line : records) {
             out.write(line + "\t\n");

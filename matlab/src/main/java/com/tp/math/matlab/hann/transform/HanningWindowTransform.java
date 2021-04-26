@@ -9,7 +9,7 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class HanningWindowTransform {
 
-    public static String[] transform(int length) {
+    public static String[] transform(final int length) {
         String[] recordedData = new String[length];
         for (int n = 0; n < length; n++) {
             double d = 0.5 * (1 - Math.cos((2 * Math.PI * n) / (length - 1)));

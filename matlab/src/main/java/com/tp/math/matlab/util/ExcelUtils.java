@@ -19,7 +19,8 @@ import java.util.*;
 @Slf4j
 @UtilityClass
 public class ExcelUtils {
-    public Map<Integer, List<Double>> readByColumn(@NonNull final String fileName) throws InvalidFormatException, IOException {
+    public Map<Integer, List<Double>> readByColumn(@NonNull final String fileName)
+            throws InvalidFormatException, IOException {
         final Map<Integer, List<Double>> result = new HashMap<>();
         // 获取文件
         final File file = new File(fileName);

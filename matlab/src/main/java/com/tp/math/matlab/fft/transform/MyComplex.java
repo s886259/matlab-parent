@@ -1,12 +1,24 @@
 package com.tp.math.matlab.fft.transform;
 
-import com.tp.math.matlab.util.MathUtils;
 import fftManager.Complex;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import static com.tp.math.matlab.util.MathUtils.roundToString;
+import static com.tp.math.matlab.util.NumericDigitsUtils.getNumberDigits;
 
 /**
  * Created by tangpeng on 2021-04-25
  */
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class MyComplex extends Complex {
+    /**
+     * matlab最多保留5个有效数字
+     */
+    private static final int MATLAB_NUMERIC_FORMAT_SHORT_G = 5;
+
+    private int maxIntegerDigits;
 
     /**
      * Create a complex number given only the real part.
@@ -18,13 +30,17 @@ public class MyComplex extends Complex {
     }
 
     /**
-     * Create a complex number given the real and imaginary parts.
+     * Create a complex number given the real and imag parts.
      *
-     * @param real      Real part.
-     * @param imaginary Imaginary part.
+     * @param real Real part.
+     * @param imag Imaginary part.
      */
-    public MyComplex(double real, double imaginary) {
-        super(real, imaginary);
+    public MyComplex(double real, double imag) {
+        super(real, imag);
+        this.maxIntegerDigits = Math.max(
+                getNumberDigits(real, MATLAB_NUMERIC_FORMAT_SHORT_G),
+                getNumberDigits(imag, MATLAB_NUMERIC_FORMAT_SHORT_G)
+        );
     }
 
 
@@ -33,21 +49,11 @@ public class MyComplex extends Complex {
      */
     @Override
     public String toString() {
-        String real = MathUtils.roundToString(this.real, false);
+        String real = roundToString(this.real, false);
         if (this.imag >= 0) {
-            return real + " + " + MathUtils.roundToString(this.imag, false) + "i";
+            return real + " + " + roundToString(this.imag, false) + "i";
         } else {
-            return real + " - " + MathUtils.roundToString(-this.imag, false) + "i";
+            return real + " - " + roundToString(-this.imag, false) + "i";
         }
-//        return real + " " + imag;
-
     }
-//
-//    public String toString(boolean realImaginaryForamt) {
-//        if (realImaginaryForamt) {
-//            return toString();
-//        }
-//        return "(" + MathUtils.roundToString(this.getReal(), false)
-//                + ", " + MathUtils.roundToString(this.getImaginary(), false) + ")";
-//    }
 }
