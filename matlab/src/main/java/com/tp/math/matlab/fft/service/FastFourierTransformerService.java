@@ -2,13 +2,13 @@ package com.tp.math.matlab.fft.service;
 
 import com.tp.math.matlab.fft.transform.MyComplex;
 import com.tp.math.matlab.fft.transform.MyFastFourierTransformer;
-import com.tp.math.matlab.util.ExcelUtils;
+import com.tp.math.matlab.service.excel.ExcelService;
+import com.tp.math.matlab.util.FileUtils;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.math3.transform.TransformType;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +18,10 @@ import java.util.stream.Collectors;
  * Created by tangpeng on 2021-04-25
  */
 @Service
+@RequiredArgsConstructor
 public class FastFourierTransformerService {
+
+    private final ExcelService excelService;
 
     public List<String> transform(final MyComplex[] f, final TransformType type) {
         MyFastFourierTransformer myFastFourierTransformer = new MyFastFourierTransformer();
@@ -30,24 +33,13 @@ public class FastFourierTransformerService {
     }
 
     public List<String> transformFromFile(final String fileName, final TransformType type) throws IOException, InvalidFormatException {
-        final Map<Integer, List<Double>> records = ExcelUtils.readByColumn(fileName);
-        resultToFile(fileName, records);
-
+        final Map<Integer, List<Double>> records = excelService.readByColumn(fileName);
+        //TODO: result to file
+        FileUtils.double2File(fileName + "_column1_source_.txt", records.get(0));
+        //TODO: result to file
         final MyComplex[] myComplexes = records.get(0).stream()
                 .map(i -> new MyComplex(i, 0))
                 .toArray(MyComplex[]::new);
         return transform(myComplexes, type);
-    }
-
-    private void resultToFile(String fileName, Map<Integer, List<Double>> records) throws IOException {
-        //写入文件
-        BufferedWriter out = new BufferedWriter(new FileWriter(fileName + "_.txt"));
-//        for (List<Double> column : result.values()) {
-//            final String line = column.stream().map(Object::toString).collect(Collectors.joining(","));
-//            out.write(line + "\t\n");
-//        }
-        final String line = records.get(0).stream().map(Object::toString).collect(Collectors.joining(","));
-        out.write(line + "\t\n");
-        out.close();
     }
 }

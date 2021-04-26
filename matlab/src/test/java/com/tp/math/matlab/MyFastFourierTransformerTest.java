@@ -2,7 +2,7 @@ package com.tp.math.matlab;
 
 import com.tp.math.matlab.fft.service.FastFourierTransformerService;
 import com.tp.math.matlab.fft.transform.MyComplex;
-import com.tp.math.matlab.util.ExcelUtils;
+import com.tp.math.matlab.util.FileUtils;
 import org.apache.commons.math3.transform.TransformType;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.junit.Test;
@@ -14,7 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by tangpeng on 2021-04-24
@@ -42,6 +41,8 @@ public class MyFastFourierTransformerTest {
     public void testTransformFromFile() throws IOException, InvalidFormatException {
         String fileName = "/Users/tangpeng/Documents/matlab/excels/1414.xlsx";
         List<String> result = service.transformFromFile(fileName, TransformType.FORWARD);
+
+        FileUtils.string2File(fileName + "_column1_my_output_.txt", result);
         result.forEach(System.out::println);
     }
 }
