@@ -1,6 +1,6 @@
 package com.tp.math.matlab.fft.service;
 
-import com.tp.math.matlab.fft.transform.MyComplex;
+import com.tp.math.matlab.fft.transform.OriginComplex;
 import com.tp.math.matlab.fft.transform.MyFastFourierTransformer;
 import com.tp.math.matlab.service.excel.ExcelService;
 import com.tp.math.matlab.util.FileUtils;
@@ -26,8 +26,8 @@ public class FastFourierTransformerService {
 
     private final ExcelService excelService;
 
-    public List<String> transform(@NonNull final MyComplex[] f, @NonNull final TransformType type) {
-        MyFastFourierTransformer myFastFourierTransformer = new MyFastFourierTransformer();
+    public List<String> transform(@NonNull final OriginComplex[] f, @NonNull final TransformType type) {
+        final MyFastFourierTransformer myFastFourierTransformer = new MyFastFourierTransformer();
         if (type == FORWARD) {
             return myFastFourierTransformer.fft(f).stream()
                     .map(Object::toString)
@@ -44,9 +44,9 @@ public class FastFourierTransformerService {
         //TODO: result to file
         FileUtils.double2File(fileName + "_column1_source_.txt", records.get(0));
         //TODO: result to file
-        final MyComplex[] myComplexes = records.get(0).stream()
-                .map(i -> new MyComplex(i, 0))
-                .toArray(MyComplex[]::new);
+        final OriginComplex[] myComplexes = records.get(0).stream()
+                .map(i -> new OriginComplex(i, 0))
+                .toArray(OriginComplex[]::new);
         return transform(myComplexes, type);
     }
 }

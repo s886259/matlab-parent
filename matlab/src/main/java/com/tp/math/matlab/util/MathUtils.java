@@ -23,4 +23,9 @@ public class MathUtils {
         BigDecimal b = new BigDecimal(d);
         return b.setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
+
+    public static double round(final double d, int scale) {
+        BigDecimal b = new BigDecimal(d);
+        return b.setScale(scale, BigDecimal.ROUND_HALF_UP).doubleValue();
+    }
 }

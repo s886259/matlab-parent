@@ -1,7 +1,7 @@
 package com.tp.math.matlab;
 
 import com.tp.math.matlab.fft.service.FastFourierTransformerService;
-import com.tp.math.matlab.fft.transform.MyComplex;
+import com.tp.math.matlab.fft.transform.OriginComplex;
 import org.apache.commons.math3.transform.TransformType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,8 +28,8 @@ public class InverseMyFastFourierTransformerTest {
 
         List<String> result = service.transform(
                 Arrays.stream(str.split(","))
-                        .map(i -> new MyComplex(Double.valueOf(i)))
-                        .toArray(MyComplex[]::new), TransformType.INVERSE);
+                        .map(i -> new OriginComplex(Double.valueOf(i)))
+                        .toArray(OriginComplex[]::new), TransformType.INVERSE);
         result.forEach(System.out::println);
     }
 }

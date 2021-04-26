@@ -1,11 +1,10 @@
 package com.tp.math.matlab.fft.controller;
 
 import com.tp.math.matlab.fft.service.FastFourierTransformerService;
-import com.tp.math.matlab.fft.transform.MyComplex;
+import com.tp.math.matlab.fft.transform.OriginComplex;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.math3.transform.TransformType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
+import static org.apache.commons.math3.transform.TransformType.FORWARD;
+import static org.apache.commons.math3.transform.TransformType.INVERSE;
 
 /**
  * Created by tangpeng on 2021-04-25
@@ -29,7 +31,7 @@ public class FastFourierTransformerController {
         return ResponseEntity.ok(
                 fastFourierTransformerService.transform(
                         convert(body.getPositions()),
-                        TransformType.FORWARD
+                        FORWARD
                 )
         );
     }
@@ -39,15 +41,15 @@ public class FastFourierTransformerController {
         return ResponseEntity.ok(
                 fastFourierTransformerService.transform(
                         convert(body.getPositions()),
-                        TransformType.INVERSE
+                        INVERSE
                 )
         );
     }
 
-    private MyComplex[] convert(@NonNull final List<Position> complexes) {
+    private OriginComplex[] convert(@NonNull final List<Position> complexes) {
         return complexes.stream()
-                .map(i -> new MyComplex(i.getX(), i.getY()))
-                .toArray(MyComplex[]::new);
+                .map(i -> new OriginComplex(i.getX(), i.getY()))
+                .toArray(OriginComplex[]::new);
     }
 
     @Data

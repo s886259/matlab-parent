@@ -18,13 +18,17 @@ public class MyFastFourierTransformer extends FastFFT {
      *
      * @param x complex array
      */
-    public synchronized List<MyComplex> fft(@NonNull final MyComplex[] x) {
+    public synchronized List<ResultComplex> fft(@NonNull final OriginComplex[] x) {
         super.fft(x);
-        return Arrays.stream(x).collect(Collectors.toList());
+        return Arrays.stream(x)
+                .map(ComplexConvertUtils::convertToResultComplex)
+                .collect(Collectors.toList());
     }
 
-    public synchronized List<MyComplex> ifft(@NonNull final MyComplex[] x) {
+    public synchronized List<ResultComplex> ifft(@NonNull final OriginComplex[] x) {
         super.ifft(x, 3);
-        return Arrays.stream(x).collect(Collectors.toList());
+        return Arrays.stream(x)
+                .map(ComplexConvertUtils::convertToResultComplex)
+                .collect(Collectors.toList());
     }
 }

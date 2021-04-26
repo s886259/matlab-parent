@@ -8,17 +8,13 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class NumericDigitsUtils {
 
-    public static int getNumberDigits(final double d, final int limit) {
-        return Math.max(getIntegerDigits(d) + getDecimalDigits(d), limit);
-    }
-
     /**
      * 计算double的整数有多少位
      *
      * @param d
      * @return
      */
-    private static int getIntegerDigits(final double d) {
+    public static int getIntDigits(final long d) {
         return String.valueOf(d > 0 ? d : -d).length();
     }
 
@@ -28,7 +24,7 @@ public class NumericDigitsUtils {
      * @param d
      * @return
      */
-    private static int getDecimalDigits(final double d) {
+    public static int getDecimalDigits(final double d) {
         if (d == (long) d) {
             return 0;
         }
