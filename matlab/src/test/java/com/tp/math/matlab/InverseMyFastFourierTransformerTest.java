@@ -1,17 +1,16 @@
 package com.tp.math.matlab;
 
+import com.tp.math.matlab.fft.service.FastFourierTransformerService;
 import com.tp.math.matlab.fft.transform.MyComplex;
-import com.tp.math.matlab.fft.transform.MyFastFourierTransformer;
 import org.apache.commons.math3.transform.TransformType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
-import static org.apache.commons.math3.transform.DftNormalization.STANDARD;
 
 /**
  * Created by tangpeng on 2021-04-24
@@ -20,18 +19,17 @@ import static org.apache.commons.math3.transform.DftNormalization.STANDARD;
 @SpringBootTest
 public class InverseMyFastFourierTransformerTest {
 
+    @Autowired
+    private FastFourierTransformerService service;
+
     @Test
     public void testIFFT() {
-        List<MyComplex> list = new ArrayList<>();
-        list.add(new MyComplex(5.0));
-        list.add(new MyComplex(2.0));
-        list.add(new MyComplex(3.0));
-        list.add(new MyComplex(4.0));
-        list.add(new MyComplex(5.0));
-        list.add(new MyComplex(6.0));
-        list.add(new MyComplex(7.0));
-        list.add(new MyComplex(9.0));
-        List<MyComplex> complexes = new MyFastFourierTransformer(STANDARD).transform(list.toArray(new MyComplex[0]), TransformType.INVERSE);
-        complexes.forEach(System.out::println);
+        String str = "-14.66493271,-20.38126362,-1.795706046,-15.44307199,-16.61028092,-0.329212775,-18.28627323,-21.81782846";
+
+        List<String> result = service.transform(
+                Arrays.stream(str.split(","))
+                        .map(i -> new MyComplex(Double.valueOf(i)))
+                        .toArray(MyComplex[]::new), TransformType.INVERSE);
+        result.forEach(System.out::println);
     }
 }

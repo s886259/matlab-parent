@@ -25,6 +25,7 @@ public class MyFastFourierTransformerTest {
     @Test
     public void testFFT() {
         String str = "-14.66493271,-20.38126362,-1.795706046,-15.44307199,-16.61028092,-0.329212775,-18.28627323,-21.81782846";
+//        String str = "-14.66493271,-20.38126362,-1.795706046,-15.44307199,-16.61028092,-0.329212775,-18.28627323,-21.81782846,0.209499039,1.047495193,0.748210852";
 
         List<String> result = service.transform(
                 Arrays.stream(str.split(","))

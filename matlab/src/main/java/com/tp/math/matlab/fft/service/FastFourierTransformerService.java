@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.apache.commons.math3.transform.DftNormalization.STANDARD;
-
 /**
  * Created by tangpeng on 2021-04-25
  */
@@ -17,9 +15,12 @@ import static org.apache.commons.math3.transform.DftNormalization.STANDARD;
 public class FastFourierTransformerService {
 
     public List<String> transform(final MyComplex[] f, final TransformType type) {
-        return new MyFastFourierTransformer(STANDARD).transform(f, type)
-                .stream()
-                .map(MyComplex::toString)
-                .collect(Collectors.toList());
+        MyFastFourierTransformer myFastFourierTransformer = new MyFastFourierTransformer();
+        if(type == TransformType.FORWARD){
+            return myFastFourierTransformer.fft(f).stream().map(Object::toString).collect(Collectors.toList());
+        }
+        else {
+            return myFastFourierTransformer.ifft(f).stream().map(Object::toString).collect(Collectors.toList());
+        }
     }
 }

@@ -1,7 +1,7 @@
 package com.tp.math.matlab.fft.transform;
 
 import com.tp.math.matlab.util.MathUtils;
-import org.apache.commons.math3.complex.Complex;
+import fftManager.Complex;
 
 /**
  * Created by tangpeng on 2021-04-25
@@ -33,20 +33,21 @@ public class MyComplex extends Complex {
      */
     @Override
     public String toString() {
-        String real = MathUtils.roundToString(this.getReal(), false);
-        if (this.getImaginary() >= 0) {
-            return real + " + " + MathUtils.roundToString(this.getImaginary(), false) + "i";
+        String real = MathUtils.roundToString(this.real, false);
+        if (this.imag >= 0) {
+            return real + " + " + MathUtils.roundToString(this.imag, false) + "i";
         } else {
-            return real + " - " + MathUtils.roundToString(-this.getImaginary(), false) + "i";
+            return real + " - " + MathUtils.roundToString(-this.imag, false) + "i";
         }
+//        return real + " " + imag;
 
     }
-
-    public String toString(boolean realImaginaryForamt) {
-        if (realImaginaryForamt) {
-            return toString();
-        }
-        return "(" + MathUtils.roundToString(this.getReal(), false)
-                + ", " + MathUtils.roundToString(this.getImaginary(), false) + ")";
-    }
+//
+//    public String toString(boolean realImaginaryForamt) {
+//        if (realImaginaryForamt) {
+//            return toString();
+//        }
+//        return "(" + MathUtils.roundToString(this.getReal(), false)
+//                + ", " + MathUtils.roundToString(this.getImaginary(), false) + ")";
+//    }
 }

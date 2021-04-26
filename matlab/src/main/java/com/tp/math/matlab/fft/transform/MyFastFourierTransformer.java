@@ -1,28 +1,29 @@
 package com.tp.math.matlab.fft.transform;
 
-import org.apache.commons.math3.complex.Complex;
-import org.apache.commons.math3.transform.DftNormalization;
-import org.apache.commons.math3.transform.FastFourierTransformer;
-import org.apache.commons.math3.transform.TransformType;
+import fftManager.FastFFT;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * Created by tangpeng on 2021-04-25
+ * Created by tangpeng on 2021-04-26
  */
-public class MyFastFourierTransformer extends FastFourierTransformer {
+public class MyFastFourierTransformer extends FastFFT {
 
-    public MyFastFourierTransformer(final DftNormalization normalization) {
-        super(normalization);
+
+    /**
+     * In place fft of complex data.
+     *
+     * @param x complex array
+     */
+    public synchronized List<MyComplex> fft(MyComplex[] x) {
+        super.fft(x);
+        return Arrays.stream(x).collect(Collectors.toList());
     }
 
-    public List<MyComplex> transform(final MyComplex[] f, final TransformType type) {
-        final List<MyComplex> result = new ArrayList<>();
-        Complex[] transform = super.transform(f, type);
-        for (int i = 0; i < f.length; i++) {
-            result.add(new MyComplex(transform[i].getReal(), transform[i].getImaginary()));
-        }
-        return result;
+    public synchronized List<MyComplex> ifft(MyComplex[] x) {
+        super.ifft(x,3);
+        return Arrays.stream(x).collect(Collectors.toList());
     }
 }
