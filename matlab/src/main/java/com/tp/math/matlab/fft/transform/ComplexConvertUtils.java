@@ -9,7 +9,7 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class ComplexConvertUtils {
 
-    public static ResultComplex convertToResultComplex(@NonNull final OriginComplex originComplex) {
+    static ResultComplex convertToResultComplex(@NonNull final OriginComplex originComplex) {
         return new ResultComplex(originComplex.real, originComplex.imag)
                 .setRealNumericDigits(NumericDigits.of(originComplex.real))
                 .setImagNumericDigits(NumericDigits.of(originComplex.imag));

@@ -19,17 +19,6 @@ public class NumericDigits {
 
     @NonNull
     private Double number;
-
-//    /**
-//     * 整数数字
-//     */
-//    @NonNull
-//    private Long intNumeric;
-//    /**
-//     * 小数数字
-//     */
-//    @NonNull
-//    private Long decimalNumeric;
     /**
      * 总共有多少位
      */
@@ -60,7 +49,7 @@ public class NumericDigits {
                 .build();
     }
 
-    public Double formatShortG() {
+    Double formatShortG() {
         if (this.totalDigits <= MATLAB_NUMERIC_FORMAT_SHORT_G) {
             return this.number;
         }

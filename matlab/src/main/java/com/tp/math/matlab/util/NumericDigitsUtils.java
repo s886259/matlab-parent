@@ -15,6 +15,10 @@ public class NumericDigitsUtils {
      * @return
      */
     public static int getIntDigits(final long d) {
+        //整数位为0,按0位计算
+        if (d == 0) {
+            return 0;
+        }
         return String.valueOf(d > 0 ? d : -d).length();
     }
 
