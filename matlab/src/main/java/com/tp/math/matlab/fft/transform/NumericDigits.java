@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 
+import static com.tp.math.matlab.util.NumberFormatUtils.scientificNotation2String;
+
 /**
  * Created by tangpeng on 2021-04-27
  */
@@ -17,8 +19,11 @@ public class NumericDigits {
      */
     private static final int MATLAB_NUMERIC_FORMAT_SHORT_G = 5;
 
+    /**
+     * 原始值
+     */
     @NonNull
-    private Double number;
+    private Double originNumber;
     /**
      * 总共有多少位
      */
@@ -38,22 +43,28 @@ public class NumericDigits {
     static NumericDigits of(@NonNull final double d) {
         final int intDigits = NumericDigitsUtils.getIntDigits((long) d);
         if (intDigits > MATLAB_NUMERIC_FORMAT_SHORT_G) {
-            throw new IllegalArgumentException("intDigits must less than 5");
+//            throw new IllegalArgumentException("intDigits must less than 5");
+            //整数位超过5位后,转化为幂次显示
         }
         final int decimalDigits = NumericDigitsUtils.getDecimalDigits(d);
         return new NumericDigitsBuilder()
-                .number(d)
+                .originNumber(d)
                 .intDigits(intDigits)
                 .decimalDigits(decimalDigits)
                 .totalDigits(intDigits + decimalDigits)
                 .build();
     }
 
-    Double formatShortG() {
+    String formatShortG() {
         if (this.totalDigits <= MATLAB_NUMERIC_FORMAT_SHORT_G) {
-            return this.number;
+            //总有效位小于等于5,不处理
+            return this.originNumber.toString();
+        } else if (this.intDigits > MATLAB_NUMERIC_FORMAT_SHORT_G) {
+            //整数有效位大于5,转换为科学计数法并保留5位有效数字
+            return scientificNotation2String(this.originNumber);
+        } else {
+            final int scale = Math.min(this.totalDigits - this.intDigits, MATLAB_NUMERIC_FORMAT_SHORT_G - this.intDigits);
+            return String.valueOf(MathUtils.round(this.originNumber, scale));
         }
-        final int scale = Math.min(this.totalDigits - this.intDigits, MATLAB_NUMERIC_FORMAT_SHORT_G - this.intDigits);
-        return MathUtils.round(this.number, scale);
     }
 }

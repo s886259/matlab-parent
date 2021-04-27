@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class OriginComplex extends Complex {
     /**
-     * Create a complex number given only the real part.
+     * Create a complex originNumber given only the real part.
      *
      * @param real Real part.
      */
@@ -21,7 +21,7 @@ public class OriginComplex extends Complex {
     }
 
     /**
-     * Create a complex number given the real and imag parts.
+     * Create a complex originNumber given the real and imag parts.
      *
      * @param real Real part.
      * @param imag Imaginary part.

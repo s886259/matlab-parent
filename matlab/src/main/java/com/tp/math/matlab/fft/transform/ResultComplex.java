@@ -23,7 +23,7 @@ public class ResultComplex extends Complex {
     private NumericDigits imagNumericDigits;
 
     /**
-     * Create a complex number given only the real part.
+     * Create a complex originNumber given only the real part.
      *
      * @param real Real part.
      */
@@ -32,7 +32,7 @@ public class ResultComplex extends Complex {
     }
 
     /**
-     * Create a complex number given the real and imag parts.
+     * Create a complex originNumber given the real and imag parts.
      *
      * @param real Real part.
      * @param imag Imaginary part.
@@ -47,11 +47,11 @@ public class ResultComplex extends Complex {
      */
     @Override
     public String toString() {
-        final double real = realNumericDigits.formatShortG();
+        final String real = realNumericDigits.formatShortG();
         if (this.imag >= 0) {
             return real + " + " + imagNumericDigits.formatShortG() + "i";
         } else {
-            return real + " - " + -imagNumericDigits.formatShortG() + "i";
+            return real + " - " + imagNumericDigits.formatShortG().replace("-", "") + "i";
         }
     }
 

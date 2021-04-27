@@ -1,7 +1,7 @@
 package com.tp.math.matlab.fft.service;
 
-import com.tp.math.matlab.fft.transform.OriginComplex;
 import com.tp.math.matlab.fft.transform.MyFastFourierTransformer;
+import com.tp.math.matlab.fft.transform.OriginComplex;
 import com.tp.math.matlab.service.excel.ExcelService;
 import com.tp.math.matlab.util.FileUtils;
 import lombok.NonNull;
@@ -39,12 +39,21 @@ public class FastFourierTransformerService {
         }
     }
 
-    public List<String> transformFromFile(@NonNull final String fileName, @NonNull final TransformType type) throws IOException, InvalidFormatException {
+    /**
+     * @param fileName
+     * @param type
+     * @param columnIndex columnIndex start from 1
+     */
+    public List<String> transformFromFile(
+            @NonNull final String fileName,
+            @NonNull final TransformType type,
+            @NonNull final Integer columnIndex
+    ) throws IOException, InvalidFormatException {
         final Map<Integer, List<Double>> records = excelService.readByColumn(fileName);
         //TODO: result to file
-        FileUtils.double2File(fileName + "_column1_source_.txt", records.get(0));
+        FileUtils.double2File(String.format("%s_column%d_source_.txt", fileName, columnIndex), records.get(columnIndex - 1));
         //TODO: result to file
-        final OriginComplex[] myComplexes = records.get(0).stream()
+        final OriginComplex[] myComplexes = records.get(columnIndex - 1).stream()
                 .map(i -> new OriginComplex(i, 0))
                 .toArray(OriginComplex[]::new);
         return transform(myComplexes, type);

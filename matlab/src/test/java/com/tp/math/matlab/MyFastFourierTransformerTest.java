@@ -40,9 +40,10 @@ public class MyFastFourierTransformerTest {
     @Test
     public void testTransformFromFile() throws IOException, InvalidFormatException {
         String fileName = "/Users/tangpeng/Documents/matlab/excels/1414.xlsx";
-        List<String> result = service.transformFromFile(fileName, TransformType.FORWARD);
+        int columnIndex = 8;
+        List<String> result = service.transformFromFile(fileName, TransformType.FORWARD, columnIndex);
 
-        FileUtils.string2File(fileName + "_column1_my_output_.txt", result);
+        FileUtils.string2File(String.format("%s_column%s_my_output.txt", fileName, columnIndex), result);
         result.forEach(System.out::println);
     }
 }

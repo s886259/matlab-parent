@@ -58,7 +58,7 @@ public class ExcelUtils {
      */
     private static Double readVal(@NonNull final XSSFCell cell) throws InvalidFormatException {
         if (cell.getCellType() != XSSFCell.CELL_TYPE_NUMERIC) {
-            throw new InvalidFormatException("Cell must be number");
+            throw new InvalidFormatException("Cell must be originNumber");
         }
         return cell.getNumericCellValue();
     }
