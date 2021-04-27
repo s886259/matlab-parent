@@ -1,6 +1,6 @@
 package com.tp.math.matlab.core;
 
-import com.tp.math.matlab.util.MathUtils;
+import com.tp.math.matlab.util.NumberFormatUtils;
 import com.tp.math.matlab.util.NumericDigitsUtils;
 import lombok.Builder;
 import lombok.Data;
@@ -64,7 +64,7 @@ public class NumericDigits {
             return scientificNotation2String(this.originNumber);
         } else {
             final int scale = Math.min(this.totalDigits - this.intDigits, MATLAB_NUMERIC_FORMAT_SHORT_G - this.intDigits);
-            return String.valueOf(MathUtils.round(this.originNumber, scale));
+            return String.valueOf(NumberFormatUtils.round(this.originNumber, scale));
         }
     }
 }
