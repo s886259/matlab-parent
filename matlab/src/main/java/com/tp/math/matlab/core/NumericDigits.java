@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
 
-import static com.tp.math.matlab.util.NumberFormatUtils.scientificNotation2String;
-
 /**
  * Created by tangpeng on 2021-04-27
  */
@@ -56,15 +54,16 @@ public class NumericDigits {
     }
 
     String formatShortG() {
-        if (this.totalDigits <= MATLAB_NUMERIC_FORMAT_SHORT_G) {
-            //总有效位小于等于5,不处理
-            return this.originNumber.toString();
-        } else if (this.intDigits > MATLAB_NUMERIC_FORMAT_SHORT_G) {
-            //整数有效位大于5,转换为科学计数法并保留5位有效数字
-            return scientificNotation2String(this.originNumber);
-        } else {
-            final int scale = Math.min(this.totalDigits - this.intDigits, MATLAB_NUMERIC_FORMAT_SHORT_G - this.intDigits);
-            return String.valueOf(NumberFormatUtils.round(this.originNumber, scale));
-        }
+//        if (this.totalDigits <= MATLAB_NUMERIC_FORMAT_SHORT_G) {
+//            //总有效位小于等于5,不处理
+//            return this.originNumber.toString();
+//        } else if (this.intDigits > MATLAB_NUMERIC_FORMAT_SHORT_G) {
+//            //整数有效位大于5,转换为科学计数法并保留5位有效数字
+//            return scientificNotation2String(this.originNumber);
+//        } else {
+//            final int scale = Math.min(this.totalDigits - this.intDigits, MATLAB_NUMERIC_FORMAT_SHORT_G - this.intDigits);
+//            return String.valueOf(NumberFormatUtils.round(this.originNumber, scale));
+//        }
+        return NumberFormatUtils.roundToString(this.originNumber, true);
     }
 }

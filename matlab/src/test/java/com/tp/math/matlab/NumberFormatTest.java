@@ -22,7 +22,7 @@ public class NumberFormatTest {
     public void testScientificNotation2String() {
         Assert.assertEquals(new BigDecimal("1.2315e+05"), new BigDecimal("1.2315E+5"));
         double d = 123153.10251667173d;
-        String format = NumberFormatUtils.scientificNotation2String(d);
+        String format = NumberFormatUtils.roundToString(d, true);
         System.out.println(format);
     }
 }

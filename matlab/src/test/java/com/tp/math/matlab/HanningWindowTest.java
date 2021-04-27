@@ -26,8 +26,10 @@ public class HanningWindowTest {
     @Test
     public void testHanningWindow() throws URISyntaxException, IOException {
         final int length = 1000;
-        final URL resource = this.getClass().getResource(String.format("/HanningWindow_%s.txt", length));
-        final List<String> expects = Files.lines(Paths.get(resource.toURI())).map(String::trim).collect(Collectors.toList());
+        final URL resource = this.getClass().getResource(String.format("/Hann(%s)_result.txt", length));
+        final List<String> expects = Files.lines(Paths.get(resource.toURI()))
+                .map(String::trim)
+                .collect(Collectors.toList());
 
         String[] doubles = HanningWindowTransform.transform(length);
         for (int i = 0; i < doubles.length; i++) {
