@@ -1,4 +1,4 @@
-package com.tp.math.matlab.fft.transform;
+package com.tp.math.matlab.core;
 
 import com.tp.math.matlab.util.MathUtils;
 import com.tp.math.matlab.util.NumericDigitsUtils;
@@ -40,7 +40,7 @@ public class NumericDigits {
     @NonNull
     private Integer decimalDigits;
 
-    static NumericDigits of(@NonNull final double d) {
+    public static NumericDigits of(@NonNull final double d) {
         final int intDigits = NumericDigitsUtils.getIntDigits((long) d);
         if (intDigits > MATLAB_NUMERIC_FORMAT_SHORT_G) {
 //            throw new IllegalArgumentException("intDigits must less than 5");

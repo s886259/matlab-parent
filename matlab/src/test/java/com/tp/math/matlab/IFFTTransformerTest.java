@@ -1,8 +1,10 @@
 package com.tp.math.matlab;
 
-import com.tp.math.matlab.fft.service.FastFourierTransformerService;
-import com.tp.math.matlab.fft.transform.OriginComplex;
+import com.tp.math.matlab.ifft.service.IFFTService;
 import com.tp.math.matlab.util.FileUtils;
+import org.apache.commons.math3.complex.Complex;
+import org.apache.commons.math3.transform.DftNormalization;
+import org.apache.commons.math3.transform.FastFourierTransformer;
 import org.apache.commons.math3.transform.TransformType;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.junit.Test;
@@ -20,20 +22,19 @@ import java.util.List;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class MyFastFourierTransformerTest {
+public class IFFTTransformerTest {
 
     @Autowired
-    private FastFourierTransformerService service;
+    private IFFTService service;
 
     @Test
-    public void testFFT() {
-//        String str = "-14.66493271,-20.38126362,-1.795706046,-15.44307199,-16.61028092,-0.329212775,-18.28627323,-21.81782846";
-        String str = "-14.66493271,-20.38126362,-1.795706046,-15.44307199,-16.61028092,-0.329212775,-18.28627323,-21.81782846,0.209499039,1.047495193,0.748210852";
+    public void testIFFT() {
+        String str = "-14.66493271,-20.38126362,-1.795706046,-15.44307199,-16.61028092,-0.329212775,-18.28627323,-21.81782846";
 
         List<String> result = service.transform(
                 Arrays.stream(str.split(","))
-                        .map(i -> new OriginComplex(Double.valueOf(i)))
-                        .toArray(OriginComplex[]::new), TransformType.FORWARD);
+                        .map(i -> new Complex(Double.valueOf(i)))
+                        .toArray(Complex[]::new));
         result.forEach(System.out::println);
     }
 
@@ -41,9 +42,9 @@ public class MyFastFourierTransformerTest {
     public void testTransformFromFile() throws IOException, InvalidFormatException {
         String fileName = "/Users/tangpeng/Documents/matlab/excels/1414.xlsx";
         int columnIndex = 8;
-        List<String> result = service.transformFromFile(fileName, TransformType.FORWARD, columnIndex);
+        List<String> result = service.transformFromFile(fileName, columnIndex);
 
-        FileUtils.string2File(String.format("%s_column%s_my_output.txt", fileName, columnIndex), result);
+        FileUtils.string2File(String.format("%s_ifft_column%s_my_output.txt", fileName, columnIndex), result);
         result.forEach(System.out::println);
     }
 }

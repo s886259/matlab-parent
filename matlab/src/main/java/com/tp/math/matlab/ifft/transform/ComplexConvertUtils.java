@@ -1,4 +1,4 @@
-package com.tp.math.matlab.fft.transform;
+package com.tp.math.matlab.ifft.transform;
 
 import com.tp.math.matlab.core.NumericDigits;
 import com.tp.math.matlab.core.ResultComplex;
