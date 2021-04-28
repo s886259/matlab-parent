@@ -1,6 +1,5 @@
 package com.tp.math.matlab.fft.transform;
 
-import com.tp.math.matlab.core.NumericDigits;
 import com.tp.math.matlab.core.ResultComplex;
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
@@ -21,8 +20,6 @@ public class ComplexConvertUtils {
             @NonNull final Double real,
             @NonNull final Double imag
     ) {
-        return ResultComplex.of(real, imag)
-                .setRealNumericDigits(NumericDigits.of(real))
-                .setImagNumericDigits(NumericDigits.of(imag));
+        return ResultComplex.of(real, imag);
     }
 }

@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.NonNull;
 import lombok.experimental.Accessors;
 
+import static com.tp.math.matlab.util.NumberFormatUtils.roundToString;
+
 
 /**
  * Created by tangpeng on 2021-04-25
@@ -21,22 +23,14 @@ public class ResultComplex {
      */
     @NonNull
     private Double imag;
-    /**
-     * 实部有效数字
-     */
-    private NumericDigits realNumericDigits;
-    /**
-     * 虚部有效数字
-     */
-    private NumericDigits imagNumericDigits;
 
     @Override
     public String toString() {
-        final String real = realNumericDigits.toString();
+        final String real = roundToString(this.real);
         if (this.getImag() >= 0) {
-            return real + " + " + imagNumericDigits.toString() + "i";
+            return real + " + " + roundToString(this.imag) + "i";
         } else {
-            return real + " - " + imagNumericDigits.toString().replaceFirst("-", "") + "i";
+            return real + " - " + roundToString(this.imag).replaceFirst("-", "") + "i";
         }
     }
 

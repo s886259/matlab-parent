@@ -71,7 +71,7 @@ public class FFTTransformerTest {
             Assert.assertTrue(expectImag.contains("i"));
             Assert.assertTrue(actualImag.contains("i"));
             assertThat(new BigDecimal(expectImag.replace("i", "")),
-                    Matchers.comparesEqualTo(new BigDecimal(Double.valueOf(actualImag.replace("i", "")))));
+                    Matchers.comparesEqualTo(new BigDecimal(actualImag.replace("i", ""))));
         }
     }
 

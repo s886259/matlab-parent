@@ -19,8 +19,8 @@ public class NumberFormatUtils {
         df.setRoundingMode(RoundingMode.HALF_UP);
     }
 
-    public static String roundToString(final double d, final boolean formatZero) {
-        if (d == 0 && formatZero) {
+    public static String roundToString(final double d) {
+        if (d == 0) {
             return String.valueOf(0);
         }
         return scientificNotation2String(d);
