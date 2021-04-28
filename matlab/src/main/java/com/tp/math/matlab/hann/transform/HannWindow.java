@@ -7,7 +7,7 @@ import lombok.experimental.UtilityClass;
  * Created by tangpeng on 2021-04-24
  */
 @UtilityClass
-public class HanningWindowTransform {
+public class HannWindow {
 
     public static String[] transform(final int length) {
         String[] recordedData = new String[length];

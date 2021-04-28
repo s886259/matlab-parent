@@ -1,6 +1,6 @@
 package com.tp.math.matlab.hann.controller;
 
-import com.tp.math.matlab.hann.service.HanningWindowTransformerService;
+import com.tp.math.matlab.hann.service.HannWindowTransformerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/hann")
 @RequiredArgsConstructor
-public class HanningWindowController {
+public class HannWindowController {
 
-    private final HanningWindowTransformerService hanningWindowTransformerService;
+    private final HannWindowTransformerService hannWindowTransformerService;
 
     @GetMapping
     public ResponseEntity<String[]> transform(@RequestParam Integer length) {
-        return ResponseEntity.ok(hanningWindowTransformerService.transform(length));
+        return ResponseEntity.ok(hannWindowTransformerService.transform(length));
     }
 }

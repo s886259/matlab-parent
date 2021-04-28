@@ -1,6 +1,6 @@
 package com.tp.math.matlab;
 
-import com.tp.math.matlab.hann.transform.HanningWindowTransform;
+import com.tp.math.matlab.hann.transform.HannWindow;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class HanningWindowTest {
+public class HannWindowTest {
 
     @Test
     public void testHanningWindow() throws URISyntaxException, IOException {
@@ -31,7 +31,7 @@ public class HanningWindowTest {
                 .map(String::trim)
                 .collect(Collectors.toList());
 
-        String[] doubles = HanningWindowTransform.transform(length);
+        String[] doubles = HannWindow.transform(length);
         for (int i = 0; i < doubles.length; i++) {
             System.out.println(i + ": " + doubles[i]);
             Assert.assertEquals(new BigDecimal(expects.get(i)), new BigDecimal(doubles[i]));
