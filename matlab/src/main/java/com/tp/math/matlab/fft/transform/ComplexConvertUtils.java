@@ -11,7 +11,7 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class ComplexConvertUtils {
 
-    static ResultComplex convertToResultComplex(
+    public static ResultComplex convertToResultComplex(
             @NonNull final Double real,
             @NonNull final Double imag
     ) {

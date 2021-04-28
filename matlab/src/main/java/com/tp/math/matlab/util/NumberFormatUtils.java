@@ -26,10 +26,10 @@ public class NumberFormatUtils {
         return scientificNotation2String(d);
     }
 
-//    public static double round(final double d, int scale) {
-//        BigDecimal b = new BigDecimal(d);
-//        return b.setScale(scale, RoundingMode.HALF_UP).doubleValue();
-//    }
+    public static double round(final double d, int scale) {
+        BigDecimal b = new BigDecimal(d);
+        return b.setScale(scale, RoundingMode.HALF_UP).doubleValue();
+    }
 
     private static String scientificNotation2String(@NonNull final Double d) {
         return new BigDecimal(df.format(d)).toString();

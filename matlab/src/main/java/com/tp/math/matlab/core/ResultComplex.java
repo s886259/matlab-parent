@@ -26,11 +26,11 @@ public class ResultComplex {
 
     @Override
     public String toString() {
-        final String real = realNumericDigits.formatShortG();
+        final String real = realNumericDigits.toString();
         if (this.getImag() >= 0) {
-            return real + " + " + imagNumericDigits.formatShortG() + "i";
+            return real + " + " + imagNumericDigits.toString() + "i";
         } else {
-            return real + " - " + imagNumericDigits.formatShortG().replaceFirst("-", "") + "i";
+            return real + " - " + imagNumericDigits.toString().replaceFirst("-", "") + "i";
         }
     }
 
