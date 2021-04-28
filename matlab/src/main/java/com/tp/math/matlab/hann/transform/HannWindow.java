@@ -18,7 +18,7 @@ public class HannWindow {
         String[] recordedData = new String[length];
         for (int n = 0; n < length; n++) {
             double d = 0.5 * (1 - Math.cos((2 * Math.PI * n) / (length - 1)));
-            recordedData[n] = NumberFormatUtils.roundToString(d, true);
+            recordedData[n] = NumberFormatUtils.roundToString(d);
         }
         return recordedData;
     }

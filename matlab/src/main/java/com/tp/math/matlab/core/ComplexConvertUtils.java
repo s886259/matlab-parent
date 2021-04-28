@@ -1,6 +1,5 @@
 package com.tp.math.matlab.core;
 
-import com.tp.math.matlab.core.ResultComplex;
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 

@@ -4,6 +4,7 @@ import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
@@ -30,10 +31,13 @@ public class FileUtils {
             @NonNull final String fileName,
             @NonNull final List<String> records
     ) throws IOException {
-        BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
+        File file = new File(fileName);
+        BufferedWriter out = new BufferedWriter(new FileWriter(file));
+        System.out.println("Writing result to :" + file.getAbsolutePath());
         for (String line : records) {
             out.write(line + "\t\n");
         }
         out.close();
+        System.out.println("Write result success :" + file.getAbsolutePath());
     }
 }
