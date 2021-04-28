@@ -19,6 +19,7 @@ import java.util.*;
 @Slf4j
 @UtilityClass
 public class ExcelUtils {
+
     public Map<Integer, List<Double>> readByColumn(@NonNull final String fileName)
             throws InvalidFormatException, IOException {
         final Map<Integer, List<Double>> result = new HashMap<>();
@@ -52,9 +53,6 @@ public class ExcelUtils {
 
     /**
      * 列获取值操作
-     *
-     * @param cell
-     * @return
      */
     private static Double readVal(@NonNull final XSSFCell cell) throws InvalidFormatException {
         if (cell.getCellType() != XSSFCell.CELL_TYPE_NUMERIC) {

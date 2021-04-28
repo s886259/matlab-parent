@@ -11,8 +11,14 @@ import lombok.experimental.Accessors;
 @Data(staticConstructor = "of")
 @Accessors(chain = true)
 public class ResultComplex {
+    /**
+     * 实部
+     */
     @NonNull
     private Double real;
+    /**
+     * 虚部
+     */
     @NonNull
     private Double imag;
     /**

@@ -14,6 +14,7 @@ import java.util.Map;
  */
 @Service
 public class ExcelService {
+
     public Map<Integer, List<Double>> readByColumn(@NonNull final String fileName)
             throws InvalidFormatException, IOException {
         return ExcelUtils.readByColumn(fileName);

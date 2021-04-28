@@ -9,6 +9,11 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class HannWindow {
 
+    /**
+     * hanning windows algorithm
+     *
+     * @param length
+     */
     public static String[] transform(final int length) {
         String[] recordedData = new String[length];
         for (int n = 0; n < length; n++) {
