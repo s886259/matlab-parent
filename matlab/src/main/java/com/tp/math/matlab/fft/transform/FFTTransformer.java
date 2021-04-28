@@ -8,7 +8,7 @@ import lombok.NonNull;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.tp.math.matlab.fft.transform.ComplexConvertUtils.convertToResultComplex;
+import static com.tp.math.matlab.core.ComplexConvertUtils.convertToResultComplex;
 import static java.util.stream.Collectors.toList;
 
 /**

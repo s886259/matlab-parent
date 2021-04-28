@@ -9,7 +9,7 @@ import org.apache.commons.math3.transform.FastFourierTransformer;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.tp.math.matlab.ifft.transform.ComplexConvertUtils.convertToResultComplex;
+import static com.tp.math.matlab.core.ComplexConvertUtils.convertToResultComplex;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.math3.transform.TransformType.INVERSE;
 
@@ -34,13 +34,5 @@ public class IFFTTransformer extends FastFourierTransformer {
                 .map(i -> convertToResultComplex(i.getReal(), i.getImaginary()))
                 .collect(toList());
         return result;
-//        List<ResultComplex> collect = Arrays.stream(super.transform(x, TransformType.INVERSE))
-//                .map(i -> convertToResultComplex(i.getReal(), i.getImaginary()))
-//                .collect(Collectors.toList());
-//
-//        fftManager.Complex[] complexes = collect.stream()
-//                .map(i -> new fftManager.Complex(i.getReal(), i.getImag()))
-//                .toArray((fftManager.Complex[]::new));
-//        return new FFTTransformer().transform(complexes);
     }
 }

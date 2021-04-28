@@ -1,4 +1,4 @@
-package com.tp.math.matlab.ifft.transform;
+package com.tp.math.matlab.core;
 
 import com.tp.math.matlab.core.ResultComplex;
 import lombok.NonNull;
@@ -10,7 +10,13 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class ComplexConvertUtils {
 
-    static ResultComplex convertToResultComplex(
+    /**
+     * 转换结果值
+     *
+     * @param real 实部值
+     * @param imag 虚部值
+     */
+    public static ResultComplex convertToResultComplex(
             @NonNull final Double real,
             @NonNull final Double imag
     ) {
