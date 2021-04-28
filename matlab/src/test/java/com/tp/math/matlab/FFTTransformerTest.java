@@ -3,6 +3,7 @@ package com.tp.math.matlab;
 import com.tp.math.matlab.fft.service.FFTService;
 import com.tp.math.matlab.util.FileUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,12 +14,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Created by tangpeng on 2021-04-24
@@ -57,16 +58,23 @@ public class FFTTransformerTest {
             //split
             final String[] expectArr = expect.split(splitFlag);
             final String[] actualArr = actual.split(splitFlag);
+            /**
+             * compare to BigDecimal
+             * https://stackoverflow.com/questions/35573187/junit-assert-with-bigdecimal
+             */
             //compare with real
-            Assert.assertEquals(new BigDecimal(expectArr[0].trim()), new BigDecimal(actualArr[0].trim()));
+            assertThat(new BigDecimal(expectArr[0].trim()),
+                    Matchers.comparesEqualTo(new BigDecimal(actualArr[0].trim())));
             //compare with imag
             final String expectImag = expectArr[1].trim();
             final String actualImag = actualArr[1].trim();
             Assert.assertTrue(expectImag.contains("i"));
             Assert.assertTrue(actualImag.contains("i"));
-            Assert.assertEquals(new BigDecimal(expectImag.replace("i", "")), new BigDecimal(actualImag.replace("i", "")));
+            assertThat(new BigDecimal(expectImag.replace("i", "")),
+                    Matchers.comparesEqualTo(new BigDecimal(Double.valueOf(actualImag.replace("i", "")))));
         }
     }
+
 
     @Test
     public void testTransformFromFile() throws IOException, InvalidFormatException {

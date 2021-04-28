@@ -3,6 +3,7 @@ package com.tp.math.matlab;
 import com.tp.math.matlab.ifft.service.IFFTService;
 import com.tp.math.matlab.util.FileUtils;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +19,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Created by tangpeng on 2021-04-24
@@ -57,19 +59,21 @@ public class IFFTTransformerTest {
             final String[] expectArr = expect.split(splitFlag);
             final String[] actualArr = actual.split(splitFlag);
             //compare with real
-            Assert.assertEquals(new BigDecimal(expectArr[0].trim()), new BigDecimal(actualArr[0].trim()));
+            assertThat(new BigDecimal(expectArr[0].trim()),
+                    Matchers.comparesEqualTo(new BigDecimal(actualArr[0].trim())));
             //compare with imag
             final String expectImag = expectArr[1].trim();
             final String actualImag = actualArr[1].trim();
             Assert.assertTrue(expectImag.contains("i"));
             Assert.assertTrue(actualImag.contains("i"));
-            Assert.assertEquals(new BigDecimal(expectImag.replace("i", "")), new BigDecimal(actualImag.replace("i", "")));
+            assertThat(new BigDecimal(expectImag.replace("i", "")),
+                    Matchers.comparesEqualTo(new BigDecimal(actualImag.replace("i", ""))));
         }
     }
 
     @Test
     public void testTransformFromFile() throws IOException, InvalidFormatException {
-        String fileName = "~/Documents/matlab/excels" + TEST_EXCEL;
+        String fileName = "/Users/tangpeng/Documents/matlab/excels" + TEST_EXCEL;
         int columnIndex = 8;
         List<String> result = service.transformFromFile(fileName, columnIndex);
 

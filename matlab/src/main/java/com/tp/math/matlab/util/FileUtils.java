@@ -21,10 +21,6 @@ public class FileUtils {
             @NonNull final List<Double> records
     ) throws IOException {
         BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
-//        for (List<Double> column : result.values()) {
-//            final String line = column.stream().map(Object::toString).collect(Collectors.joining(","));
-//            out.write(line + "\t\n");
-//        }
         final String line = records.stream().map(Object::toString).collect(joining(","));
         out.write(line + "\t\n");
         out.close();

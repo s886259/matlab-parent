@@ -51,20 +51,6 @@ public class NumericDigits {
 
     @Override
     public String toString() {
-//        if (this.totalDigits <= MATLAB_NUMERIC_FORMAT_SHORT_G) {
-//            if (this.originNumber == 0) {
-//                return "0";
-//            }
-//            //总有效位小于等于5,不处理
-//            return this.originNumber.toString();
-//        } else if (this.intDigits > MATLAB_NUMERIC_FORMAT_SHORT_G) {
-//            //整数有效位大于5,转换为科学计数法并保留5位有效数字
-//            return NumberFormatUtils.roundToString(this.originNumber, true);
-//        } else {
-//            final int scale = Math.min(this.totalDigits - this.intDigits, MATLAB_NUMERIC_FORMAT_SHORT_G - this.intDigits);
-//            return String.valueOf(NumberFormatUtils.round(this.originNumber, scale));
-////            return NumberFormatUtils.roundToString(this.originNumber, true);
-//        }
         return NumberFormatUtils.roundToString(this.originNumber, true);
     }
 }
