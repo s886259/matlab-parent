@@ -5,13 +5,13 @@ import lombok.NonNull;
 import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math3.transform.DftNormalization;
 import org.apache.commons.math3.transform.FastFourierTransformer;
-import org.apache.commons.math3.transform.TransformType;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.tp.math.matlab.ifft.transform.ComplexConvertUtils.convertToResultComplex;
+import static java.util.stream.Collectors.toList;
+import static org.apache.commons.math3.transform.TransformType.INVERSE;
 
 /**
  * Created by tangpeng on 2021-04-26
@@ -30,9 +30,10 @@ public class IFFTTransformer extends FastFourierTransformer {
     }
 
     public synchronized List<ResultComplex> transform(@NonNull final Complex[] x) {
-        return Arrays.stream(super.transform(x, TransformType.INVERSE))
+        final List<ResultComplex> result = Arrays.stream(super.transform(x, INVERSE))
                 .map(i -> convertToResultComplex(i.getReal(), i.getImaginary()))
-                .collect(Collectors.toList());
+                .collect(toList());
+        return result;
 //        List<ResultComplex> collect = Arrays.stream(super.transform(x, TransformType.INVERSE))
 //                .map(i -> convertToResultComplex(i.getReal(), i.getImaginary()))
 //                .collect(Collectors.toList());

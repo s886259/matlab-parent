@@ -7,9 +7,9 @@ import lombok.NonNull;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.tp.math.matlab.fft.transform.ComplexConvertUtils.convertToResultComplex;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by tangpeng on 2021-04-26
@@ -22,8 +22,9 @@ public class FFTTransformer extends FastFFT {
      */
     public synchronized List<ResultComplex> transform(@NonNull final Complex[] x) {
         super.fft(x);
-        return Arrays.stream(x)
+        final List<ResultComplex> result = Arrays.stream(x)
                 .map(i -> convertToResultComplex(i.real, i.imag))
-                .collect(Collectors.toList());
+                .collect(toList());
+        return result;
     }
 }

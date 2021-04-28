@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import static java.util.stream.Collectors.toList;
+import static org.apache.commons.math3.transform.DftNormalization.STANDARD;
 
 /**
  * Created by tangpeng on 2021-04-25
@@ -26,7 +27,7 @@ public class IFFTService {
     private final ExcelService excelService;
 
     public List<String> transform(@NonNull final Complex[] f) {
-        return new IFFTTransformer(DftNormalization.STANDARD).transform(f).stream()
+        return new IFFTTransformer(STANDARD).transform(f).stream()
                 .map(Object::toString)
                 .collect(toList());
     }

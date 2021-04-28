@@ -30,7 +30,7 @@ public class ResultComplex {
         if (this.getImag() >= 0) {
             return real + " + " + imagNumericDigits.formatShortG() + "i";
         } else {
-            return real + " - " + imagNumericDigits.formatShortG().replace("-", "") + "i";
+            return real + " - " + imagNumericDigits.formatShortG().replaceFirst("-", "") + "i";
         }
     }
 
