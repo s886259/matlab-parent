@@ -29,7 +29,7 @@ public abstract class AbstractTransformTest {
     protected static final String MY_RESULT_FILE_FORMAT = TEST_EXCEL.replace("/", "")
             + "_%s_column" + TEST_EXCEL_COLUMN_INDEX + "_my_output.txt";
 
-    public void testFFT(
+    protected void testFFT(
             @NonNull final List<String> actuals,
             @NonNull final String matlabResultFile
     ) throws IOException, URISyntaxException {
@@ -64,7 +64,7 @@ public abstract class AbstractTransformTest {
         }
     }
 
-    public void testTransformFromFile(
+    protected void testTransformFromFile(
             @NonNull final String fileName,
             @NonNull final List<String> result
     ) throws IOException {

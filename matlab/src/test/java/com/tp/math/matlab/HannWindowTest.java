@@ -34,10 +34,11 @@ public class HannWindowTest {
                 .map(String::trim)
                 .collect(toList());
 
-        String[] doubles = HannWindow.transform(length);
-        for (int i = 0; i < doubles.length; i++) {
-            System.out.println(i + ": " + doubles[i]);
-            Assert.assertEquals(new BigDecimal(expects.get(i)), new BigDecimal(doubles[i]));
+        final List<String> result = HannWindow.transform(length);
+
+        for (int i = 0; i < result.size(); i++) {
+            System.out.println(i + ": " + result.get(i));
+            Assert.assertEquals(new BigDecimal(expects.get(i)), new BigDecimal(result.get(i)));
         }
     }
 }

@@ -22,6 +22,11 @@ public class ExcelUtils {
 
     private static final String SHEET_NAME = "加速度";
 
+    /**
+     *
+     * @param fileName
+     * @param columnIndex columnIndex start from 1
+     */
     public static List<Double> readColumn(
             @NonNull final String fileName,
             @NonNull final Integer columnIndex
