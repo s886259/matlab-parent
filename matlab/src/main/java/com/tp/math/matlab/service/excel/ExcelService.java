@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by tangpeng on 2021-04-26
@@ -15,9 +14,11 @@ import java.util.Map;
 @Service
 public class ExcelService {
 
-    public Map<Integer, List<Double>> readByColumn(@NonNull final String fileName)
-            throws InvalidFormatException, IOException {
-        return ExcelUtils.readByColumn(fileName);
+    public List<Double> readByColumn(
+            @NonNull final String fileName,
+            @NonNull final Integer columnIndex
+    ) throws InvalidFormatException, IOException {
+        return ExcelUtils.excelToMap(fileName).get(columnIndex);
     }
 
 }

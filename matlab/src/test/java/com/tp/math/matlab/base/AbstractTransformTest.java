@@ -20,7 +20,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public abstract class AbstractTransformTest {
 
-    protected static final String TEST_EXCEL = "/1414.xlsx";
+    public static final String TEST_EXCEL = "/1414.xlsx";
+    public static final int TEST_EXCEL_ROW_SIZE = 8192;
     protected static final int TEST_EXCEL_COLUMN_INDEX = 8;
     protected static final String FFT_TEST_METHOD = "fft";
     protected static final String IFFT_TEST_METHOD = "ifft";
