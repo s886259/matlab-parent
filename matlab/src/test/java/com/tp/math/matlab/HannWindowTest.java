@@ -24,7 +24,7 @@ import static java.util.stream.Collectors.toList;
 @SpringBootTest
 public class HannWindowTest {
 
-    private static final String HANN_RESULT_TXT = "/Hann(%s)_matlab_output.txt";
+    private static final String HANN_RESULT_TXT = "/hann(%s)_matlab_output.txt";
 
     @Test
     public void testHannWindow() throws URISyntaxException, IOException {
