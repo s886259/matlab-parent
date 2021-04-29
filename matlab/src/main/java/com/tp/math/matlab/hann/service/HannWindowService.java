@@ -1,6 +1,6 @@
 package com.tp.math.matlab.hann.service;
 
-import com.tp.math.matlab.hann.transform.HannWindow;
+import com.tp.math.matlab.hann.transform.HanningWindow;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +13,6 @@ import java.util.List;
 public class HannWindowService {
 
     public List<String> transform(@NonNull final Integer length) {
-        return HannWindow.transform(length);
+        return HanningWindow.transform(length);
     }
 }
