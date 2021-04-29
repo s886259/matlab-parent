@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import static java.util.stream.Collectors.toList;
 
@@ -38,11 +37,11 @@ public class FFTService {
             @NonNull final String fileName,
             @NonNull final Integer columnIndex
     ) throws IOException, InvalidFormatException {
-        final Map<Integer, List<Double>> records = excelService.readByColumn(fileName);
+        final List<Double> records = excelService.readByColumn(fileName).get(columnIndex - 1);
         //TODO: result to file
-        FileUtils.double2File(String.format("%s_column%d_source_.txt", fileName, columnIndex), records.get(columnIndex - 1));
+        FileUtils.double2File(String.format("%s_column%d_source_.txt", fileName, columnIndex), records);
         //TODO: result to file
-        final Complex[] myComplexes = records.get(columnIndex - 1).stream()
+        final Complex[] myComplexes = records.stream()
                 .map(i -> new Complex(i, 0))
                 .toArray(Complex[]::new);
         return transform(myComplexes);

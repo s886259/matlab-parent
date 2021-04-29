@@ -22,9 +22,8 @@ public class FFTTransformer extends FastFFT {
      */
     public synchronized List<ResultComplex> transform(@NonNull final Complex[] x) {
         super.fft(x);
-        final List<ResultComplex> result = Arrays.stream(x)
+        return Arrays.stream(x)
                 .map(i -> convertToResultComplex(i.real, i.imag))
                 .collect(toList());
-        return result;
     }
 }
