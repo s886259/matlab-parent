@@ -22,7 +22,7 @@ public abstract class AbstractTransformTest {
 
     public static final String TEST_EXCEL = "/1414.xlsx";
     public static final int TEST_EXCEL_ROW_SIZE = 8192;
-    protected static final int TEST_EXCEL_COLUMN_INDEX = 8;
+    public static final int TEST_EXCEL_COLUMN_INDEX = 8;
     protected static final String FFT_TEST_METHOD = "fft";
     protected static final String IFFT_TEST_METHOD = "ifft";
     protected static final String MATLAB_RESULT_FILE_FORMAT = TEST_EXCEL + "_%s_column" + TEST_EXCEL_COLUMN_INDEX + "_matlab_output.txt";

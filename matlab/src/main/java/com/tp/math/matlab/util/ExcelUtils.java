@@ -20,14 +20,16 @@ import java.util.*;
 @UtilityClass
 public class ExcelUtils {
 
+    private static final String SHEET_NAME = "加速度";
+
     public static List<Double> readColumn(
             @NonNull final String fileName,
             @NonNull final Integer columnIndex
     ) throws InvalidFormatException, IOException {
-        return readAllColumns(fileName).get(columnIndex);
+        return readColumns(fileName).get(columnIndex);
     }
 
-    public static Map<Integer, List<Double>> readAllColumns(@NonNull final String fileName)
+    private static Map<Integer, List<Double>> readColumns(@NonNull final String fileName)
             throws InvalidFormatException, IOException {
         final Map<Integer, List<Double>> result = new HashMap<>();
         // 获取文件
@@ -35,9 +37,10 @@ public class ExcelUtils {
         //获取工作簿
         final XSSFWorkbook wb = new XSSFWorkbook(file); // XSSFWorkbook支持2007格式
         //获取excel表sheet
-        final XSSFSheet sheet = Optional.ofNullable(wb.getSheet("加速度"))
-                .orElseThrow(() -> new InvalidFormatException("工作簿加速度为空"));
-        // 遍历sheet所有行
+        final XSSFSheet sheet = Optional.ofNullable(wb.getSheet(SHEET_NAME))
+                .orElseThrow(() -> new InvalidFormatException(
+                        String.format("Sheet %s can not be null", SHEET_NAME)));
+        // 遍历sheet所有
         for (int rowIndex = 0; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
             final XSSFRow row = sheet.getRow(rowIndex); // 获取行
             if (row == null) {

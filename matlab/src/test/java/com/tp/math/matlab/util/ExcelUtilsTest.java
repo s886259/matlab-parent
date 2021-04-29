@@ -10,10 +10,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
-import static com.tp.math.matlab.base.AbstractTransformTest.TEST_EXCEL;
-import static com.tp.math.matlab.base.AbstractTransformTest.TEST_EXCEL_ROW_SIZE;
+import static com.tp.math.matlab.base.AbstractTransformTest.*;
 
 /**
  * Created by tangpeng on 2021-04-26
@@ -26,8 +24,7 @@ public class ExcelUtilsTest {
     @Test
     public void testReadByColumn() throws InvalidFormatException, IOException {
         final String fileName = this.getClass().getResource(TEST_EXCEL).getFile();
-        final Map<Integer, List<Double>> result = ExcelUtils.readAllColumns(fileName);
-        final List<Double> records = result.get(0);
+        final List<Double> records = ExcelUtils.readColumn(fileName, TEST_EXCEL_COLUMN_INDEX);
         System.out.println(records);
         Assert.assertEquals(records.size(), TEST_EXCEL_ROW_SIZE);
     }
