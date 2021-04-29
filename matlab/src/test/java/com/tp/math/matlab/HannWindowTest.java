@@ -14,7 +14,8 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by tangpeng on 2021-04-24
@@ -23,13 +24,15 @@ import java.util.stream.Collectors;
 @SpringBootTest
 public class HannWindowTest {
 
+    private static final String HANN_RESULT_TXT = "/Hann(%s)_matlab_output.txt";
+
     @Test
-    public void testHanningWindow() throws URISyntaxException, IOException {
+    public void testHannWindow() throws URISyntaxException, IOException {
         final int length = 1000;
-        final URL resource = this.getClass().getResource(String.format("/Hann(%s)_result.txt", length));
+        final URL resource = this.getClass().getResource(String.format(HANN_RESULT_TXT, length));
         final List<String> expects = Files.lines(Paths.get(resource.toURI()))
                 .map(String::trim)
-                .collect(Collectors.toList());
+                .collect(toList());
 
         String[] doubles = HannWindow.transform(length);
         for (int i = 0; i < doubles.length; i++) {

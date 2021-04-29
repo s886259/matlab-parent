@@ -22,7 +22,7 @@ import static com.tp.math.matlab.base.AbstractTransformTest.*;
 public class ExcelUtilsTest {
 
     @Test
-    public void testReadByColumn() throws InvalidFormatException, IOException {
+    public void testReadColumn() throws InvalidFormatException, IOException {
         final String fileName = this.getClass().getResource(TEST_EXCEL).getFile();
         final List<Double> records = ExcelUtils.readColumn(fileName, TEST_EXCEL_COLUMN_INDEX);
         System.out.println(records);
