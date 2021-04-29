@@ -17,7 +17,7 @@ import static java.util.stream.Collectors.joining;
 @UtilityClass
 public class FileUtils {
 
-    public void double2File(
+    public static void double2File(
             @NonNull final String fileName,
             @NonNull final List<Double> records
     ) throws IOException {
@@ -27,7 +27,7 @@ public class FileUtils {
         out.close();
     }
 
-    public void string2File(
+    public static void string2File(
             @NonNull final String fileName,
             @NonNull final List<String> records
     ) throws IOException {

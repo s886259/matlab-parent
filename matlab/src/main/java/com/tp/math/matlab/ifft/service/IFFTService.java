@@ -1,7 +1,6 @@
 package com.tp.math.matlab.ifft.service;
 
 import com.tp.math.matlab.ifft.transform.IFFTTransformer;
-import com.tp.math.matlab.service.excel.ExcelService;
 import com.tp.math.matlab.util.FileUtils;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.List;
 
+import static com.tp.math.matlab.util.ExcelUtils.readColumn;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.math3.transform.DftNormalization.STANDARD;
 
@@ -21,8 +21,6 @@ import static org.apache.commons.math3.transform.DftNormalization.STANDARD;
 @Service
 @RequiredArgsConstructor
 public class IFFTService {
-
-    private final ExcelService excelService;
 
     public List<String> transform(@NonNull final Complex[] f) {
         return new IFFTTransformer(STANDARD).transform(f).stream()
@@ -38,7 +36,7 @@ public class IFFTService {
             @NonNull final String fileName,
             @NonNull final Integer columnIndex
     ) throws IOException, InvalidFormatException {
-        final List<Double> records = excelService.readByColumn(fileName, columnIndex - 1);
+        final List<Double> records = readColumn(fileName, columnIndex - 1);
         //TODO: result to file
         FileUtils.double2File(String.format("%s_column%d_source_.txt", fileName, columnIndex), records);
         //TODO: result to file

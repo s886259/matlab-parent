@@ -26,7 +26,7 @@ public class ExcelUtilsTest {
     @Test
     public void testReadByColumn() throws InvalidFormatException, IOException {
         final String fileName = this.getClass().getResource(TEST_EXCEL).getFile();
-        final Map<Integer, List<Double>> result = ExcelUtils.excelToMap(fileName);
+        final Map<Integer, List<Double>> result = ExcelUtils.readAllColumns(fileName);
         final List<Double> records = result.get(0);
         System.out.println(records);
         Assert.assertEquals(records.size(), TEST_EXCEL_ROW_SIZE);

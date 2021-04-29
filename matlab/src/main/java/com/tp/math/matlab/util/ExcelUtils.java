@@ -20,7 +20,14 @@ import java.util.*;
 @UtilityClass
 public class ExcelUtils {
 
-    public Map<Integer, List<Double>> excelToMap(@NonNull final String fileName)
+    public static List<Double> readColumn(
+            @NonNull final String fileName,
+            @NonNull final Integer columnIndex
+    ) throws InvalidFormatException, IOException {
+        return readAllColumns(fileName).get(columnIndex);
+    }
+
+    public static Map<Integer, List<Double>> readAllColumns(@NonNull final String fileName)
             throws InvalidFormatException, IOException {
         final Map<Integer, List<Double>> result = new HashMap<>();
         // 获取文件
