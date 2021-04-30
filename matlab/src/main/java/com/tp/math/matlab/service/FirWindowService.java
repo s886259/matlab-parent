@@ -1,7 +1,7 @@
 package com.tp.math.matlab.service;
 
-import com.tp.math.matlab.transform.FirWindow;
-import com.tp.math.matlab.util.NumberFormatUtils;
+import com.tp.math.matlab.kernel.transform.FirWindow;
+import com.tp.math.matlab.kernel.util.NumberFormatUtils;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
 

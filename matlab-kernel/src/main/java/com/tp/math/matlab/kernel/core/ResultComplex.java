@@ -1,10 +1,10 @@
-package com.tp.math.matlab.core;
+package com.tp.math.matlab.kernel.core;
 
 import lombok.Data;
 import lombok.NonNull;
 import lombok.experimental.Accessors;
 
-import static com.tp.math.matlab.util.NumberFormatUtils.roundToString;
+import static com.tp.math.matlab.kernel.util.NumberFormatUtils.roundToString;
 
 
 /**

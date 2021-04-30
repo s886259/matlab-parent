@@ -1,7 +1,7 @@
 package com.tp.math.matlab.base;
 
 import com.tp.math.matlab.util.AssertUtils;
-import com.tp.math.matlab.util.FileUtils;
+import com.tp.math.matlab.kernel.util.FileUtils;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;

@@ -1,6 +1,7 @@
-package com.tp.math.matlab.transform;
+package com.tp.math.matlab.kernel.transform;
 
-import com.tp.math.matlab.core.ResultComplex;
+import com.tp.math.matlab.kernel.core.ComplexConvertUtils;
+import com.tp.math.matlab.kernel.core.ResultComplex;
 import fftManager.Complex;
 import fftManager.FastFFT;
 import lombok.NonNull;
@@ -8,7 +9,6 @@ import lombok.NonNull;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.tp.math.matlab.core.ComplexConvertUtils.convertToResultComplex;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -23,7 +23,7 @@ public class FFTTransformer extends FastFFT {
     public synchronized List<ResultComplex> transform(@NonNull final Complex[] x) {
         super.fft(x);
         return Arrays.stream(x)
-                .map(i -> convertToResultComplex(i.real, i.imag))
+                .map(i -> ComplexConvertUtils.convertToResultComplex(i.real, i.imag))
                 .collect(toList());
     }
 }

@@ -1,7 +1,7 @@
 package com.tp.math.matlab.service;
 
-import com.tp.math.matlab.transform.FFTTransformer;
-import com.tp.math.matlab.util.FileUtils;
+import com.tp.math.matlab.kernel.transform.FFTTransformer;
+import com.tp.math.matlab.kernel.util.FileUtils;
 import fftManager.Complex;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.List;
 
-import static com.tp.math.matlab.util.ExcelUtils.readColumn;
+import static com.tp.math.matlab.kernel.util.ExcelUtils.readColumn;
 import static java.util.stream.Collectors.toList;
 
 /**

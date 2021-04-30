@@ -1,7 +1,7 @@
 package com.tp.math.matlab.service;
 
-import com.tp.math.matlab.transform.IFFTTransformer;
-import com.tp.math.matlab.util.FileUtils;
+import com.tp.math.matlab.kernel.transform.IFFTTransformer;
+import com.tp.math.matlab.kernel.util.FileUtils;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.math3.complex.Complex;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.List;
 
-import static com.tp.math.matlab.util.ExcelUtils.readColumn;
+import static com.tp.math.matlab.kernel.util.ExcelUtils.readColumn;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.math3.transform.DftNormalization.STANDARD;
 

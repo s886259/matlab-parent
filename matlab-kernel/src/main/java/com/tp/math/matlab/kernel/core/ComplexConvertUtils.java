@@ -1,4 +1,4 @@
-package com.tp.math.matlab.core;
+package com.tp.math.matlab.kernel.core;
 
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
