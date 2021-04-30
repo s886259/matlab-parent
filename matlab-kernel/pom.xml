@@ -8,10 +8,10 @@
         <artifactId>matlab-parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>matlab</artifactId>
+    <artifactId>matlab-kernel</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>matlab</name>
-    <description>matlab transformer</description>
+    <name>matlab-kernel</name>
+    <description>matlab kernel</description>
     <properties>
         <java.version>1.8</java.version>
     </properties>
@@ -22,9 +22,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.tp.math</groupId>
-            <artifactId>matlab-kernel</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>org.pamguard.beta</groupId>
+            <artifactId>pamguard</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-math3 -->
                 <dependency>
@@ -75,14 +75,4 @@
         </dependency>
 
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-
 </project>

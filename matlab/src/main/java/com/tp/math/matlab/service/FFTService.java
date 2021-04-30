@@ -1,6 +1,6 @@
-package com.tp.math.matlab.fft.service;
+package com.tp.math.matlab.service;
 
-import com.tp.math.matlab.fft.transform.FFTTransformer;
+import com.tp.math.matlab.transform.FFTTransformer;
 import com.tp.math.matlab.util.FileUtils;
 import fftManager.Complex;
 import lombok.NonNull;

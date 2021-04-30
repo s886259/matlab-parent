@@ -1,7 +1,7 @@
 package com.tp.math.matlab;
 
 import com.tp.math.matlab.base.AbstractTransformTest;
-import com.tp.math.matlab.fft.service.FFTService;
+import com.tp.math.matlab.service.FFTService;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.junit.Test;
 import org.junit.runner.RunWith;

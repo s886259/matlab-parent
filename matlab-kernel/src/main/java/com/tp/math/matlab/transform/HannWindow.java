@@ -1,4 +1,4 @@
-package com.tp.math.matlab.hann.transform;
+package com.tp.math.matlab.transform;
 
 import Spectrogram.WindowFunction;
 import lombok.experimental.UtilityClass;

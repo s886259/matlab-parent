@@ -1,4 +1,4 @@
-package com.tp.math.matlab.ifft.transform;
+package com.tp.math.matlab.transform;
 
 import com.tp.math.matlab.core.ResultComplex;
 import lombok.NonNull;

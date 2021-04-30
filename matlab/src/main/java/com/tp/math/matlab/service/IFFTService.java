@@ -1,6 +1,6 @@
-package com.tp.math.matlab.ifft.service;
+package com.tp.math.matlab.service;
 
-import com.tp.math.matlab.ifft.transform.IFFTTransformer;
+import com.tp.math.matlab.transform.IFFTTransformer;
 import com.tp.math.matlab.util.FileUtils;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

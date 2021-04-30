@@ -29,6 +29,7 @@
     <!-- 模块说明：这里声明多个子模块 -->
     <modules>
         <module>matlab</module>
+        <module>matlab-kernel</module>
         <module>pamguard</module>
     </modules>
 

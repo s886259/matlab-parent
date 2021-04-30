@@ -1,4 +1,4 @@
-package com.tp.math.matlab.fft.transform;
+package com.tp.math.matlab.transform;
 
 import com.tp.math.matlab.core.ResultComplex;
 import fftManager.Complex;
