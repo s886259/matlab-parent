@@ -1,10 +1,12 @@
 package com.tp.math.matlab.hann.service;
 
-import com.tp.math.matlab.hann.transform.HanningWindow;
+import com.tp.math.matlab.hann.transform.HannWindow;
+import com.tp.math.matlab.util.NumberFormatUtils;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by tangpeng on 2021-04-25
@@ -13,6 +15,8 @@ import java.util.List;
 public class HannWindowService {
 
     public List<String> transform(@NonNull final Integer length) {
-        return HanningWindow.transform(length);
+        return HannWindow.transform(length).stream()
+                .map(NumberFormatUtils::roundToString)
+                .collect(Collectors.toList());
     }
 }
