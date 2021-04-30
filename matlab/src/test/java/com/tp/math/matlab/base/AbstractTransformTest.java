@@ -1,8 +1,9 @@
 package com.tp.math.matlab.base;
 
+import com.tp.math.matlab.util.AssertUtils;
 import com.tp.math.matlab.util.FileUtils;
 import lombok.NonNull;
-import org.hamcrest.Matchers;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 
 import java.io.IOException;
@@ -13,11 +14,11 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Created by tangpeng on 2021-04-29
  */
+@Slf4j
 public abstract class AbstractTransformTest {
 
     public static final String TEST_EXCEL = "/1414.xlsx";
@@ -34,33 +35,32 @@ public abstract class AbstractTransformTest {
             @NonNull final String matlabResultFile
     ) throws IOException, URISyntaxException {
         //matlab output
-        final List<String> expects = Files.lines(Paths.get(this.getClass().getResource(matlabResultFile).toURI()))
+        final List<String> expectds = Files.lines(Paths.get(this.getClass().getResource(matlabResultFile).toURI()))
                 .map(String::trim)
                 .collect(toList());
         //compare my output with matlab output
-        Assert.assertEquals(actuals.size(), expects.size());
-        for (int i = 0; i < expects.size(); i++) {
-            final String expect = expects.get(i);
+        Assert.assertEquals(actuals.size(), expectds.size());
+        for (int i = 0; i < expectds.size(); i++) {
+            final String expectd = expectds.get(i);
             final String actual = actuals.get(i);
-            System.out.println(String.format("index=%s, expect=%s, actual=%s", i, expect, actual));
-            final String splitFlag = expect.contains(" + ") ? "\\s+\\+\\s+" : "\\s+-\\s+";
+            log.info(String.format("index=%s, expectd=%s, actual=%s", i, expectd, actual));
+            final String splitFlag = expectd.contains(" + ") ? "\\s+\\+\\s+" : "\\s+-\\s+";
             //split
-            final String[] expectArr = expect.split(splitFlag);
+            final String[] expectArr = expectd.split(splitFlag);
             final String[] actualArr = actual.split(splitFlag);
             /**
              * compare to BigDecimal
              * https://stackoverflow.com/questions/35573187/junit-assert-with-bigdecimal
              */
             //compare with real
-            assertThat(new BigDecimal(expectArr[0].trim()),
-                    Matchers.comparesEqualTo(new BigDecimal(actualArr[0].trim())));
+            AssertUtils.assertEquals(new BigDecimal(expectArr[0].trim()), new BigDecimal(actualArr[0].trim()));
             //compare with imag
-            final String expectImag = expectArr[1].trim();
+            final String expectdImag = expectArr[1].trim();
             final String actualImag = actualArr[1].trim();
-            Assert.assertTrue(expectImag.contains("i"));
+            Assert.assertTrue(expectdImag.contains("i"));
             Assert.assertTrue(actualImag.contains("i"));
-            assertThat(new BigDecimal(expectImag.replace("i", "")),
-                    Matchers.comparesEqualTo(new BigDecimal(actualImag.replace("i", ""))));
+            AssertUtils.assertEquals(new BigDecimal(expectdImag.replace("i", "")),
+                    new BigDecimal(actualImag.replace("i", "")));
         }
     }
 

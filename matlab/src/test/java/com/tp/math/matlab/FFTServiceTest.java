@@ -18,7 +18,7 @@ import java.util.List;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class FFTTransformerTest extends AbstractTransformTest {
+public class FFTServiceTest extends AbstractTransformTest {
 
     private static final String MATLAB_RESULT_FILE = String.format(MATLAB_RESULT_FILE_FORMAT, FFT_TEST_METHOD);
 

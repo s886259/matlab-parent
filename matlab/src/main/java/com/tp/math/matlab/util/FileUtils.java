@@ -2,6 +2,7 @@ package com.tp.math.matlab.util;
 
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -14,6 +15,7 @@ import static java.util.stream.Collectors.joining;
 /**
  * Created by tangpeng on 2021-04-26
  */
+@Slf4j
 @UtilityClass
 public class FileUtils {
 
@@ -21,7 +23,7 @@ public class FileUtils {
             @NonNull final String fileName,
             @NonNull final List<Double> records
     ) throws IOException {
-        BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
+        final BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
         final String line = records.stream().map(Object::toString).collect(joining(","));
         out.write(line + "\t\n");
         out.close();
@@ -31,13 +33,13 @@ public class FileUtils {
             @NonNull final String fileName,
             @NonNull final List<String> records
     ) throws IOException {
-        File file = new File(fileName);
+        final File file = new File(fileName);
         BufferedWriter out = new BufferedWriter(new FileWriter(file));
-        System.out.println("Writing result to :" + file.getAbsolutePath());
+        log.info("Writing result to :" + file.getAbsolutePath());
         for (String line : records) {
             out.write(line + "\t\n");
         }
         out.close();
-        System.out.println("Write result success :" + file.getAbsolutePath());
+        log.info("Write result success :" + file.getAbsolutePath());
     }
 }
