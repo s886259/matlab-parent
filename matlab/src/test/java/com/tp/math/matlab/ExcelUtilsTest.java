@@ -23,9 +23,9 @@ import static com.tp.math.matlab.base.AbstractTransformTest.*;
 public class ExcelUtilsTest {
 
     @Test
-    public void testReadColumn() throws InvalidFormatException, IOException {
+    public void testXlsRead() throws InvalidFormatException, IOException {
         final String fileName = this.getClass().getResource(TEST_EXCEL).getFile();
-        final List<Double> records = ExcelUtils.readColumn(fileName, TEST_EXCEL_COLUMN_INDEX);
+        final List<Double> records = ExcelUtils.xlsRead(fileName, TEST_EXCEL_COLUMN_INDEX);
         log.info(records.toString());
         Assert.assertEquals(records.size(), TEST_EXCEL_ROW_SIZE);
     }

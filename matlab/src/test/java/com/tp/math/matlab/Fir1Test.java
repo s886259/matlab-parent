@@ -38,7 +38,7 @@ public class Fir1Test {
     /**
      * clc;
      * clear;
-     * a=xlsread('1414.xlsx',2);
+     * a=xlsRead('1414.xlsx',2);
      * x=a(:,8);
      * fs=25600;
      * n=length(x);
@@ -55,9 +55,9 @@ public class Fir1Test {
     @Test
     public void testFir1() throws IOException, InvalidFormatException {
         final String fileName = this.getClass().getResource(TEST_EXCEL).getFile();
-        //a=xlsread('1414.xlsx',2);
+        //a=xlsRead('1414.xlsx',2);
         //x=a(:,8);
-        final List<Double> records = ExcelUtils.readColumn(fileName, TEST_EXCEL_COLUMN_INDEX - 1);
+        final List<Double> records = ExcelUtils.xlsRead(fileName, TEST_EXCEL_COLUMN_INDEX - 1);
         final int fs = 25600;
         //n=length(x);
         final int n = records.size();

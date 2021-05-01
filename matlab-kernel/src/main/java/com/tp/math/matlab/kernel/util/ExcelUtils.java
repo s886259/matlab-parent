@@ -27,7 +27,7 @@ public class ExcelUtils {
      * @param fileName
      * @param columnIndex columnIndex start from 1
      */
-    public static List<Double> readColumn(
+    public static List<Double> xlsRead(
             @NonNull final String fileName,
             @NonNull final Integer columnIndex
     ) throws InvalidFormatException, IOException {
