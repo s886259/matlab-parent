@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: matlab
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

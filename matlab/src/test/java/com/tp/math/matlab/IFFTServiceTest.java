@@ -21,6 +21,7 @@ import java.util.List;
 public class IFFTServiceTest extends AbstractTransformTest {
 
     private static final String MATLAB_RESULT_FILE = String.format(MATLAB_RESULT_FILE_FORMAT, IFFT_TEST_METHOD);
+
     @Autowired
     private IFFTService service;
 
