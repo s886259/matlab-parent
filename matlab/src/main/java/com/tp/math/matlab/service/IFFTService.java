@@ -13,7 +13,6 @@ import java.util.List;
 
 import static com.tp.math.matlab.kernel.util.ExcelUtils.xlsRead;
 import static java.util.stream.Collectors.toList;
-import static org.apache.commons.math3.transform.DftNormalization.STANDARD;
 
 /**
  * Created by tangpeng on 2021-04-25
@@ -23,7 +22,7 @@ import static org.apache.commons.math3.transform.DftNormalization.STANDARD;
 public class IFFTService {
 
     public List<String> transform(@NonNull final Complex[] f) {
-        return new IFFTTransformer(STANDARD).transform(f).stream()
+        return new IFFTTransformer().transform(f).stream()
                 .map(Object::toString)
                 .collect(toList());
     }

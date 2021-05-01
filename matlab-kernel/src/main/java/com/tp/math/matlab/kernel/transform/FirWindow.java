@@ -71,6 +71,9 @@ public class FirWindow {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * python scipy.signal.firwin
+     */
     private List<Double> transform(@Nullable final List<Double> hannWindow) {
         if (this.cutoff.size() != 2) {
             throw new IllegalArgumentException("cutoff size must be two");
@@ -117,6 +120,9 @@ public class FirWindow {
         return result.stream().map(i -> i / s).collect(toList());
     }
 
+    /**
+     * python sinc
+     */
     private double sinc(@NonNull final Double x) {
         final double y = Math.PI * (x == 0 ? 1.0e-20 : x);
         return sin(y) / y;
