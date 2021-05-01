@@ -38,7 +38,7 @@ public class HannWindowServiceTest {
                 .map(String::trim)
                 .collect(toList());
         //my output
-        final List<String> actuals = hannWindowService.transform(length);
+        final List<String> actuals = hannWindowService.transform(length).format();
         AssertUtils.stringEquals(expecteds, actuals);
     }
 }

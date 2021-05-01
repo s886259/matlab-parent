@@ -36,7 +36,7 @@ public class FirWindowServiceTest {
     @Test
     public void testFir1() throws URISyntaxException, IOException {
         //my output
-        final List<String> actuals = firWindowService.fir1(FIR1_NUM_TAPS, Arrays.asList(0.00039063, 0.78125));
+        final List<String> actuals = firWindowService.fir1(FIR1_NUM_TAPS, Arrays.asList(0.00039063, 0.78125)).format();
         //matlab output
         final URL resource = this.getClass().getResource(String.format(FIR1_RESULT_TXT, HANNING_LENGTH, FIR1_CUT_OFF, FIR1_NUM_TAPS));
         final List<String> expecteds = Files.lines(Paths.get(resource.toURI()))

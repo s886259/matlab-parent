@@ -1,29 +1,45 @@
 package com.tp.math.matlab.kernel.transform;
 
 import Spectrogram.WindowFunction;
-import lombok.experimental.UtilityClass;
+import com.tp.math.matlab.kernel.util.NumberFormatUtils;
+import lombok.Data;
+import lombok.NonNull;
+import lombok.experimental.Accessors;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 
 import static Spectrogram.WindowFunction.HANNING;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by tangpeng on 2021-04-24
  */
-@UtilityClass
+@Data
+@Accessors(chain = true)
 public class HannWindow {
+    @NonNull
+    private Integer length;
+    private List<Double> result;
+
+    public HannWindow(@NonNull final Integer length) {
+        this.length = length;
+        this.result = transform();
+    }
 
     /**
      * hanning windows algorithm
-     *
-     * @param length
-     * @return
      */
-    public static List<Double> transform(final int length) {
-        return DoubleStream.of(WindowFunction.getWindowFunc(HANNING, length))
+    private List<Double> transform() {
+        return DoubleStream.of(WindowFunction.getWindowFunc(HANNING, this.length))
                 .boxed()
-                .collect(Collectors.toList());
+                .collect(toList());
+    }
+
+    /**
+     * 格式化结果
+     */
+    public List<String> format() {
+        return this.getResult().stream().map(NumberFormatUtils::roundToString).collect(toList());
     }
 }

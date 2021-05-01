@@ -1,12 +1,11 @@
 package com.tp.math.matlab.service;
 
 import com.tp.math.matlab.kernel.transform.FirWindow;
-import com.tp.math.matlab.kernel.util.NumberFormatUtils;
 import lombok.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by tangpeng on 2021-04-30
@@ -14,9 +13,21 @@ import java.util.stream.Collectors;
 @Service
 public class FirWindowService {
 
-    public List<String> fir1(final int numtaps, @NonNull final List<Double> cutoff) {
-        return FirWindow.fir1(numtaps, cutoff).stream()
-                .map(NumberFormatUtils::roundToString)
-                .collect(Collectors.toList());
+    /**
+     * matlab fir1()
+     *
+     * @param numtaps hanning window length(N+1)
+     * @param cutoff
+     * @return
+     */
+    public FirWindow fir1(@NonNull final Integer numtaps, @NonNull final List<Double> cutoff) {
+        return this.fir1(numtaps, cutoff, null);
+    }
+
+    public FirWindow fir1(
+            @NonNull final Integer numtaps,
+            @NonNull final List<Double> cutoff,
+            @Nullable final List<Double> hannWindow) {
+        return new FirWindow(numtaps, cutoff, hannWindow);
     }
 }

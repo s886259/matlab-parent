@@ -1,12 +1,17 @@
 package com.tp.math.matlab.kernel.transform;
 
+import com.tp.math.matlab.kernel.util.NumberFormatUtils;
+import lombok.Data;
 import lombok.NonNull;
-import lombok.experimental.UtilityClass;
+import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static java.lang.Math.sin;
@@ -20,24 +25,57 @@ import static java.util.stream.Collectors.toList;
  * scipy.signal.fir1(101, [0.00039063,0.78125], window="hann", pass_zero=False)
  */
 @Slf4j
-@UtilityClass
+@Data
+@Accessors(chain = true)
 public class FirWindow {
 
     /**
-     * @param numtaps Length of the filter (number of coefficients, i.e. the filter
-     *                order + 1).  `numtaps` must be odd if a passband includes the
-     *                Nyquist frequency.
-     * @param cutoff  Cutoff frequency of filter (expressed in the same units as `fs`)
-     *                OR an array of cutoff frequencies (that is, band edges). In the
-     *                latter case, the frequencies in `cutoff` should be positive and
-     *                monotonically increasing between 0 and `fs/2`.  The values 0 and
-     *                `fs/2` must not be included in `cutoff`.
+     * Length of the filter (number of coefficients, i.e. the filter
+     * order + 1).  `numtaps` must be odd if a passband includes the
+     * Nyquist frequency.
      */
-    public static List<Double> fir1(final int numtaps, @NonNull final List<Double> cutoff) {
-        if (cutoff.size() != 2) {
+    private Integer numtaps;
+    /**
+     * Cutoff frequency of filter (expressed in the same units as `fs`)
+     * OR an array of cutoff frequencies (that is, band edges). In the
+     * latter case, the frequencies in `cutoff` should be positive and
+     * monotonically increasing between 0 and `fs/2`.  The values 0 and
+     * `fs/2` must not be included in `cutoff`.
+     */
+    private List<Double> cutoff;
+    private List<Double> result;
+
+    public FirWindow(
+            @NonNull final Integer numtaps,
+            @NonNull final List<Double> cutoff
+    ) {
+        this(numtaps, cutoff, null);
+    }
+
+    public FirWindow(
+            @NonNull final Integer numtaps,
+            @NonNull final List<Double> cutoff,
+            @Nullable final List<Double> hannWindow
+    ) {
+        this.numtaps = numtaps;
+        this.cutoff = cutoff;
+        this.result = transform(hannWindow);
+    }
+
+    /**
+     * 格式化结果
+     */
+    public List<String> format() {
+        return this.getResult().stream()
+                .map(NumberFormatUtils::roundToString)
+                .collect(Collectors.toList());
+    }
+
+    private List<Double> transform(@Nullable final List<Double> hannWindow) {
+        if (this.cutoff.size() != 2) {
             throw new IllegalArgumentException("cutoff size must be two");
         }
-        if (cutoff.stream().min(Double::compareTo).get() <= 0 || cutoff.stream().max(Double::compareTo).get() >= 1) {
+        if (this.cutoff.stream().min(Double::compareTo).get() <= 0 || cutoff.stream().max(Double::compareTo).get() >= 1) {
             throw new IllegalArgumentException("Invalid cutoff frequency: frequencies must be greater than 0 and less than fs/2.");
         }
         //Build up the coefficients.
@@ -57,7 +95,7 @@ public class FirWindow {
          * Get and apply the window function.
          */
         // win = get_window(window, numtaps, fftbins=False)
-        final List<Double> win = HannWindow.transform(numtaps);
+        final List<Double> win = Optional.ofNullable(hannWindow).orElse(new HannWindow(numtaps).getResult());
         // h *= win
         final List<Double> result = new ArrayList<>();
         Assert.isTrue(h.size() == win.size());
@@ -79,12 +117,12 @@ public class FirWindow {
         return result.stream().map(i -> i / s).collect(toList());
     }
 
-    private static double sinc(@NonNull final Double x) {
+    private double sinc(@NonNull final Double x) {
         final double y = Math.PI * (x == 0 ? 1.0e-20 : x);
         return sin(y) / y;
     }
 
-    private static double getScaleFrequency(final double left, final double right) {
+    private double getScaleFrequency(final double left, final double right) {
         if (left == 0) {
             return 0.0;
         } else if (right == 1) {

@@ -1,7 +1,9 @@
 package com.tp.math.matlab;
 
-import com.tp.math.matlab.service.HannWindowService;
+import com.tp.math.matlab.kernel.transform.HannWindow;
 import com.tp.math.matlab.kernel.util.ExcelUtils;
+import com.tp.math.matlab.service.FirWindowService;
+import com.tp.math.matlab.service.HannWindowService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.junit.Test;
@@ -29,6 +31,9 @@ public class Fir1Test {
 
     @Autowired
     private HannWindowService hannWindowService;
+    @Autowired
+    private FirWindowService firWindowService;
+
 
     /**
      * clc;
@@ -68,14 +73,17 @@ public class Fir1Test {
         //N=100
         final int N = 100;
         //window=hann(N+1)
-        final List<String> window = hannWindowService.transform(N + 1);
-        log.info("window=hann(N+1) result:\n" + window);
+        final HannWindow window = hannWindowService.transform(N + 1);
+        log.info("window=hann(N+1) result:\n" + window.getResult());
         //wp1=[5/fs*2 10000/fs*2]
         final List<Double> wp1 = DoubleStream.of(5, 10000)
                 .boxed()
                 .map((i -> i / fs * 2))
                 .collect(toList());
         log.info("wp1=[5/fs*2 10000/fs*2] result:\n" + wp1);
+        // b=fir1(N,wp1,window);
+        final List<String> d = firWindowService.fir1(N + 1, wp1, window.getResult()).format();
+        log.info("b=fir1(N,wp1,window) result:\n" + d.toString());
         //b=fir1(N,wp1,window);
 //        double[] x = WindowFunction.getWindowFunc(HANNING, N + 1);
 //        FirFilter firFilter = new FirFilter();
