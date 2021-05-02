@@ -1,6 +1,7 @@
 package com.tp.math.matlab.kernel.transform;
 
 import com.tp.math.matlab.kernel.util.NumberFormatUtils;
+import com.tp.math.matlab.kernel.util.PythonUtils;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.experimental.Accessors;
@@ -14,7 +15,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static java.lang.Math.sin;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -43,6 +43,9 @@ public class FirWindow {
      * `fs/2` must not be included in `cutoff`.
      */
     private List<Double> cutoff;
+    /**
+     * result
+     */
     private List<Double> result;
 
     public FirWindow(
@@ -89,9 +92,9 @@ public class FirWindow {
         final List<Double> h = m.stream()
                 .map(i -> {
                     // h += right * sinc(right * m)
-                    double tmp = right * sinc(i * right);
+                    double tmp = right * PythonUtils.sinc(i * right);
                     // h -= right * sinc(left * m)
-                    return tmp - left * sinc(left * i);
+                    return tmp - left * PythonUtils.sinc(left * i);
                 })
                 .collect(toList());
         /**
@@ -118,14 +121,6 @@ public class FirWindow {
         final double s = sList.stream().mapToDouble(i -> i).sum();
 //        h /= s
         return result.stream().map(i -> i / s).collect(toList());
-    }
-
-    /**
-     * python sinc
-     */
-    private double sinc(@NonNull final Double x) {
-        final double y = Math.PI * (x == 0 ? 1.0e-20 : x);
-        return sin(y) / y;
     }
 
     private double getScaleFrequency(final double left, final double right) {
