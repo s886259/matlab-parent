@@ -1,6 +1,8 @@
 package com.tp.math.matlab;
 
+import com.tp.math.matlab.kernel.transform.FirWindow;
 import com.tp.math.matlab.kernel.transform.HannWindow;
+import com.tp.math.matlab.kernel.transform.Lfilter;
 import com.tp.math.matlab.kernel.util.ExcelUtils;
 import com.tp.math.matlab.service.FirWindowService;
 import com.tp.math.matlab.service.HannWindowService;
@@ -33,7 +35,7 @@ import static java.util.stream.Collectors.toList;
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class FirWindowServiceTest {
+public class LfilterTest {
 
     private static final int HANNING_LENGTH = 100;
     private static final int FIR1_NUM_TAPS = HANNING_LENGTH + 1;
@@ -104,15 +106,12 @@ public class FirWindowServiceTest {
                 .collect(toList());
         log.info("wp1=[5/fs*2 10000/fs*2] result:\n" + wp1);
         // fir=fir1(N,wp1,window);
-        final List<String> d = firWindowService.fir1(N + 1, wp1, window.getResult()).format();
-        log.info("fir=fir1(N,wp1,window) result:\n" + d.toString());
-        //fir=fir1(N,wp1,window);
-//        double[] inputArray = WindowFunction.getWindowFunc(HANNING, N + 1);
-//        FirFilter firFilter = new FirFilter();
-//        double y[] = new double[8192];  //output signal
-//        for (int i = 0; i < 8192; i++) {
-//            y[i] = firFilter.filter(inputArray[i]);
-//        }
+        final FirWindow d = firWindowService.fir1(N + 1, wp1, window.getResult());
+        log.info("fir=fir1(N,wp1,window) result:\n" + d.format().toString());
+        // x1 = filter(fir,1,inputArray);
+        final Lfilter lfilter = new Lfilter(d.getResult(), records);
+        log.info(lfilter.getResult().toString());
+
     }
 
 

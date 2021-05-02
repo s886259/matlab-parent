@@ -2,6 +2,11 @@ package com.tp.math.matlab.kernel.util;
 
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
+import org.apache.commons.math3.util.MathArrays;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.lang.Math.sin;
 
@@ -10,6 +15,19 @@ import static java.lang.Math.sin;
  */
 @UtilityClass
 public class PythonUtils {
+
+    /**
+     * python apply_along_axis
+     */
+    public static List<Double> apply_along_axis(
+            @NonNull final double[] fir,
+            @NonNull final double[] arr
+    ) {
+        return Arrays.stream(MathArrays.convolve(fir, arr))
+                .boxed().collect(Collectors.toList());
+    }
+
+
     /**
      * python sinc
      */
