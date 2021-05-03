@@ -2,7 +2,7 @@ package com.tp.math.matlab.kernel.transform;
 
 import com.tp.math.matlab.kernel.util.NumberFormatUtils;
 import com.tp.math.matlab.kernel.util.PythonUtils;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,6 @@ import static java.util.stream.Collectors.toList;
  * scipy.signal.fir1(101, [0.00039063,0.78125], window="hann", pass_zero=False)
  */
 @Slf4j
-@Data
 @Accessors(chain = true)
 public class FirWindow {
 
@@ -46,6 +45,7 @@ public class FirWindow {
     /**
      * result
      */
+    @Getter
     private List<Double> result;
 
     public FirWindow(

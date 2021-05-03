@@ -2,7 +2,7 @@ package com.tp.math.matlab.kernel.transform;
 
 import Spectrogram.WindowFunction;
 import com.tp.math.matlab.kernel.util.NumberFormatUtils;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.Accessors;
 
@@ -15,11 +15,11 @@ import static java.util.stream.Collectors.toList;
 /**
  * Created by tangpeng on 2021-04-24
  */
-@Data
 @Accessors(chain = true)
 public class HannWindow {
     @NonNull
     private Integer length;
+    @Getter
     private List<Double> result;
 
     public HannWindow(@NonNull final Integer length) {

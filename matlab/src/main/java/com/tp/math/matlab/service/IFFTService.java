@@ -3,7 +3,6 @@ package com.tp.math.matlab.service;
 import com.tp.math.matlab.kernel.transform.IFFTTransformer;
 import com.tp.math.matlab.kernel.util.FileUtils;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.math3.complex.Complex;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,6 @@ import static java.util.stream.Collectors.toList;
  * Created by tangpeng on 2021-04-25
  */
 @Service
-@RequiredArgsConstructor
 public class IFFTService {
 
     public List<String> transform(@NonNull final Complex[] f) {

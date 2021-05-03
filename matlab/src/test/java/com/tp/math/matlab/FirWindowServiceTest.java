@@ -1,12 +1,8 @@
 package com.tp.math.matlab;
 
-import com.tp.math.matlab.kernel.transform.HannWindow;
-import com.tp.math.matlab.kernel.util.ExcelUtils;
 import com.tp.math.matlab.service.FirWindowService;
-import com.tp.math.matlab.service.HannWindowService;
 import com.tp.math.matlab.util.AssertUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +17,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
 
-import static com.tp.math.matlab.base.AbstractTransformTest.TEST_EXCEL;
-import static com.tp.math.matlab.base.AbstractTransformTest.TEST_EXCEL_COLUMN_INDEX;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -40,8 +33,6 @@ public class FirWindowServiceTest {
     private static final String FIR1_CUT_OFF = "[3.9063e-04,0.78125]";
     private static final String FIR1_RESULT_TXT = "/fir1(%s,%s,hann(%s))_matlab_output.txt";
 
-    @Autowired
-    private HannWindowService hannWindowService;
     @Autowired
     private FirWindowService firWindowService;
 
@@ -75,28 +66,28 @@ public class FirWindowServiceTest {
      * plot(t,x1);
      */
     @Test
-    public void testTransformFromFile() throws IOException, InvalidFormatException {
-        final String fileName = this.getClass().getResource(TEST_EXCEL).getFile();
-        //a=xlsRead('1414.xlsx',2);
-        //inputArray=a(:,8);
-        final List<Double> records = ExcelUtils.xlsRead(fileName, TEST_EXCEL_COLUMN_INDEX - 1);
+    public void testTransformFromFile() {
+//        final String fileName = this.getClass().getResource(TEST_EXCEL).getFile();
+//        //a=xlsRead('1414.xlsx',2);
+//        //inputArray=a(:,8);
+//        final List<Double> records = ExcelUtils.xlsRead(fileName, TEST_EXCEL_COLUMN_INDEX - 1);
         final int fs = 25600;
         //n=length(inputArray);
-        final int n = records.size();
+//        final int n = records.size();
         //t=(0:n-1)/fs
-        final List<Double> t = IntStream.range(0, n)
-                .mapToDouble(i -> (double) i)
-                .map(i -> i / fs)
-                .boxed()
-                .collect(toList());
-        log.info("t=(0:n-1)/fs result:\n" + t);
+//        final List<Double> t = IntStream.range(0, n)
+//                .mapToDouble(i -> (double) i)
+//                .map(i -> i / fs)
+//                .boxed()
+//                .collect(toList());
+//        log.info("t=(0:n-1)/fs result:\n" + t);
         //f=(0:n-1)/fs
-        final List<Double> f = t;
+//        final List<Double> f = t;
         //N=100
         final int N = 100;
         //window=hann(N+1)
-        final HannWindow window = hannWindowService.transform(N + 1);
-        log.info("window=hann(N+1) result:\n" + window.getResult());
+//        final HannWindow window = hannWindowService.transform(N + 1);
+//        log.info("window=hann(N+1) result:\n" + window.getResult());
         //wp1=[5/fs*2 10000/fs*2]
         final List<Double> wp1 = DoubleStream.of(5, 10000)
                 .boxed()
@@ -104,7 +95,7 @@ public class FirWindowServiceTest {
                 .collect(toList());
         log.info("wp1=[5/fs*2 10000/fs*2] result:\n" + wp1);
         // fir=fir1(N,wp1,window);
-        final List<String> d = firWindowService.fir1(N + 1, wp1, window.getResult()).format();
+        final List<String> d = firWindowService.fir1(N + 1, wp1).format();
         log.info("fir=fir1(N,wp1,window) result:\n" + d.toString());
         //fir=fir1(N,wp1,window);
 //        double[] inputArray = WindowFunction.getWindowFunc(HANNING, N + 1);

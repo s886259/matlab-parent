@@ -1,11 +1,10 @@
 package com.tp.math.matlab;
 
 import com.tp.math.matlab.kernel.transform.FirWindow;
-import com.tp.math.matlab.kernel.transform.HannWindow;
-import com.tp.math.matlab.kernel.transform.Lfilter;
+import com.tp.math.matlab.kernel.transform.FirFilter;
 import com.tp.math.matlab.kernel.util.ExcelUtils;
 import com.tp.math.matlab.service.FirWindowService;
-import com.tp.math.matlab.service.HannWindowService;
+import com.tp.math.matlab.service.FirFilterService;
 import com.tp.math.matlab.util.AssertUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -20,10 +19,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
 
 import static com.tp.math.matlab.base.AbstractTransformTest.TEST_EXCEL;
 import static com.tp.math.matlab.base.AbstractTransformTest.TEST_EXCEL_COLUMN_INDEX;
@@ -35,29 +32,17 @@ import static java.util.stream.Collectors.toList;
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class LfilterTest {
+public class FirFilterServiceTest {
 
     private static final int HANNING_LENGTH = 100;
     private static final int FIR1_NUM_TAPS = HANNING_LENGTH + 1;
     private static final String FIR1_CUT_OFF = "[3.9063e-04,0.78125]";
-    private static final String FIR1_RESULT_TXT = "/fir1(%s,%s,hann(%s))_matlab_output.txt";
+    private static final String FILTER_RESULT_TXT = "/filter(%s,%s,hann(%s))_matlab_output.txt";
 
     @Autowired
-    private HannWindowService hannWindowService;
+    private FirFilterService firFilterService;
     @Autowired
     private FirWindowService firWindowService;
-
-    @Test
-    public void testFir1() throws URISyntaxException, IOException {
-        //my output
-        final List<String> actuals = firWindowService.fir1(FIR1_NUM_TAPS, Arrays.asList(0.00039063, 0.78125)).format();
-        //matlab output
-        final URL resource = this.getClass().getResource(String.format(FIR1_RESULT_TXT, HANNING_LENGTH, FIR1_CUT_OFF, FIR1_NUM_TAPS));
-        final List<String> expecteds = Files.lines(Paths.get(resource.toURI()))
-                .map(String::trim)
-                .collect(toList());
-        AssertUtils.stringEquals(expecteds, actuals);
-    }
 
     /**
      * clc;
@@ -77,28 +62,29 @@ public class LfilterTest {
      * plot(t,x1);
      */
     @Test
-    public void testTransformFromFile() throws IOException, InvalidFormatException {
+    public void testFilter() throws URISyntaxException, IOException, InvalidFormatException {
+        //my output
         final String fileName = this.getClass().getResource(TEST_EXCEL).getFile();
         //a=xlsRead('1414.xlsx',2);
         //inputArray=a(:,8);
         final List<Double> records = ExcelUtils.xlsRead(fileName, TEST_EXCEL_COLUMN_INDEX - 1);
         final int fs = 25600;
         //n=length(inputArray);
-        final int n = records.size();
+//        final int n = records.size();
         //t=(0:n-1)/fs
-        final List<Double> t = IntStream.range(0, n)
-                .mapToDouble(i -> (double) i)
-                .map(i -> i / fs)
-                .boxed()
-                .collect(toList());
-        log.info("t=(0:n-1)/fs result:\n" + t);
+//        final List<Double> t = IntStream.range(0, n)
+//                .mapToDouble(i -> (double) i)
+//                .map(i -> i / fs)
+//                .boxed()
+//                .collect(toList());
+//        log.info("t=(0:n-1)/fs result:\n" + t);
         //f=(0:n-1)/fs
-        final List<Double> f = t;
+//        final List<Double> f = t;
         //N=100
         final int N = 100;
         //window=hann(N+1)
-        final HannWindow window = hannWindowService.transform(N + 1);
-        log.info("window=hann(N+1) result:\n" + window.getResult());
+//        final HannWindow window = hannWindowService.transform(N + 1);
+//        log.info("window=hann(N+1) result:\n" + window.getResult());
         //wp1=[5/fs*2 10000/fs*2]
         final List<Double> wp1 = DoubleStream.of(5, 10000)
                 .boxed()
@@ -106,13 +92,18 @@ public class LfilterTest {
                 .collect(toList());
         log.info("wp1=[5/fs*2 10000/fs*2] result:\n" + wp1);
         // fir=fir1(N,wp1,window);
-        final FirWindow d = firWindowService.fir1(N + 1, wp1, window.getResult());
+        final FirWindow d = firWindowService.fir1(N + 1, wp1);
         log.info("fir=fir1(N,wp1,window) result:\n" + d.format().toString());
         // x1 = filter(fir,1,inputArray);
-        final Lfilter lfilter = new Lfilter(d.getResult(), records);
-        log.info(lfilter.getResult().toString());
+        final FirFilter firFilter = firFilterService.filter(d.getResult(), records);
+        log.info(firFilter.getResult().toString());
+
+        //matlab output
+        final URL resource = this.getClass().getResource(String.format(FILTER_RESULT_TXT, HANNING_LENGTH, FIR1_CUT_OFF, FIR1_NUM_TAPS));
+        final List<String> expecteds = Files.lines(Paths.get(resource.toURI()))
+                .map(String::trim)
+                .collect(toList());
+        AssertUtils.stringEquals(expecteds, firFilter.format());
 
     }
-
-
 }
