@@ -30,7 +30,6 @@
     <modules>
         <module>matlab</module>
         <module>matlab-kernel</module>
-        <module>pamguard</module>
     </modules>
 
     <dependencies>

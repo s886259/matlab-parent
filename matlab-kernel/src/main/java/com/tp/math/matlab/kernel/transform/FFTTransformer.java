@@ -1,9 +1,11 @@
 package com.tp.math.matlab.kernel.transform;
 
 import com.tp.math.matlab.kernel.core.ResultComplex;
-import fftManager.Complex;
-import fftManager.FastFFT;
 import lombok.NonNull;
+import org.apache.commons.math3.complex.Complex;
+import org.apache.commons.math3.transform.DftNormalization;
+import org.apache.commons.math3.transform.FastFourierTransformer;
+import org.apache.commons.math3.transform.TransformType;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,15 +16,18 @@ import static java.util.stream.Collectors.toList;
 /**
  * Created by tangpeng on 2021-04-26
  */
-public class FFTTransformer extends FastFFT {
+public class FFTTransformer extends FastFourierTransformer {
+
+    public FFTTransformer() {
+        super(DftNormalization.STANDARD);
+    }
 
     /**
-     * @see fftManager.FastFFT
+     * @see org.apache.commons.math3.transform.FastFourierTransformer
      */
     public synchronized List<ResultComplex> transform(@NonNull final Complex[] records) {
-        super.fft(records);
-        return Arrays.stream(records)
-                .map(i -> convertToResultComplex(i.real, i.imag))
+        return Arrays.stream(super.transform(records, TransformType.FORWARD))
+                .map(i -> convertToResultComplex(i.getReal(), i.getImaginary()))
                 .collect(toList());
     }
 

@@ -1,6 +1,5 @@
 package com.tp.math.matlab.kernel.transform;
 
-import Spectrogram.WindowFunction;
 import com.tp.math.matlab.kernel.util.NumberFormatUtils;
 import lombok.Getter;
 import lombok.NonNull;
@@ -9,7 +8,6 @@ import lombok.experimental.Accessors;
 import java.util.List;
 import java.util.stream.DoubleStream;
 
-import static Spectrogram.WindowFunction.HANNING;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -31,7 +29,12 @@ public class HannWindow {
      * hanning windows algorithm
      */
     private List<Double> transform() {
-        return DoubleStream.of(WindowFunction.getWindowFunc(HANNING, this.length))
+        final double[] window = new double[length];
+        for (int i = 0; i < length; i++) {
+            window[i] = (0.5 - 0.5 * Math.cos(2.0 * Math.PI
+                    * ((double) (i) / (double) (length - 1))));
+        }
+        return DoubleStream.of(window)
                 .boxed()
                 .collect(toList());
     }
