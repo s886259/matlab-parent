@@ -6,6 +6,7 @@ import com.tp.math.matlab.kernel.timedomain.acceleration.Filt.FiltResult;
 import com.tp.math.matlab.kernel.timedomain.acceleration.MeanValue;
 import com.tp.math.matlab.kernel.timedomain.acceleration.ValueOfPeak;
 import com.tp.math.matlab.kernel.timedomain.acceleration.ValueOfPeak.ValueOfPeakResult;
+import com.tp.math.matlab.kernel.timedomain.acceleration.ValueOfSigma;
 import com.tp.math.matlab.kernel.util.ExcelUtils;
 import com.tp.math.matlab.kernel.util.PythonUtils;
 import com.tp.math.matlab.service.FirFilterService;
@@ -67,6 +68,7 @@ public class TimeDomainOfATest {
         //[vmean]=Mean_Value(a_fir);
         final double vmean = new MeanValue(filtResult.getA_fir()).getResult();
         //[sigma]=Value_of_Sigma(a_fir,vmean);
-        System.out.println(vmean);
+        final double sigma = new ValueOfSigma(filtResult.getA_fir(), vmean).getResult();
+        System.out.println(sigma);
     }
 }
