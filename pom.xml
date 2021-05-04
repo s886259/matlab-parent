@@ -5,13 +5,9 @@
          https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.tp.math</groupId>
+    <groupId>com.tp.math.matlab</groupId>
     <artifactId>matlab-parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>matlab-parent</name>
-    <description>Demo project for Spring Boot</description>
-
-    <!-- 父模块打包类型必须为pom -->
     <packaging>pom</packaging>
 
     <!-- parent指明继承关系，给出被继承的父项目的具体信息-->
