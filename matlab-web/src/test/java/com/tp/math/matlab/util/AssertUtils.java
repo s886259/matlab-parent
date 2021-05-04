@@ -19,7 +19,7 @@ public class AssertUtils {
 
     public static void stringEquals(@NonNull final List<String> expecteds, @NonNull final List<String> actuals) {
         for (int i = 0; i < actuals.size(); i++) {
-            log.info(i + ": " + actuals.get(i));
+            log.info("[{}]: expected:[{}], actuals:[{}]", i, expecteds.get(i), actuals.get(i));
             assertEquals(new BigDecimal(expecteds.get(i)), new BigDecimal(actuals.get(i)));
         }
     }
