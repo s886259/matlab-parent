@@ -30,6 +30,7 @@
     <modules>
         <module>matlab</module>
         <module>matlab-kernel</module>
+        <module>matlab-extension</module>
     </modules>
 
     <dependencies>
