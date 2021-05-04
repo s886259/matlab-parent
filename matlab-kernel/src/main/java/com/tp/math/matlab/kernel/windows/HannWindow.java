@@ -30,11 +30,6 @@ public class HannWindow {
      * hanning windows algorithm
      */
     private List<Double> transform() {
-//        final double[] window = new double[length];
-//        for (int i = 0; i < length; i++) {
-//            window[i] = (0.5 - 0.5 * Math.cos(2.0 * Math.PI
-//                    * ((double) (i) / (double) (length - 1))));
-//        }
         return DoubleStream.of(new Hanning(length).getWindow())
                 .boxed()
                 .collect(toList());
