@@ -10,5 +10,5 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(staticName = "of")
 public class DoubleMax {
     private final double val;
-    private final int index;
+    private final double index;
 }

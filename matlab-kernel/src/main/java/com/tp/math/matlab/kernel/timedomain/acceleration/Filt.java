@@ -85,7 +85,7 @@ public class Filt {
         final DoubleMax k_max = PythonUtils.getMax(Arrays.stream(k).map(ResultComplex::getAbs).collect(toList()), n / 2);
         final double peak_mf = k_max.getVal();
         //matlab index from 1
-        final int loc_mf = k_max.getIndex() + 1;
+        final double loc_mf = k_max.getIndex() + 1;
 
         //mf=loc_mf*df;
         final double mf = loc_mf * df;

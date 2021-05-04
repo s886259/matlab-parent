@@ -1,9 +1,11 @@
 package com.tp.math.matlab.timedomain.acceleration;
 
+import com.tp.math.matlab.kernel.core.DoubleMax;
 import com.tp.math.matlab.kernel.timedomain.acceleration.Filt;
 import com.tp.math.matlab.kernel.transform.FirFilter;
 import com.tp.math.matlab.kernel.transform.FirWindow;
 import com.tp.math.matlab.kernel.util.ExcelUtils;
+import com.tp.math.matlab.kernel.util.PythonUtils;
 import com.tp.math.matlab.service.FirFilterService;
 import com.tp.math.matlab.service.FirWindowService;
 import lombok.extern.slf4j.Slf4j;
@@ -53,8 +55,13 @@ public class TimeDomainOfATest {
         final double fmax = 10000;      //famx：终止频率
         final double time = (double) N / fs;
         //[a_fir,mf]=filt(a,fs,fcut,fs/2.25);
-        final Filt.FiltResult filt = new Filt(records, fs, fcut, fs / 2.25).getResult();
-        final double RPM = filt.getMf() * 60;
+        final Filt.FiltResult filtResult = new Filt(records, fs, fcut, fs / 2.25).getResult();
+        final double RPM = filtResult.getMf() * 60;
+        //[p,m]=max(a_fir);
+        final DoubleMax pm_max = PythonUtils.getMax(filtResult.getA_fir());
+        //tm=m/fs;
+        final double tm = pm_max.getIndex() / fs;
+        final double A = pm_max.getVal();
 
 //        //t=(0:n-1)/fs
 //        final List<Double> t = IntStream.range(0, n)
