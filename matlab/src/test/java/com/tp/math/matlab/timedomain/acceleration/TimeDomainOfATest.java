@@ -72,6 +72,8 @@ public class TimeDomainOfATest {
         final double pf = pm_max.getVal() / vrms;
         //[ske]=Value_of_Skewness(a_fir,vmean);
         final double ske = new ValueOfSkeness(filtResult.getA_fir(), vmean).getResult();
-
+        //[ske]=Value_of_Kurtosis(a_fir,vmean,sigma);
+        final double kur = new ValueOfKurtosis(filtResult.getA_fir(), vmean, sigma).getResult();
+        //[TV]=total_value(a,fs,5,10000,16);
     }
 }
