@@ -25,10 +25,17 @@ public class IFFTTransformer extends FastFourierTransformer {
     /**
      * @see org.apache.commons.math3.transform.FastFourierTransformer
      */
-    public synchronized List<ResultComplex> transform(@NonNull final Complex[] x) {
-        final List<ResultComplex> result = Arrays.stream(super.transform(x, INVERSE))
+    public synchronized List<ResultComplex> transform(@NonNull final Complex[] records) {
+        final List<ResultComplex> result = Arrays.stream(super.transform(records, INVERSE))
                 .map(i -> convertToResultComplex(i.getReal(), i.getImaginary()))
                 .collect(toList());
         return result;
+    }
+
+    public synchronized List<ResultComplex> transform(@NonNull final List<Double> records) {
+        final Complex[] myComplexes = records.stream()
+                .map(i -> new Complex(i, 0))
+                .toArray(Complex[]::new);
+        return transform(myComplexes);
     }
 }

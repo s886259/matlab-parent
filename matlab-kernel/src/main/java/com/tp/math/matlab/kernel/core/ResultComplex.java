@@ -34,4 +34,11 @@ public class ResultComplex {
         }
     }
 
+    /**
+     * 复数的模（或模数）是在复平面中绘制的向量（从原点到复数值）的长度。
+     */
+    public double getAbs() {
+        return Math.sqrt(this.real * this.real + this.imag * this.imag);
+    }
+
 }
