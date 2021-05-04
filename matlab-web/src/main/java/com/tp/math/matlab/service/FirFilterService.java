@@ -1,6 +1,6 @@
 package com.tp.math.matlab.service;
 
-import com.tp.math.matlab.kernel.transform.FirFilter;
+import com.tp.math.matlab.kernel.filter.FirFilter;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
 package com.tp.math.matlab.service;
 
-import com.tp.math.matlab.kernel.transform.HannWindow;
+import com.tp.math.matlab.kernel.windows.HannWindow;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
 

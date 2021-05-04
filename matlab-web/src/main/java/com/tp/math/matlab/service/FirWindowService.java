@@ -1,6 +1,6 @@
 package com.tp.math.matlab.service;
 
-import com.tp.math.matlab.kernel.transform.FirWindow;
+import com.tp.math.matlab.kernel.windows.FirWindow;
 import lombok.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;

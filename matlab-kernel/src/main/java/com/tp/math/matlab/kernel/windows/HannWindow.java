@@ -1,5 +1,6 @@
-package com.tp.math.matlab.kernel.transform;
+package com.tp.math.matlab.kernel.windows;
 
+import com.github.psambit9791.jdsp.windows.Hanning;
 import com.tp.math.matlab.kernel.util.NumberFormatUtils;
 import lombok.Getter;
 import lombok.NonNull;
@@ -29,12 +30,12 @@ public class HannWindow {
      * hanning windows algorithm
      */
     private List<Double> transform() {
-        final double[] window = new double[length];
-        for (int i = 0; i < length; i++) {
-            window[i] = (0.5 - 0.5 * Math.cos(2.0 * Math.PI
-                    * ((double) (i) / (double) (length - 1))));
-        }
-        return DoubleStream.of(window)
+//        final double[] window = new double[length];
+//        for (int i = 0; i < length; i++) {
+//            window[i] = (0.5 - 0.5 * Math.cos(2.0 * Math.PI
+//                    * ((double) (i) / (double) (length - 1))));
+//        }
+        return DoubleStream.of(new Hanning(length).getWindow())
                 .boxed()
                 .collect(toList());
     }

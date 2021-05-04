@@ -1,7 +1,7 @@
 package com.tp.math.matlab;
 
-import com.tp.math.matlab.kernel.transform.FirWindow;
-import com.tp.math.matlab.kernel.transform.FirFilter;
+import com.tp.math.matlab.kernel.windows.FirWindow;
+import com.tp.math.matlab.kernel.filter.FirFilter;
 import com.tp.math.matlab.kernel.util.ExcelUtils;
 import com.tp.math.matlab.service.FirWindowService;
 import com.tp.math.matlab.service.FirFilterService;
