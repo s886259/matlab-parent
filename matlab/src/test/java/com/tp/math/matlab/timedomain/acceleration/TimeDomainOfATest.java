@@ -3,10 +3,9 @@ package com.tp.math.matlab.timedomain.acceleration;
 import com.tp.math.matlab.kernel.core.DoubleMax;
 import com.tp.math.matlab.kernel.timedomain.acceleration.Filt;
 import com.tp.math.matlab.kernel.timedomain.acceleration.Filt.FiltResult;
+import com.tp.math.matlab.kernel.timedomain.acceleration.MeanValue;
 import com.tp.math.matlab.kernel.timedomain.acceleration.ValueOfPeak;
 import com.tp.math.matlab.kernel.timedomain.acceleration.ValueOfPeak.ValueOfPeakResult;
-import com.tp.math.matlab.kernel.transform.FirFilter;
-import com.tp.math.matlab.kernel.transform.FirWindow;
 import com.tp.math.matlab.kernel.util.ExcelUtils;
 import com.tp.math.matlab.kernel.util.PythonUtils;
 import com.tp.math.matlab.service.FirFilterService;
@@ -22,11 +21,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.stream.DoubleStream;
 
 import static com.tp.math.matlab.base.AbstractTransformTest.TEST_EXCEL_COLUMN_INDEX;
 import static com.tp.math.matlab.base.AbstractTransformTest.TIME_DOMAIN_TEST_EXCEL;
-import static java.util.stream.Collectors.toList;
 
 /**
  * Created by tangpeng on 2021-05-04
@@ -67,6 +64,9 @@ public class TimeDomainOfATest {
         final double A = pm_max.getVal();
         //[Pp,Np]=Value_of_Peak(a_fir);
         final ValueOfPeakResult valueOfPeakResult = new ValueOfPeak(filtResult.getA_fir()).getResult();
-
+        //[vmean]=Mean_Value(a_fir);
+        final double vmean = new MeanValue(filtResult.getA_fir()).getResult();
+        //[sigma]=Value_of_Sigma(a_fir,vmean);
+        System.out.println(vmean);
     }
 }
