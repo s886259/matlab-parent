@@ -24,7 +24,7 @@
 
     <!-- 模块说明：这里声明多个子模块 -->
     <modules>
-        <module>matlab</module>
+        <module>matlab-web</module>
         <module>matlab-kernel</module>
         <module>matlab-extension</module>
     </modules>
@@ -40,28 +40,28 @@
     </dependencies>
 
     <!-- 版本说明：这里统一管理依赖的版本号 -->
-<!--    <dependencyManagement>-->
-<!--        <dependencies>-->
-<!--            <dependency>-->
-<!--                <groupId>com.example</groupId>-->
-<!--                <artifactId>hangge-base</artifactId>-->
-<!--                <version>0.0.1-SNAPSHOT</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>com.example</groupId>-->
-<!--                <artifactId>hangge-dao</artifactId>-->
-<!--                <version>0.0.1-SNAPSHOT</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>com.example</groupId>-->
-<!--                <artifactId>hangge-service</artifactId>-->
-<!--                <version>0.0.1-SNAPSHOT</version>-->
-<!--            </dependency>-->
-<!--            <dependency>-->
-<!--                <groupId>com.example</groupId>-->
-<!--                <artifactId>hangge-web</artifactId>-->
-<!--                <version>0.0.1-SNAPSHOT</version>-->
-<!--            </dependency>-->
-<!--        </dependencies>-->
-<!--    </dependencyManagement>-->
+    <!--    <dependencyManagement>-->
+    <!--        <dependencies>-->
+    <!--            <dependency>-->
+    <!--                <groupId>com.example</groupId>-->
+    <!--                <artifactId>hangge-base</artifactId>-->
+    <!--                <version>0.0.1-SNAPSHOT</version>-->
+    <!--            </dependency>-->
+    <!--            <dependency>-->
+    <!--                <groupId>com.example</groupId>-->
+    <!--                <artifactId>hangge-dao</artifactId>-->
+    <!--                <version>0.0.1-SNAPSHOT</version>-->
+    <!--            </dependency>-->
+    <!--            <dependency>-->
+    <!--                <groupId>com.example</groupId>-->
+    <!--                <artifactId>hangge-service</artifactId>-->
+    <!--                <version>0.0.1-SNAPSHOT</version>-->
+    <!--            </dependency>-->
+    <!--            <dependency>-->
+    <!--                <groupId>com.example</groupId>-->
+    <!--                <artifactId>hangge-web</artifactId>-->
+    <!--                <version>0.0.1-SNAPSHOT</version>-->
+    <!--            </dependency>-->
+    <!--        </dependencies>-->
+    <!--    </dependencyManagement>-->
 </project>
