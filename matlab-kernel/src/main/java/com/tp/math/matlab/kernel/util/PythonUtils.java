@@ -1,5 +1,6 @@
 package com.tp.math.matlab.kernel.util;
 
+import com.github.psambit9791.jdsp.signal.Detrend;
 import com.tp.math.matlab.kernel.core.DoubleMax;
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
@@ -10,9 +11,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 
 import static java.lang.Math.sin;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by tangpeng on 2021-05-02
@@ -39,6 +42,19 @@ public class PythonUtils {
         final double y = Math.PI * (x == 0 ? 1.0e-20 : x);
         return sin(y) / y;
     }
+
+    /**
+     * 去除趋势项
+     * <p>
+     * scipy.signal.detrend
+     */
+    public static List<Double> detrend(@NonNull final List<Double> signal) {
+        final Detrend d1 = new Detrend(signal.stream().mapToDouble(i -> i).toArray(), "linear");
+        final double[] out = d1.detrendSignal();
+        return DoubleStream.of(out).boxed().collect(toList());
+//        Assertions.assertArrayEquals(result, out, 0.001);
+    }
+
 
     /**
      * python max

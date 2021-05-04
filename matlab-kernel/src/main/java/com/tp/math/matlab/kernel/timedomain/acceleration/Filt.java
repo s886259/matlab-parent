@@ -1,6 +1,5 @@
 package com.tp.math.matlab.kernel.timedomain.acceleration;
 
-import com.github.psambit9791.jdsp.signal.Detrend;
 import com.tp.math.matlab.kernel.core.DoubleMax;
 import com.tp.math.matlab.kernel.core.ResultComplex;
 import com.tp.math.matlab.kernel.transform.FFTTransformer;
@@ -15,7 +14,6 @@ import org.apache.commons.math3.complex.Complex;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.DoubleStream;
 
 import static java.util.stream.Collectors.toList;
 
@@ -65,7 +63,7 @@ public class Filt {
         final Integer n = this.inputArray.size();
         final Double df = (double) this.fs / n;
         //final double a_fft= fft(detrend(a));
-        final List<Double> detrend = detrend(this.inputArray);
+        final List<Double> detrend = PythonUtils.detrend(this.inputArray);
         final List<ResultComplex> a_fft = new FFTTransformer().transform(detrend);
         final int n_inferior = (int) Math.round(this.flow / df);
         final int n_superior = (int) Math.round(this.fhigh / df);
@@ -98,12 +96,6 @@ public class Filt {
         return FiltResult.of(a_fir, mf);
     }
 
-    private List<Double> detrend(@NonNull final List<Double> signal) {
-        final Detrend d1 = new Detrend(signal.stream().mapToDouble(i -> i).toArray(), "linear");
-        final double[] out = d1.detrendSignal();
-        return DoubleStream.of(out).boxed().collect(toList());
-//        Assertions.assertArrayEquals(result, out, 0.001);
-    }
 
     @Getter
     @RequiredArgsConstructor(staticName = "of")
