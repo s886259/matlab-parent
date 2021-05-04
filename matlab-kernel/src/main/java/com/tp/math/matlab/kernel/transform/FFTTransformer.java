@@ -19,10 +19,18 @@ public class FFTTransformer extends FastFFT {
     /**
      * @see fftManager.FastFFT
      */
-    public synchronized List<ResultComplex> transform(@NonNull final Complex[] x) {
-        super.fft(x);
-        return Arrays.stream(x)
+    public synchronized List<ResultComplex> transform(@NonNull final Complex[] records) {
+        super.fft(records);
+        return Arrays.stream(records)
                 .map(i -> convertToResultComplex(i.real, i.imag))
                 .collect(toList());
     }
+
+    public synchronized List<ResultComplex> transform(@NonNull final List<Double> records) {
+        final Complex[] myComplexes = records.stream()
+                .map(i -> new Complex(i, 0))
+                .toArray(Complex[]::new);
+        return transform(myComplexes);
+    }
+
 }

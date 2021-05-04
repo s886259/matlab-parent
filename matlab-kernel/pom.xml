@@ -64,6 +64,11 @@
             <artifactId>api</artifactId>
             <version>0.10.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.psambit9791</groupId>
+            <artifactId>jdsp</artifactId>
+            <version>0.6.0</version>
+        </dependency>
 
 
         <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->

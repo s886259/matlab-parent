@@ -38,7 +38,7 @@ public class FFTServiceTest extends AbstractTransformTest {
 
     @Test
     public void testTransformFromFile() throws IOException, InvalidFormatException {
-        final String fileName = this.getClass().getResource(TEST_EXCEL).getFile();
+        final String fileName = this.getClass().getResource(TIME_DOMAIN_TEST_EXCEL).getFile();
         final List<String> result = service.transformFromFile(fileName, TEST_EXCEL_COLUMN_INDEX);
 
         super.testTransformFromFile(String.format(MY_RESULT_FILE_FORMAT, FFT_TEST_METHOD), result);

@@ -2,7 +2,6 @@ package com.tp.math.matlab.service;
 
 import com.tp.math.matlab.kernel.transform.FFTTransformer;
 import com.tp.math.matlab.kernel.util.FileUtils;
-import fftManager.Complex;
 import lombok.NonNull;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,7 @@ import static java.util.stream.Collectors.toList;
 @Service
 public class FFTService {
 
-    public List<String> transform(@NonNull final Complex[] f) {
+    public List<String> transform(@NonNull final List<Double> f) {
         return new FFTTransformer().transform(f).stream()
                 .map(Object::toString)
                 .collect(toList());
@@ -37,9 +36,6 @@ public class FFTService {
         //TODO: result to file
         FileUtils.double2File(String.format("%s_column%d_source_.txt", fileName, columnIndex), records);
         //TODO: result to file
-        final Complex[] myComplexes = records.stream()
-                .map(i -> new Complex(i, 0))
-                .toArray(Complex[]::new);
-        return transform(myComplexes);
+        return transform(records);
     }
 }

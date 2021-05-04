@@ -23,10 +23,13 @@ public class FileUtils {
             @NonNull final String fileName,
             @NonNull final List<Double> records
     ) throws IOException {
-        final BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
+        final File file = new File(fileName);
+        final BufferedWriter out = new BufferedWriter(new FileWriter(file));
+        log.info("Writing result to :" + file.getAbsolutePath());
         final String line = records.stream().map(Object::toString).collect(joining(","));
         out.write(line + "\t\n");
         out.close();
+        log.info("Write result success :" + file.getAbsolutePath());
     }
 
     public static void string2File(
