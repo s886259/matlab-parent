@@ -53,8 +53,8 @@ public class TimeDomainOfATest {
         final double fmax = 10000;      //famx：终止频率
         final double time = (double) N / fs;
         //[a_fir,mf]=filt(a,fs,fcut,fs/2.25);
-        Filt filt = new Filt(records, fs, fcut, fs / 2.25);
-
+        final Filt.FiltResult filt = new Filt(records, fs, fcut, fs / 2.25).getResult();
+        final double RPM = filt.getMf() * 60;
 
 //        //t=(0:n-1)/fs
 //        final List<Double> t = IntStream.range(0, n)

@@ -1,9 +1,11 @@
 package com.tp.math.matlab.kernel.timedomain.acceleration;
 
 import com.github.psambit9791.jdsp.signal.Detrend;
+import com.tp.math.matlab.kernel.core.DoubleMax;
 import com.tp.math.matlab.kernel.core.ResultComplex;
 import com.tp.math.matlab.kernel.transform.FFTTransformer;
 import com.tp.math.matlab.kernel.transform.IFFTTransformer;
+import com.tp.math.matlab.kernel.util.PythonUtils;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -13,10 +15,9 @@ import org.apache.commons.math3.complex.Complex;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by tangpeng on 2021-05-04
@@ -60,10 +61,6 @@ public class Filt {
         this.result = transform();
     }
 
-
-    /**
-     * python scipy.signal.lfilter
-     */
     private FiltResult transform() {
         final Integer n = this.inputArray.size();
         final Double df = (double) this.fs / n;
@@ -85,13 +82,11 @@ public class Filt {
             }
         }
         //[peak_mf,loc_mf]=max(abs_tmp);
-        final Stream<ResultComplex> mfStream = Arrays.stream(k).limit(n / 2);
-        final double peak_mf = mfStream.map(ResultComplex::getAbs)
-                .mapToDouble(i -> i)
-                .max()
-                .getAsDouble();
+        final DoubleMax k_max = PythonUtils.getMax(Arrays.stream(k).map(ResultComplex::getAbs).collect(toList()), n / 2);
+        final double peak_mf = k_max.getVal();
         //matlab index from 1
-        final int loc_mf = IntStream.range(0, n / 2).reduce((a, b) -> k[a].getAbs() < k[b].getAbs() ? b : a).getAsInt() + 1;
+        final int loc_mf = k_max.getIndex() + 1;
+
         //mf=loc_mf*df;
         final double mf = loc_mf * df;
         //a_time=ifft(k)
@@ -99,20 +94,20 @@ public class Filt {
                 Arrays.stream(k).map(i -> new Complex(i.getReal(), i.getImag())).toArray(Complex[]::new)
         );
         // %滤波后数据
-        final List<Double> a_fir = a_time.stream().map(ResultComplex::getReal).collect(Collectors.toList());
+        final List<Double> a_fir = a_time.stream().map(ResultComplex::getReal).collect(toList());
         return FiltResult.of(a_fir, mf);
     }
 
     private List<Double> detrend(@NonNull final List<Double> signal) {
         final Detrend d1 = new Detrend(signal.stream().mapToDouble(i -> i).toArray(), "linear");
         final double[] out = d1.detrendSignal();
-        return DoubleStream.of(out).boxed().collect(Collectors.toList());
+        return DoubleStream.of(out).boxed().collect(toList());
 //        Assertions.assertArrayEquals(result, out, 0.001);
     }
 
     @Getter
     @RequiredArgsConstructor(staticName = "of")
-    static class FiltResult {
+    public static class FiltResult {
         private final List<Double> a_fir;
         private final double mf;
     }
