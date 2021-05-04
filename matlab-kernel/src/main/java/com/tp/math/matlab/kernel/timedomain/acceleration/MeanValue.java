@@ -17,23 +17,23 @@ public class MeanValue {
     /**
      * 源数据
      */
-    private List<Double> inputArray;
+    private List<Double> a;
     /**
      * result
      */
     @Getter
     private double result;
 
-    public MeanValue(@NonNull final List<Double> inputArray) {
-        this.inputArray = inputArray;
+    public MeanValue(@NonNull final List<Double> a) {
+        this.a = a;
         this.result = transform();
     }
 
     private double transform() {
-        final int n = this.inputArray.size();
+        final int n = this.a.size();
         double sum = 0;
         for (int i = 0; i < n; i++) {
-            sum += this.inputArray.get(i);
+            sum += this.a.get(i);
         }
         return sum / n;
     }

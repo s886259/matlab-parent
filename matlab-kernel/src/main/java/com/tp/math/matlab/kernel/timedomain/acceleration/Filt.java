@@ -49,12 +49,12 @@ public class Filt {
     private FiltResult result;
 
     public Filt(
-            @NonNull final List<Double> inputArray,
+            @NonNull final List<Double> a,
             @NonNull final Long fs,
             @NonNull final Double flow,
             @NonNull final Double fhigh
     ) {
-        this.inputArray = inputArray;
+        this.inputArray = a;
         this.fs = fs;
         this.flow = flow;
         this.fhigh = fhigh;
@@ -108,7 +108,7 @@ public class Filt {
     @Getter
     @RequiredArgsConstructor(staticName = "of")
     public static class FiltResult {
-        private final List<Double> a_fir;
-        private final double mf;
+        private final List<Double> _Afir;
+        private final double _mf;
     }
 }

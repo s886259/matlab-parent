@@ -17,23 +17,23 @@ public class ValueOfRMS {
     /**
      * 源数据
      */
-    private List<Double> inputArray;
+    private List<Double> a;
     /**
      * result
      */
     @Getter
     private double result;
 
-    public ValueOfRMS(@NonNull final List<Double> inputArray) {
-        this.inputArray = inputArray;
+    public ValueOfRMS(@NonNull final List<Double> a) {
+        this.a = a;
         this.result = transform();
     }
 
     private double transform() {
-        final int n = this.inputArray.size();
+        final int n = this.a.size();
         double sum = 0;
         for (int i = 0; i < n; i++) {
-            sum = sum + Math.pow(this.inputArray.get(i), 2);
+            sum = sum + Math.pow(this.a.get(i), 2);
         }
         return Math.sqrt(sum / n);
     }

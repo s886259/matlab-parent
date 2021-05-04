@@ -17,7 +17,7 @@ public class ValueOfKurtosis {
     /**
      * 源数据
      */
-    private List<Double> inputArray;
+    private List<Double> a;
     private Double vmean;
     private Double sigma;
     /**
@@ -27,21 +27,21 @@ public class ValueOfKurtosis {
     private double result;
 
     public ValueOfKurtosis(
-            @NonNull final List<Double> inputArray,
+            @NonNull final List<Double> a,
             @NonNull final Double vmean,
             @NonNull final Double sigma
     ) {
-        this.inputArray = inputArray;
+        this.a = a;
         this.vmean = vmean;
         this.sigma = sigma;
         this.result = transform();
     }
 
     private double transform() {
-        final int n = this.inputArray.size();
+        final int n = this.a.size();
         double sum = 0;
         for (int i = 0; i < n; i++) {
-            sum = sum + Math.pow((this.inputArray.get(i) - vmean) / sigma, 4);
+            sum = sum + Math.pow((this.a.get(i) - vmean) / sigma, 4);
         }
         final double kur = sum / n;
         return kur;

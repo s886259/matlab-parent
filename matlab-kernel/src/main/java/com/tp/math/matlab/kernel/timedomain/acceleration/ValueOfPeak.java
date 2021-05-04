@@ -19,24 +19,24 @@ public class ValueOfPeak {
     /**
      * 源数据
      */
-    private List<Double> inputArray;
+    private List<Double> a;
     /**
      * result
      */
     @Getter
     private ValueOfPeakResult result;
 
-    public ValueOfPeak(@NonNull final List<Double> inputArray) {
-        this.inputArray = inputArray;
+    public ValueOfPeak(@NonNull final List<Double> a) {
+        this.a = a;
         this.result = transform();
     }
 
     private ValueOfPeakResult transform() {
-        final int n = this.inputArray.size();
+        final int n = this.a.size();
         final double[] x = new double[n];
         final double[] y = new double[n];
-        for (int i = 0; i < this.inputArray.size(); i++) {
-            final double cur = this.inputArray.get(i);
+        for (int i = 0; i < this.a.size(); i++) {
+            final double cur = this.a.get(i);
             if (cur > 0) {
                 x[i] = cur;
             } else {
