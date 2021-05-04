@@ -10,8 +10,6 @@
     </parent>
     <artifactId>matlab-kernel</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>matlab-kernel</name>
-    <description>matlab kernel</description>
     <properties>
         <java.version>1.8</java.version>
     </properties>

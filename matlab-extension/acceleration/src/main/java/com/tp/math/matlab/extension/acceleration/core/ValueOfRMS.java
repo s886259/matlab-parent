@@ -1,4 +1,4 @@
-package com.tp.math.matlab.kernel.timedomain.acceleration;
+package com.tp.math.matlab.extension.acceleration.core;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -12,25 +12,20 @@ import java.util.List;
  */
 @Slf4j
 @Accessors(chain = true)
-public class ValueOfSigma {
+public class ValueOfRMS {
 
     /**
      * 源数据
      */
     private List<Double> a;
-    private Double vmean;
     /**
      * result
      */
     @Getter
     private double result;
 
-    public ValueOfSigma(
-            @NonNull final List<Double> a,
-            @NonNull final Double vmean
-    ) {
+    public ValueOfRMS(@NonNull final List<Double> a) {
         this.a = a;
-        this.vmean = vmean;
         this.result = transform();
     }
 
@@ -38,7 +33,7 @@ public class ValueOfSigma {
         final int n = this.a.size();
         double sum = 0;
         for (int i = 0; i < n; i++) {
-            sum = sum + Math.pow((this.a.get(i) - vmean), 2);
+            sum = sum + Math.pow(this.a.get(i), 2);
         }
         return Math.sqrt(sum / n);
     }

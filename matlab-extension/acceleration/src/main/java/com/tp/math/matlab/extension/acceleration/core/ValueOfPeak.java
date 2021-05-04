@@ -1,4 +1,4 @@
-package com.tp.math.matlab.kernel.timedomain.acceleration;
+package com.tp.math.matlab.extension.acceleration.core;
 
 import lombok.Getter;
 import lombok.NonNull;

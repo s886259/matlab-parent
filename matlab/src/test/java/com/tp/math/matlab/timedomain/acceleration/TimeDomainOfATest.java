@@ -1,9 +1,9 @@
 package com.tp.math.matlab.timedomain.acceleration;
 
+import com.tp.math.matlab.extension.acceleration.core.*;
+import com.tp.math.matlab.extension.acceleration.core.Filt.FiltResult;
+import com.tp.math.matlab.extension.acceleration.core.ValueOfPeak.ValueOfPeakResult;
 import com.tp.math.matlab.kernel.core.DoubleMax;
-import com.tp.math.matlab.kernel.timedomain.acceleration.*;
-import com.tp.math.matlab.kernel.timedomain.acceleration.Filt.FiltResult;
-import com.tp.math.matlab.kernel.timedomain.acceleration.ValueOfPeak.ValueOfPeakResult;
 import com.tp.math.matlab.kernel.util.ExcelUtils;
 import com.tp.math.matlab.kernel.util.PythonUtils;
 import com.tp.math.matlab.service.FirFilterService;

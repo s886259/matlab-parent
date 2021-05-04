@@ -1,4 +1,4 @@
-package com.tp.math.matlab.kernel.timedomain.acceleration;
+package com.tp.math.matlab.extension.acceleration.core;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Slf4j
 @Accessors(chain = true)
-public class ValueOfSkeness {
+public class ValueOfSigma {
 
     /**
      * 源数据
@@ -25,7 +25,7 @@ public class ValueOfSkeness {
     @Getter
     private double result;
 
-    public ValueOfSkeness(
+    public ValueOfSigma(
             @NonNull final List<Double> a,
             @NonNull final Double vmean
     ) {
@@ -36,13 +36,10 @@ public class ValueOfSkeness {
 
     private double transform() {
         final int n = this.a.size();
-        double m = 0;
-        double s = 0;
+        double sum = 0;
         for (int i = 0; i < n; i++) {
-            m = m + Math.pow(this.a.get(i) - vmean, 3);
-            s = s + Math.pow(this.a.get(i) - vmean, 2);
+            sum = sum + Math.pow((this.a.get(i) - vmean), 2);
         }
-        final double ske = (m / n) / Math.pow(s / (n - 1), 1.5);
-        return ske;
+        return Math.sqrt(sum / n);
     }
 }

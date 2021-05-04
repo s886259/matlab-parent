@@ -22,8 +22,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.tp.math</groupId>
-            <artifactId>matlab-kernel</artifactId>
+            <groupId>com.tp.math.matlab.extension</groupId>
+            <artifactId>acceleration</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-math3 -->
