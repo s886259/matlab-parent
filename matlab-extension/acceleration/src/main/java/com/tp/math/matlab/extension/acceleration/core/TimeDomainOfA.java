@@ -49,5 +49,7 @@ public class TimeDomainOfA {
         //[ske]=Value_of_Kurtosis(a_fir,vmean,sigma);
         final double kur = new ValueOfKurtosis(filtResult.get_Afir(), vmean, sigma).getResult();
         //[TV]=total_value(a,fs,5,10000,16);
+        final double TV = new TotalValue(a, fs, 5, 10000, 16).getResult();
+        System.out.println(TV);
     }
 }

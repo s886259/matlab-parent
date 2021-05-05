@@ -27,7 +27,7 @@ public class Filt {
     /**
      * 源数据
      */
-    private List<Double> inputArray;
+    private List<Double> a;
     /**
      * 采样频率
      */
@@ -52,7 +52,7 @@ public class Filt {
             @NonNull final Double flow,
             @NonNull final Double fhigh
     ) {
-        this.inputArray = a;
+        this.a = a;
         this.fs = fs;
         this.flow = flow;
         this.fhigh = fhigh;
@@ -60,14 +60,14 @@ public class Filt {
     }
 
     private FiltResult transform() {
-        final Integer n = this.inputArray.size();
+        final Integer n = this.a.size();
         final Double df = (double) this.fs / n;
         //final double a_fft= fft(detrend(a));
-        final List<Double> detrend = PythonUtils.detrend(this.inputArray);
+        final List<Double> detrend = PythonUtils.detrend(this.a);
         final List<ResultComplex> a_fft = new FFTTransformer().transform(detrend);
         final int n_inferior = (int) Math.round(this.flow / df);
         final int n_superior = (int) Math.round(this.fhigh / df);
-        final ResultComplex[] k = new ResultComplex[this.inputArray.size()];
+        final ResultComplex[] k = new ResultComplex[this.a.size()];
         for (int i = 0; i < k.length; i++) {
             if (i >= n_inferior - 1 && i < n_superior) {
                 //k(n_inferior:n_superior)=a_fft(n_inferior:n_superior);
