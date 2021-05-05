@@ -4,7 +4,6 @@ import com.tp.math.matlab.extension.acceleration.core.ValueOfPeak.ValueOfPeakRes
 import com.tp.math.matlab.kernel.core.DoubleMax;
 import com.tp.math.matlab.kernel.util.PythonUtils;
 import lombok.NonNull;
-import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -13,7 +12,6 @@ import java.util.List;
  * Created by tangpeng on 2021-05-05
  */
 @Slf4j
-@Accessors(chain = true)
 public class TimeDomainOfA {
 
     public void run(@NonNull final List<Double> a) {
@@ -27,7 +25,7 @@ public class TimeDomainOfA {
         final double fmax = 10000;      //famx：终止频率
         final double time = (double) N / fs;
         //[a_fir,mf]=filt(a,fs,fcut,fs/2.25);
-        final Filt.FiltResult filtResult = new Filt(a, fs, fcut, fs / 2.25).getResult();
+        final Filt.FiltResult filtResult = new Filt(a, fs, fcut, fs / 2.25).execute();
         final double RPM = filtResult.get_mf() * 60;
         //[p,m]=max(a_fir);
         final DoubleMax pm_max = PythonUtils.getMax(filtResult.get_Afir());
@@ -35,21 +33,20 @@ public class TimeDomainOfA {
         final double tm = pm_max.getIndex() / fs;
         final double A = pm_max.getVal();
         //[Pp,Np]=Value_of_Peak(a_fir);
-        final ValueOfPeakResult valueOfPeakResult = new ValueOfPeak(filtResult.get_Afir()).getResult();
+        final ValueOfPeakResult valueOfPeakResult = new ValueOfPeak(filtResult.get_Afir()).execute();
         //[vmean]=Mean_Value(a_fir);
-        final double vmean = new MeanValue(filtResult.get_Afir()).getResult();
+        final double vmean = new MeanValue(filtResult.get_Afir()).execute();
         //[sigma]=Value_of_Sigma(a_fir,vmean);
-        final double sigma = new ValueOfSigma(filtResult.get_Afir(), vmean).getResult();
+        final double sigma = new ValueOfSigma(filtResult.get_Afir(), vmean).execute();
         //[vrms]=Value_of_RMS(a_fir);
-        final double vrms = new ValueOfRMS(filtResult.get_Afir()).getResult();
+        final double vrms = new ValueOfRMS(filtResult.get_Afir()).execute();
         //pf=p/vrms;
         final double pf = pm_max.getVal() / vrms;
         //[ske]=Value_of_Skewness(a_fir,vmean);
-        final double ske = new ValueOfSkeness(filtResult.get_Afir(), vmean).getResult();
+        final double ske = new ValueOfSkeness(filtResult.get_Afir(), vmean).execute();
         //[ske]=Value_of_Kurtosis(a_fir,vmean,sigma);
-        final double kur = new ValueOfKurtosis(filtResult.get_Afir(), vmean, sigma).getResult();
+        final double kur = new ValueOfKurtosis(filtResult.get_Afir(), vmean, sigma).execute();
         //[TV]=total_value(a,fs,5,10000,16);
-        final double TV = new TotalValue(a, fs, 5, 10000, 16).getResult();
-        System.out.println(TV);
+        final double TV = new TotalValue(a, fs, 5, 10000, 16).execute();
     }
 }

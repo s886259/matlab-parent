@@ -1,10 +1,7 @@
 package com.tp.math.matlab.extension.acceleration.core;
 
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.Accessors;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,26 +9,15 @@ import java.util.List;
 /**
  * Created by tangpeng on 2021-05-04
  */
-@Slf4j
-@Accessors(chain = true)
+@RequiredArgsConstructor
 public class ValueOfPeak {
 
     /**
      * 源数据
      */
-    private List<Double> a;
-    /**
-     * result
-     */
-    @Getter
-    private ValueOfPeakResult result;
+    private final List<Double> a;
 
-    public ValueOfPeak(@NonNull final List<Double> a) {
-        this.a = a;
-        this.result = transform();
-    }
-
-    private ValueOfPeakResult transform() {
+    public ValueOfPeakResult execute() {
         final int n = this.a.size();
         final double[] x = new double[n];
         final double[] y = new double[n];

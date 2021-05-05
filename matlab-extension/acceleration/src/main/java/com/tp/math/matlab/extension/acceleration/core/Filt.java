@@ -6,10 +6,7 @@ import com.tp.math.matlab.kernel.transform.FFTTransformer;
 import com.tp.math.matlab.kernel.transform.IFFTTransformer;
 import com.tp.math.matlab.kernel.util.PythonUtils;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.Accessors;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.math3.complex.Complex;
 
 import java.util.Arrays;
@@ -20,46 +17,27 @@ import static java.util.stream.Collectors.toList;
 /**
  * Created by tangpeng on 2021-05-04
  */
-@Slf4j
-@Accessors(chain = true)
+@RequiredArgsConstructor
 public class Filt {
 
     /**
      * 源数据
      */
-    private List<Double> a;
+    private final List<Double> a;
     /**
      * 采样频率
      */
-    private Long fs;
+    private final Long fs;
     /**
      * 低频截止
      */
-    private Double flow;
+    private final Double flow;
     /**
      * 高频截止
      */
-    private Double fhigh;
-    /**
-     * result
-     */
-    @Getter
-    private FiltResult result;
+    private final Double fhigh;
 
-    public Filt(
-            @NonNull final List<Double> a,
-            @NonNull final Long fs,
-            @NonNull final Double flow,
-            @NonNull final Double fhigh
-    ) {
-        this.a = a;
-        this.fs = fs;
-        this.flow = flow;
-        this.fhigh = fhigh;
-        this.result = transform();
-    }
-
-    private FiltResult transform() {
+    public FiltResult execute() {
         final Integer n = this.a.size();
         final Double df = (double) this.fs / n;
         //final double a_fft= fft(detrend(a));

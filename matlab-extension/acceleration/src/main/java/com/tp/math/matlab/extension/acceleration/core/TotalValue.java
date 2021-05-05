@@ -3,10 +3,7 @@ package com.tp.math.matlab.extension.acceleration.core;
 import com.tp.math.matlab.kernel.core.ResultComplex;
 import com.tp.math.matlab.kernel.transform.FFTTransformer;
 import com.tp.math.matlab.kernel.util.PythonUtils;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.experimental.Accessors;
-import lombok.extern.slf4j.Slf4j;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.stream.DoubleStream;
@@ -16,40 +13,19 @@ import static java.util.stream.Collectors.toList;
 /**
  * Created by tangpeng on 2021-05-05
  */
-@Slf4j
-@Accessors(chain = true)
+@RequiredArgsConstructor
 public class TotalValue {
 
     /**
      * 源数据
      */
-    private List<Double> a;
-    private Long fs;
-    private Integer fmin;
-    private Integer fmax;
-    private Integer m;
-    /**
-     * result
-     */
-    @Getter
-    private double result;
+    private final List<Double> a;
+    private final Long fs;
+    private final Integer fmin;
+    private final Integer fmax;
+    private final Integer m;
 
-    public TotalValue(
-            @NonNull final List<Double> a,
-            @NonNull final Long fs,
-            @NonNull final Integer fmin,
-            @NonNull final Integer fmax,
-            @NonNull final Integer m
-    ) {
-        this.a = a;
-        this.fs = fs;
-        this.fmin = fmin;
-        this.fmax = fmax;
-        this.m = m;
-        this.result = transform();
-    }
-
-    private double transform() {
+    public double execute() {
         final int n = this.a.size();
         //afft=fft(detrend(a),n);
         final List<Double> detrend = PythonUtils.detrend(this.a);
