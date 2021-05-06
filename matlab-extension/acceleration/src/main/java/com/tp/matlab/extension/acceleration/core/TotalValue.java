@@ -1,8 +1,8 @@
 package com.tp.matlab.extension.acceleration.core;
 
-import com.tp.math.matlab.kernel.core.ResultComplex;
-import com.tp.math.matlab.kernel.transform.FFTTransformer;
-import com.tp.math.matlab.kernel.util.PythonUtils;
+import com.tp.matlab.kernel.core.ResultComplex;
+import com.tp.matlab.kernel.transform.FFTTransformer;
+import com.tp.matlab.kernel.util.PythonUtils;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;

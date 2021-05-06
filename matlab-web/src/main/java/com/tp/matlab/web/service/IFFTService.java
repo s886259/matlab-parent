@@ -1,7 +1,7 @@
 package com.tp.matlab.web.service;
 
-import com.tp.math.matlab.kernel.transform.IFFTTransformer;
-import com.tp.math.matlab.kernel.util.FileUtils;
+import com.tp.matlab.kernel.transform.IFFTTransformer;
+import com.tp.matlab.kernel.util.FileUtils;
 import lombok.NonNull;
 import org.apache.commons.math3.complex.Complex;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.List;
 
-import static com.tp.math.matlab.kernel.util.ExcelUtils.xlsRead;
+import static com.tp.matlab.kernel.util.ExcelUtils.xlsRead;
 import static java.util.stream.Collectors.toList;
 
 /**

@@ -1,8 +1,8 @@
 package com.tp.matlab.extension.acceleration.core;
 
-import com.tp.math.matlab.kernel.core.DoubleMax;
-import com.tp.math.matlab.kernel.util.PythonUtils;
 import com.tp.matlab.extension.acceleration.core.ValueOfPeak.ValueOfPeakResult;
+import com.tp.matlab.kernel.core.DoubleMax;
+import com.tp.matlab.kernel.util.PythonUtils;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

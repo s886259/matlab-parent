@@ -23,7 +23,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.tp.math.matlab</groupId>
+            <groupId>com.tp.matlab</groupId>
             <artifactId>matlab-kernel</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>

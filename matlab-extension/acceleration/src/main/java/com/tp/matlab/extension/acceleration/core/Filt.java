@@ -1,10 +1,10 @@
 package com.tp.matlab.extension.acceleration.core;
 
-import com.tp.math.matlab.kernel.core.DoubleMax;
-import com.tp.math.matlab.kernel.core.ResultComplex;
-import com.tp.math.matlab.kernel.transform.FFTTransformer;
-import com.tp.math.matlab.kernel.transform.IFFTTransformer;
-import com.tp.math.matlab.kernel.util.PythonUtils;
+import com.tp.matlab.kernel.core.DoubleMax;
+import com.tp.matlab.kernel.core.ResultComplex;
+import com.tp.matlab.kernel.transform.FFTTransformer;
+import com.tp.matlab.kernel.transform.IFFTTransformer;
+import com.tp.matlab.kernel.util.PythonUtils;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.math3.complex.Complex;
