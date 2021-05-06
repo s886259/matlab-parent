@@ -1,6 +1,6 @@
 package com.tp.math.matlab;
 
-import com.tp.math.matlab.service.HannWindowService;
+import com.tp.math.matlab.web.service.HannWindowService;
 import com.tp.math.matlab.util.AssertUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;

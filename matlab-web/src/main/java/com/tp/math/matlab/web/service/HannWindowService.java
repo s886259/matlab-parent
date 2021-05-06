@@ -1,4 +1,4 @@
-package com.tp.math.matlab.service;
+package com.tp.math.matlab.web.service;
 
 import com.tp.math.matlab.kernel.windows.HannWindow;
 import lombok.NonNull;

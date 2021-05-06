@@ -1,11 +1,12 @@
-package com.tp.math.matlab.timedomain.acceleration;
+package com.tp.math.matlab.acceleration;
 
-import com.tp.math.matlab.extension.acceleration.core.TimeDomainOfA;
+import com.tp.math.matlab.web.acceleration.service.AccelerationService;
 import com.tp.math.matlab.kernel.util.ExcelUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -21,16 +22,16 @@ import static com.tp.math.matlab.base.AbstractTransformTest.TIME_DOMAIN_TEST_EXC
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TimeDomainOfATest {
+public class AccelerationServiceTest {
+
+    @Autowired
+    private AccelerationService accelerationService;
 
     @Test
     public void testMain() throws IOException, InvalidFormatException {
         //my output
         final String fileName = this.getClass().getResource(TIME_DOMAIN_TEST_EXCEL).getFile();
-        //a=xlsRead('1414.xlsx',2);
-        //inputArray=a(:,8);
         final List<Double> a = ExcelUtils.xlsRead(fileName, TEST_EXCEL_COLUMN_INDEX - 1);
-        final TimeDomainOfA main = new TimeDomainOfA();
-        main.run(a);
+        accelerationService.run(a);
     }
 }
