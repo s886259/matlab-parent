@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <!-- 继承本项目的父工程 -->
     <parent>
-        <groupId>com.tp.math.matlab.extension</groupId>
+        <groupId>com.tp.matlab.extension</groupId>
         <artifactId>matlab-extension</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>

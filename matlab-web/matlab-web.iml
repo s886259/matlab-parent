@@ -15,13 +15,13 @@
     </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
-    <output url="file://$MODULE_DIR$/target/classes" />
-    <output-test url="file://$MODULE_DIR$/target/test-classes" />
+    <output url="file://$MODULE_DIR$/../matlab-web/target/classes" />
+    <output-test url="file://$MODULE_DIR$/../matlab-web/target/test-classes" />
     <content url="file://$MODULE_DIR$/../matlab-web">
       <sourceFolder url="file://$MODULE_DIR$/../matlab-web/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../matlab-web/src/main/resources" type="java-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/../matlab-web/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/../matlab-web/src/test/resources" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../matlab-web/src/test/java" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/../matlab-web/target" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -41,7 +41,7 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-jcl:5.3.6" level="project" />
     <orderEntry type="library" name="Maven: org.yaml:snakeyaml:1.27" level="project" />
     <orderEntry type="module" module-name="acceleration" />
-    <orderEntry type="module" module-name="matlab-kernel" />
+    <orderEntry type="library" name="Maven: com.tp.math.matlab:matlab-kernel:0.0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: com.github.wendykierp:JTransforms:3.1" level="project" />
     <orderEntry type="library" name="Maven: pl.edu.icm:JLargeArrays:1.5" level="project" />
     <orderEntry type="library" name="Maven: ai.djl:api:0.10.0" level="project" />

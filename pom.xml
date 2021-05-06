@@ -5,7 +5,7 @@
          https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.tp.math.matlab</groupId>
+    <groupId>com.tp.matlab</groupId>
     <artifactId>matlab-parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
