@@ -23,6 +23,8 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.DoubleStream;
 
+import static com.tp.matlab.web.base.AbstractTransformTest.*;
+import static com.tp.matlab.web.base.AbstractTransformTest.TEST_EXCEL;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -63,10 +65,10 @@ public class FirFilterServiceTest {
     @Test
     public void testFilter() throws URISyntaxException, IOException, InvalidFormatException {
         //my output
-        final String fileName = this.getClass().getResource(AbstractTransformTest.TEST_EXCEL).getFile();
+        final String fileName = this.getClass().getResource(TEST_EXCEL).getFile();
         //a=xlsRead('1414.xlsx',2);
         //inputArray=a(:,8);
-        final List<Double> records = ExcelUtils.xlsRead(fileName, AbstractTransformTest.TEST_EXCEL_COLUMN_INDEX - 1);
+        final List<Double> records = ExcelUtils.xlsRead(fileName, TEST_EXCEL_COLUMN_INDEX - 1);
         final int fs = 25600;
         //n=length(inputArray);
 //        final int n = records.size();

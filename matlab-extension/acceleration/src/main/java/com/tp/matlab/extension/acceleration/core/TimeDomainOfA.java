@@ -1,9 +1,11 @@
 package com.tp.matlab.extension.acceleration.core;
 
-import com.tp.matlab.extension.acceleration.core.ValueOfPeak.ValueOfPeakResult;
 import com.tp.math.matlab.kernel.core.DoubleMax;
 import com.tp.math.matlab.kernel.util.PythonUtils;
+import com.tp.matlab.extension.acceleration.core.ValueOfPeak.ValueOfPeakResult;
+import lombok.Getter;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -14,7 +16,15 @@ import java.util.List;
 @Slf4j
 public class TimeDomainOfA {
 
-    public void run(@NonNull final List<Double> a) {
+    /**
+     * @param a 需要分析的列值
+     * @param c 需要分析的通道序号
+     * @return 分析后的结果
+     */
+    public TimeDomainOfAResult execute(
+            @NonNull final List<Double> a,
+            @NonNull final Integer c
+    ) {
         final long fs = 25600;           //%采样频率
         //n=length(inputArray);
         final int N = a.size();   //%数据长度
@@ -48,5 +58,15 @@ public class TimeDomainOfA {
         final double kur = new ValueOfKurtosis(filtResult.get_Afir(), vmean, sigma).execute();
         //[TV]=total_value(a,fs,5,10000,16);
         final double TV = new TotalValue(a, fs, 5, 10000, 16).execute();
+        return TimeDomainOfAResult.of(filtResult.get_Afir(), c, tm, pm_max.getVal());
+    }
+
+    @Getter
+    @RequiredArgsConstructor(staticName = "of")
+    public static class TimeDomainOfAResult {
+        private final List<Double> _Afir;
+        private final int c;
+        private final double tm;
+        private final double p;
     }
 }
