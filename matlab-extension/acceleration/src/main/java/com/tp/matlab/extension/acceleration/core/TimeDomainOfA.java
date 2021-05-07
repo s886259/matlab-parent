@@ -34,8 +34,8 @@ public class TimeDomainOfA {
         final double fmin = 5;          //%fmin：起始频率
         final double fmax = 10000;      //famx：终止频率
         final double time = (double) N / fs;
-        //[a_fir,mf]=filt(a,fs,fcut,fs/2.25);
-        final Filt.FiltResult filtResult = new Filt(a, fs, fcut, fs / 2.25).execute();
+        //[a_fir,mf]=filt(a,fs,fcut,fs/2.56);
+        final Filt.FiltResult filtResult = new Filt(a, fs, fcut, fs / 2.56).execute();
         final double RPM = filtResult.get_mf() * 60;
         //[p,m]=max(a_fir);
         final DoubleMax pm_max = PythonUtils.getMax(filtResult.get_Afir());
