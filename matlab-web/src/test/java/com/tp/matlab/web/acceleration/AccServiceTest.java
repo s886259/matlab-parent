@@ -1,7 +1,7 @@
 package com.tp.matlab.web.acceleration;
 
 import com.tp.matlab.kernel.util.ExcelUtils;
-import com.tp.matlab.web.acceleration.service.AccelerationService;
+import com.tp.matlab.web.acceleration.service.AccService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.junit.Test;
@@ -22,16 +22,16 @@ import static com.tp.matlab.web.base.AbstractTransformTest.TIME_DOMAIN_TEST_EXCE
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class AccelerationServiceTest {
+public class AccServiceTest {
 
     @Autowired
-    private AccelerationService accelerationService;
+    private AccService accService;
 
     @Test
     public void testMain() throws IOException, InvalidFormatException {
         //my output
         final String fileName = this.getClass().getResource(TIME_DOMAIN_TEST_EXCEL).getFile();
         final List<Double> a = ExcelUtils.xlsRead(fileName, TEST_EXCEL_COLUMN_INDEX - 1);
-        accelerationService.execute(a, TEST_EXCEL_COLUMN_INDEX);
+        accService.execute(a, TEST_EXCEL_COLUMN_INDEX);
     }
 }

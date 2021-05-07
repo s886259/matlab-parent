@@ -4,12 +4,16 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tp.matlab.extension.acceleration.core.ValueOfPeak.ValueOfPeakResult;
 import com.tp.matlab.kernel.core.DoubleMax;
+import com.tp.matlab.kernel.util.ExcelUtils;
 import com.tp.matlab.kernel.util.PythonUtils;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.springframework.lang.Nullable;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +32,7 @@ public class TimeDomainOfA {
      */
     public Map<String, Object> execute(
             @NonNull final List<Double> a,
-            @NonNull final Integer c
+            @Nullable final Integer c
     ) throws JsonProcessingException {
         final long fs = 25600;           //%采样频率
         //n=length(inputArray);
@@ -67,11 +71,19 @@ public class TimeDomainOfA {
         });
     }
 
+    public Map<String, Object> execute(
+            @NonNull final String fileName,
+            @NonNull final Integer c
+    ) throws IOException, InvalidFormatException {
+        final List<Double> a = ExcelUtils.xlsRead(fileName, c);
+        return execute(a, c);
+    }
+
     @Getter
     @RequiredArgsConstructor(staticName = "of")
     private static class TimeDomainOfAResult {
         private final List<Double> _Afir;
-        private final int c;
+        private final Integer c;
         private final double tm;
         private final double p;
     }

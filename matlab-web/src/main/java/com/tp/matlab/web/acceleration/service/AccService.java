@@ -12,7 +12,17 @@ import java.util.Map;
  * Created by tangpeng on 2021-05-06
  */
 @Service
-public class AccelerationService {
+public class AccService {
+
+    /**
+     * @param a 需要分析的列值
+     * @return 分析后的结果
+     */
+    public Map<String, Object> execute(
+            @NonNull final List<Double> a
+    ) throws JsonProcessingException {
+        return new TimeDomainOfA().execute(a, null);
+    }
 
     /**
      * @param a 需要分析的列值

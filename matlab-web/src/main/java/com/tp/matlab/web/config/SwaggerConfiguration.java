@@ -78,7 +78,7 @@ public class SwaggerConfiguration extends WebMvcConfigurationSupport {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Matlab系统接口文档")
-                .description("接入文档可自行查看")
+                .description("接口文档可自行查看")
                 .version("1.0.0")
                 .termsOfServiceUrl("")
                 .license("")
