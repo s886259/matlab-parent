@@ -1,5 +1,7 @@
 package com.tp.matlab.extension.acceleration.core;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.tp.matlab.extension.acceleration.core.ValueOfPeak.ValueOfPeakResult;
 import com.tp.matlab.kernel.core.DoubleMax;
 import com.tp.matlab.kernel.util.PythonUtils;
@@ -9,6 +11,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+import java.util.Map;
+
+import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
 
 /**
  * Created by tangpeng on 2021-05-05
@@ -21,10 +26,10 @@ public class TimeDomainOfA {
      * @param c 需要分析的通道序号
      * @return 分析后的结果
      */
-    public TimeDomainOfAResult execute(
+    public Map<String, Object> execute(
             @NonNull final List<Double> a,
             @NonNull final Integer c
-    ) {
+    ) throws JsonProcessingException {
         final long fs = 25600;           //%采样频率
         //n=length(inputArray);
         final int N = a.size();   //%数据长度
@@ -58,12 +63,13 @@ public class TimeDomainOfA {
         final double kur = new ValueOfKurtosis(filtResult.get_Afir(), vmean, sigma).execute();
         //[TV]=total_value(a,fs,5,10000,16);
         final double TV = new TotalValue(a, fs, 5, 10000, 16).execute();
-        return TimeDomainOfAResult.of(filtResult.get_Afir(), c, tm, pm_max.getVal());
+        return toValue(TimeDomainOfAResult.of(filtResult.get_Afir(), c, tm, pm_max.getVal()), new TypeReference<Map<String, Object>>() {
+        });
     }
 
     @Getter
     @RequiredArgsConstructor(staticName = "of")
-    public static class TimeDomainOfAResult {
+    private static class TimeDomainOfAResult {
         private final List<Double> _Afir;
         private final int c;
         private final double tm;

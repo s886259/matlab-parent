@@ -16,30 +16,23 @@
         <java.version>1.8</java.version>
     </properties>
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>com.tp.matlab.extension</groupId>
             <artifactId>acceleration</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-math3 -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-math3</artifactId>
-            <version>3.6.1</version>
-        </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <version>2.4.4</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -52,18 +45,9 @@
             <version>5.3.5</version>
             <scope>test</scope>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
         <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi</artifactId>
-            <version>3.14</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi-ooxml</artifactId>
-            <version>3.14</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/junit/junit -->
@@ -74,14 +58,12 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- swagger2-knife4j-UI模块 -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>
             <!--在引用时请在maven中央仓库搜索最新版本号-->
             <version>2.0.2</version>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -92,5 +74,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
