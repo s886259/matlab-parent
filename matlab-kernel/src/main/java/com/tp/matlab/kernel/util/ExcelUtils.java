@@ -10,7 +10,9 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -23,7 +25,6 @@ public class ExcelUtils {
     private static final String SHEET_NAME = "加速度";
 
     /**
-     *
      * @param fileName
      * @param columnIndex columnIndex start from 1
      */
@@ -31,16 +32,26 @@ public class ExcelUtils {
             @NonNull final String fileName,
             @NonNull final Integer columnIndex
     ) throws InvalidFormatException, IOException {
-        return readColumns(fileName).get(columnIndex);
+        return xlsRead(new FileInputStream(new File(fileName)), columnIndex);
     }
 
-    private static Map<Integer, List<Double>> readColumns(@NonNull final String fileName)
+    /**
+     * @param inputStream
+     * @param columnIndex columnIndex start from 1
+     */
+    public static List<Double> xlsRead(
+            @NonNull final InputStream inputStream,
+            @NonNull final Integer columnIndex
+    ) throws InvalidFormatException, IOException {
+        // 获取文件
+        return readColumns(inputStream).get(columnIndex);
+    }
+
+    private static Map<Integer, List<Double>> readColumns(@NonNull final InputStream inputStream)
             throws InvalidFormatException, IOException {
         final Map<Integer, List<Double>> result = new HashMap<>();
-        // 获取文件
-        final File file = new File(fileName);
         //获取工作簿
-        final XSSFWorkbook wb = new XSSFWorkbook(file); // XSSFWorkbook支持2007格式
+        final XSSFWorkbook wb = new XSSFWorkbook(inputStream); // XSSFWorkbook支持2007格式
         //获取excel表sheet
         final XSSFSheet sheet = Optional.ofNullable(wb.getSheet(SHEET_NAME))
                 .orElseThrow(() -> new InvalidFormatException(
