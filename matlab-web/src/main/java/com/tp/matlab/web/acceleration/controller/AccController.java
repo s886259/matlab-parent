@@ -2,8 +2,8 @@ package com.tp.matlab.web.acceleration.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.tp.matlab.kernel.util.ExcelUtils;
-import com.tp.matlab.web.acceleration.Param.AccFromListRequest;
-import com.tp.matlab.web.acceleration.Param.AccResponse;
+import com.tp.matlab.web.acceleration.param.AccFromListRequest;
+import com.tp.matlab.web.acceleration.param.AccResponse;
 import com.tp.matlab.web.acceleration.service.AccService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;

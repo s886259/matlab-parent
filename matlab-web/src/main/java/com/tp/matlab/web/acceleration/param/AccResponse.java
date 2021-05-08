@@ -1,4 +1,4 @@
-package com.tp.matlab.web.acceleration.Param;
+package com.tp.matlab.web.acceleration.param;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
