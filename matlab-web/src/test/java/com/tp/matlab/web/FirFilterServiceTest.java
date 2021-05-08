@@ -67,7 +67,7 @@ public class FirFilterServiceTest {
         final String fileName = this.getClass().getResource(TEST_EXCEL).getFile();
         //a=xlsRead('1414.xlsx',2);
         //inputArray=a(:,8);
-        final List<Double> records = ExcelUtils.xlsRead(fileName, TEST_EXCEL_COLUMN_INDEX - 1);
+        final List<Double> records = ExcelUtils.xlsRead(fileName, TEST_EXCEL_COLUMN_INDEX);
         final int fs = 25600;
         //n=length(inputArray);
 //        final int n = records.size();

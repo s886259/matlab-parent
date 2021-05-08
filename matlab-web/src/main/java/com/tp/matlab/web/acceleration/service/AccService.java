@@ -26,14 +26,14 @@ public class AccService {
 
     /**
      * @param a 需要分析的列值
-     * @param c 需要分析的通道序号
+     * @param columnIndex 需要分析的通道序号
      * @return 分析后的结果
      */
     public Map<String, Object> execute(
             @NonNull final List<Double> a,
-            @NonNull final Integer c
+            @NonNull final Integer columnIndex
     ) throws JsonProcessingException {
-        return new TimeDomainOfA().execute(a, c);
+        return new TimeDomainOfA().execute(a, columnIndex);
     }
 
 }

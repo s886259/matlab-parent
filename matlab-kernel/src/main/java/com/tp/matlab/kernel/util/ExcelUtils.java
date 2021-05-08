@@ -44,7 +44,7 @@ public class ExcelUtils {
             @NonNull final Integer columnIndex
     ) throws InvalidFormatException, IOException {
         // 获取文件
-        return readColumns(inputStream).get(columnIndex);
+        return readColumns(inputStream).get(columnIndex - 1);
     }
 
     private static Map<Integer, List<Double>> readColumns(@NonNull final InputStream inputStream)

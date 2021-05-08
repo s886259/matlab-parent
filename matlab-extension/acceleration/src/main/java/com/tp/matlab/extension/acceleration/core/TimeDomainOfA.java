@@ -26,13 +26,13 @@ import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
 public class TimeDomainOfA {
 
     /**
-     * @param a 需要分析的列值
-     * @param c 需要分析的通道序号
+     * @param a           需要分析的列值
+     * @param columnIndex 需要分析的通道序号
      * @return 分析后的结果
      */
     public Map<String, Object> execute(
             @NonNull final List<Double> a,
-            @Nullable final Integer c
+            @Nullable final Integer columnIndex
     ) throws JsonProcessingException {
         final long fs = 25600;           //%采样频率
         //n=length(inputArray);
@@ -67,7 +67,7 @@ public class TimeDomainOfA {
         final double kur = new ValueOfKurtosis(filtResult.get_Afir(), vmean, sigma).execute();
         //[TV]=total_value(a,fs,5,10000,16);
         final double TV = new TotalValue(a, fs, 5, 10000, 16).execute();
-        return toValue(TimeDomainOfAResult.of(filtResult.get_Afir(), c, tm, pm_max.getVal()), new TypeReference<Map<String, Object>>() {
+        return toValue(TimeDomainOfAResult.of(filtResult.get_Afir(), columnIndex, tm, pm_max.getVal()), new TypeReference<Map<String, Object>>() {
         });
     }
 
@@ -83,7 +83,7 @@ public class TimeDomainOfA {
     @RequiredArgsConstructor(staticName = "of")
     private static class TimeDomainOfAResult {
         private final List<Double> _Afir;
-        private final Integer c;
+        private final Integer columnIndex;
         private final double tm;
         private final double p;
     }
