@@ -8,9 +8,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -40,8 +42,7 @@ public class AccController {
     public ResponseEntity<AccResponse> fromList(
             @RequestBody @Valid AccFromListRequest accFromListRequest
     ) throws JsonProcessingException {
-        final AccResponse response = toValue(accService.execute(accFromListRequest.getA()), AccResponse.class);
-        return ResponseEntity.ok(response);
+        return execute(accFromListRequest.getA(), null);
     }
 
     @ApiOperation(value = "上传文件生成加速度时序图")
@@ -55,8 +56,7 @@ public class AccController {
             @RequestParam Integer columnIndex
     ) throws IOException, InvalidFormatException {
         final List<Double> records = xlsRead(file.getInputStream(), columnIndex);
-        final AccResponse response = toValue(accService.execute(records, columnIndex), AccResponse.class);
-        return ResponseEntity.ok(response);
+        return execute(records, columnIndex);
     }
 
     @ApiOperation(value = "从URL生成加速度时序图")
@@ -75,7 +75,15 @@ public class AccController {
         //得到输入流
         final InputStream inputStream = conn.getInputStream();
         final List<Double> records = xlsRead(inputStream, columnIndex);
-        final AccResponse response = toValue(accService.execute(records, columnIndex), AccResponse.class);
+        return execute(records, columnIndex);
+    }
+
+    private ResponseEntity<AccResponse> execute(
+            @NonNull final List<Double> records,
+            @Nullable Integer columnIndex
+    ) throws JsonProcessingException {
+        final AccResponse response = toValue(accService.execute(records), AccResponse.class);
+        response.setColumnIndex(columnIndex);
         return ResponseEntity.ok(response);
     }
 

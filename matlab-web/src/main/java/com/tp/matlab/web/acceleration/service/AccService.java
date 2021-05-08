@@ -18,22 +18,8 @@ public class AccService {
      * @param a 需要分析的列值
      * @return 分析后的结果
      */
-    public Map<String, Object> execute(
-            @NonNull final List<Double> a
-    ) throws JsonProcessingException {
-        return new TimeDomainOfA().execute(a, null);
-    }
-
-    /**
-     * @param a 需要分析的列值
-     * @param columnIndex 需要分析的通道序号
-     * @return 分析后的结果
-     */
-    public Map<String, Object> execute(
-            @NonNull final List<Double> a,
-            @NonNull final Integer columnIndex
-    ) throws JsonProcessingException {
-        return new TimeDomainOfA().execute(a, columnIndex);
+    public Map<String, Object> execute(@NonNull final List<Double> a) throws JsonProcessingException {
+        return new TimeDomainOfA().execute(a);
     }
 
 }

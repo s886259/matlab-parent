@@ -32,6 +32,6 @@ public class AccServiceTest {
         //my output
         final String fileName = this.getClass().getResource(TIME_DOMAIN_TEST_EXCEL).getFile();
         final List<Double> a = ExcelUtils.xlsRead(fileName, TEST_EXCEL_COLUMN_INDEX);
-        accService.execute(a, TEST_EXCEL_COLUMN_INDEX);
+        accService.execute(a);
     }
 }

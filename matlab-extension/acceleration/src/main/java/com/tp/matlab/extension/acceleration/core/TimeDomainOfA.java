@@ -4,16 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tp.matlab.extension.acceleration.core.ValueOfPeak.ValueOfPeakResult;
 import com.tp.matlab.kernel.core.DoubleMax;
-import com.tp.matlab.kernel.util.ExcelUtils;
 import com.tp.matlab.kernel.util.PythonUtils;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.springframework.lang.Nullable;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -26,14 +22,10 @@ import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
 public class TimeDomainOfA {
 
     /**
-     * @param a           需要分析的列值
-     * @param columnIndex 需要分析的通道序号
+     * @param a 需要分析的列值
      * @return 分析后的结果
      */
-    public Map<String, Object> execute(
-            @NonNull final List<Double> a,
-            @Nullable final Integer columnIndex
-    ) throws JsonProcessingException {
+    public Map<String, Object> execute(@NonNull final List<Double> a) throws JsonProcessingException {
         final long fs = 25600;           //%采样频率
         //n=length(inputArray);
         final int N = a.size();   //%数据长度
@@ -67,23 +59,14 @@ public class TimeDomainOfA {
         final double kur = new ValueOfKurtosis(filtResult.get_Afir(), vmean, sigma).execute();
         //[TV]=total_value(a,fs,5,10000,16);
         final double TV = new TotalValue(a, fs, 5, 10000, 16).execute();
-        return toValue(TimeDomainOfAResult.of(filtResult.get_Afir(), columnIndex, tm, pm_max.getVal()), new TypeReference<Map<String, Object>>() {
+        return toValue(TimeDomainOfAResult.of(filtResult.get_Afir(), tm, pm_max.getVal()), new TypeReference<Map<String, Object>>() {
         });
-    }
-
-    public Map<String, Object> execute(
-            @NonNull final String fileName,
-            @NonNull final Integer c
-    ) throws IOException, InvalidFormatException {
-        final List<Double> a = ExcelUtils.xlsRead(fileName, c);
-        return execute(a, c);
     }
 
     @Getter
     @RequiredArgsConstructor(staticName = "of")
     private static class TimeDomainOfAResult {
         private final List<Double> _Afir;
-        private final Integer columnIndex;
         private final double tm;
         private final double p;
     }
