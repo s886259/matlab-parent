@@ -1,7 +1,6 @@
 package com.tp.matlab.web.acceleration.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.tp.matlab.kernel.util.ExcelUtils;
 import com.tp.matlab.web.acceleration.param.AccFromListRequest;
 import com.tp.matlab.web.acceleration.param.AccResponse;
 import com.tp.matlab.web.acceleration.service.AccService;
@@ -17,8 +16,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 
+import static com.tp.matlab.kernel.util.ExcelUtils.xlsRead;
 import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
 
 /**
@@ -46,12 +49,32 @@ public class AccController {
             @ApiImplicitParam(name = "file", value = "需要上传的excel", required = true, dataType = "__file"),
             @ApiImplicitParam(name = "columnIndex", value = "excel列(从1开始)", required = true, dataType = "int")}
     )
-    @PostMapping("upload")
-    public ResponseEntity<AccResponse> upload(
+    @PostMapping("fromUpload")
+    public ResponseEntity<AccResponse> fromUpload(
             @RequestPart MultipartFile file,
             @RequestParam Integer columnIndex
     ) throws IOException, InvalidFormatException {
-        final List<Double> records = ExcelUtils.xlsRead(file.getInputStream(), columnIndex);
+        final List<Double> records = xlsRead(file.getInputStream(), columnIndex);
+        final AccResponse response = toValue(accService.execute(records, columnIndex), AccResponse.class);
+        return ResponseEntity.ok(response);
+    }
+
+    @ApiOperation(value = "从URL生成加速度时序图")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "url", value = "e.g \"ftp://ip:port/*.xlsx\"", required = true, dataType = "string"),
+            @ApiImplicitParam(name = "columnIndex", value = "excel列(从1开始)", required = true, dataType = "int")}
+    )
+    @PostMapping("fromUrl")
+    public ResponseEntity<AccResponse> fromUrl(
+            @RequestParam String url,
+            @RequestParam Integer columnIndex
+    ) throws IOException, InvalidFormatException {
+        final URLConnection conn = new URL(url).openConnection();
+        //设置超时间为3秒
+        conn.setConnectTimeout(3 * 1000);
+        //得到输入流
+        final InputStream inputStream = conn.getInputStream();
+        final List<Double> records = xlsRead(inputStream, columnIndex);
         final AccResponse response = toValue(accService.execute(records, columnIndex), AccResponse.class);
         return ResponseEntity.ok(response);
     }
