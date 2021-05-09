@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -85,21 +86,21 @@ public class TimeDomainOfA {
     @Getter
     @Builder
     private static class TimeDomainOfAResult {
-        private double rpm;
-        private double time;
-        private double a;
+        private BigDecimal rpm;
+        private BigDecimal time;
+        private BigDecimal a;
         private int m;
-        private double p;
-        private double tm;
-        private double pp;
-        private double np;
-        private double vmean;
-        private double vrms;
-        private double sigma;
-        private double pf;
-        private double ske;
-        private double kur;
-        private double tv;
+        private BigDecimal p;
+        private BigDecimal tm;
+        private BigDecimal pp;
+        private BigDecimal np;
+        private BigDecimal vmean;
+        private BigDecimal vrms;
+        private BigDecimal sigma;
+        private BigDecimal pf;
+        private BigDecimal ske;
+        private BigDecimal kur;
+        private BigDecimal tv;
 
     }
 }

@@ -44,7 +44,7 @@ public class AccController {
     public ResponseEntity<AccResponse> fromArray(
             @RequestBody @Valid AccFromArrayRequest accFromArrayRequest
     ) throws JsonProcessingException {
-        return execute(accFromArrayRequest.getArray(), null);
+        return execute(accFromArrayRequest.getArray(), null, null);
     }
 
     @ApiOperation(value = "上传文件生成加速度时序图")
@@ -58,7 +58,7 @@ public class AccController {
             @RequestParam Integer columnIndex
     ) throws IOException, InvalidFormatException {
         final List<Double> records = xlsRead(file.getInputStream(), columnIndex);
-        return execute(records, columnIndex);
+        return execute(records, columnIndex, file.getOriginalFilename());
     }
 
     @ApiOperation(value = "从URL生成加速度时序图")
@@ -77,15 +77,17 @@ public class AccController {
         //得到输入流
         final InputStream inputStream = conn.getInputStream();
         final List<Double> records = xlsRead(inputStream, columnIndex);
-        return execute(records, columnIndex);
+        return execute(records, columnIndex, url);
     }
 
     private ResponseEntity<AccResponse> execute(
             @NonNull final List<Double> records,
-            @Nullable Integer columnIndex
+            @Nullable Integer columnIndex,
+            @Nullable String file
     ) throws JsonProcessingException {
         final AccResponse response = toValue(accService.execute(records), AccResponse.class);
         response.setColumnIndex(columnIndex);
+        response.setFile(file);
         return ResponseEntity.ok(response);
     }
 

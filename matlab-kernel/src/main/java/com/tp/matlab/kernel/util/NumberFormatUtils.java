@@ -32,11 +32,11 @@ public class NumberFormatUtils {
     /**
      * 保留小数点后4位 e.g 54.0373
      */
-    public static double roundToFourDecimal(final double d) {
+    public static BigDecimal roundToFourDecimal(final double d) {
         if (d == 0) {
-            return 0;
+            return new BigDecimal(0);
         }
-        return new BigDecimal(scientificNotation2String(d, FOUR_DECIMAL_DF)).doubleValue();
+        return new BigDecimal(scientificNotation2String(d, FOUR_DECIMAL_DF));
     }
 
     private static String scientificNotation2String(@NonNull final Double d, @NonNull DecimalFormat df) {
