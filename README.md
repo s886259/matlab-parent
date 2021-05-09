@@ -43,4 +43,4 @@ cd logs
 比如本次测试访问路径为http://127.0.0.1:8080/doc.html
 
 ### 示例
-![alt 1417.xlsx我的结果](../../doc/1417_time_domain_1.jpg)
+![image](https://github.com/s886259/matlab-parent/blob/master/image/1417_time_domain_1.jpg)
