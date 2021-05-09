@@ -7,10 +7,10 @@
                debug="false">
     <contextName>matlab</contextName>
 
-    <!-- <springProperty scope="context" name="logPath" source="logging.path"
-        defaultValue="logs"/> -->
+    <springProperty scope="context" name="logPath" source="logging.path"
+        defaultValue="logs"/>
     <!-- name的值是变量的名称，value的值时变量定义的值。通过定义的值会被插入到logger上下文中。定义后，可以使“${}”来使用变量。 -->
-    <property name="log.path" value="logs"/>
+<!--    <property name="log.path" value="logs"/>-->
 
     <!--0. 日志格式和颜色渲染 -->
     <!-- 彩色日志依赖的渲染类 -->
@@ -44,7 +44,7 @@
     <appender name="DEBUG_FILE"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 正在记录的日志文档的路径及文档名 -->
-        <file>${log.path}/web_debug.log</file>
+        <file>${logPath}/web_debug.log</file>
         <!--日志文档输出格式 -->
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}.%method:%L -
@@ -56,7 +56,7 @@
         <rollingPolicy
                 class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 日志归档 -->
-            <fileNamePattern>${log.path}/web-debug-%d{yyyy-MM-dd}.%i.log
+            <fileNamePattern>${logPath}/web-debug-%d{yyyy-MM-dd}.%i.log
             </fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -77,7 +77,7 @@
     <appender name="INFO_FILE"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 正在记录的日志文档的路径及文档名 -->
-        <file>${log.path}/web_info.log</file>
+        <file>${logPath}/web_info.log</file>
         <!--日志文档输出格式 -->
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}.%method:%L -
@@ -89,7 +89,7 @@
         <rollingPolicy
                 class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 每天日志归档路径以及格式 -->
-            <fileNamePattern>${log.path}/web-info-%d{yyyy-MM-dd}.%i.log
+            <fileNamePattern>${logPath}/web-info-%d{yyyy-MM-dd}.%i.log
             </fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -110,7 +110,7 @@
     <appender name="WARN_FILE"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 正在记录的日志文档的路径及文档名 -->
-        <file>${log.path}/web_warn.log</file>
+        <file>${logPath}/web_warn.log</file>
         <!--日志文档输出格式 -->
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}.%method:%L -
@@ -121,7 +121,7 @@
         <!-- 日志记录器的滚动策略，按日期，按大小记录 -->
         <rollingPolicy
                 class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log.path}/web-warn-%d{yyyy-MM-dd}.%i.log
+            <fileNamePattern>${logPath}/web-warn-%d{yyyy-MM-dd}.%i.log
             </fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -142,7 +142,7 @@
     <appender name="ERROR_FILE"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 正在记录的日志文档的路径及文档名 -->
-        <file>${log.path}/web_error.log</file>
+        <file>${logPath}/web_error.log</file>
         <!--日志文档输出格式 -->
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}.%method:%L -
@@ -153,7 +153,7 @@
         <!-- 日志记录器的滚动策略，按日期，按大小记录 -->
         <rollingPolicy
                 class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log.path}/web-error-%d{yyyy-MM-dd}.%i.log
+            <fileNamePattern>${logPath}/web-error-%d{yyyy-MM-dd}.%i.log
             </fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">

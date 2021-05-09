@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -29,6 +30,7 @@ import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
 /**
  * Created by tangpeng on 2021-05-07
  */
+@Slf4j
 @RestController
 @RequestMapping(value = "/api/v1/acc/")
 @RequiredArgsConstructor
@@ -42,6 +44,7 @@ public class AccController {
     public ResponseEntity<AccResponse> fromList(
             @RequestBody @Valid AccFromListRequest accFromListRequest
     ) throws JsonProcessingException {
+        log.info("1");
         return execute(accFromListRequest.getA(), null);
     }
 
