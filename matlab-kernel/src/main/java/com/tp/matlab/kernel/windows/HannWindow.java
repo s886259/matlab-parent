@@ -39,6 +39,6 @@ public class HannWindow {
      * 格式化结果
      */
     public List<String> format() {
-        return this.getResult().stream().map(NumberFormatUtils::roundToFiveDigits).collect(toList());
+        return this.getResult().stream().map(NumberFormatUtils::roundToString).collect(toList());
     }
 }

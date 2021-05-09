@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.NonNull;
 import lombok.experimental.Accessors;
 
-import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToFiveDigits;
+import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToString;
 
 
 /**
@@ -26,11 +26,11 @@ public class ResultComplex {
 
     @Override
     public String toString() {
-        final String real = roundToFiveDigits(this.real);
+        final String real = roundToString(this.real);
         if (this.getImag() >= 0) {
-            return real + " + " + roundToFiveDigits(this.imag) + "i";
+            return real + " + " + roundToString(this.imag) + "i";
         } else {
-            return real + " - " + roundToFiveDigits(this.imag).replaceFirst("-", "") + "i";
+            return real + " - " + roundToString(this.imag).replaceFirst("-", "") + "i";
         }
     }
 

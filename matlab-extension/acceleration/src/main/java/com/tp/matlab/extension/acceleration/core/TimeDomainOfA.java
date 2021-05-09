@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
-import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToFourDecimal;
+import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDecimal;
 import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
 
 /**
@@ -63,21 +63,21 @@ public class TimeDomainOfA {
         final double TV = new TotalValue(a, fs, 5, 10000, 16).execute();
         final TimeDomainOfAResult result = new TimeDomainOfAResult.TimeDomainOfAResultBuilder()
                 //保留小数点后4位 e.g 54.0373
-                .rpm(roundToFourDecimal(RPM))
-                .time(roundToFourDecimal(time))
-                .a(roundToFourDecimal(A))
+                .rpm(roundToDecimal(RPM))
+                .time(roundToDecimal(time))
+                .a(roundToDecimal(A))
                 .m(pm_max.getIndex())
-                .p(roundToFourDecimal(pm_max.getVal()))
-                .tm(roundToFourDecimal(tm))
-                .pp(roundToFourDecimal(valueOfPeakResult.getPp()))
-                .np(roundToFourDecimal(valueOfPeakResult.getNp()))
-                .vmean(roundToFourDecimal(vmean))
-                .vrms(roundToFourDecimal(vrms))
-                .sigma(roundToFourDecimal(sigma))
-                .pf(roundToFourDecimal(pf))
-                .ske(roundToFourDecimal(ske))
-                .kur(roundToFourDecimal(kur))
-                .tv(roundToFourDecimal(TV))
+                .p(roundToDecimal(pm_max.getVal()))
+                .tm(roundToDecimal(tm))
+                .pp(roundToDecimal(valueOfPeakResult.getPp()))
+                .np(roundToDecimal(valueOfPeakResult.getNp()))
+                .vmean(roundToDecimal(vmean))
+                .vrms(roundToDecimal(vrms))
+                .sigma(roundToDecimal(sigma))
+                .pf(roundToDecimal(pf))
+                .ske(roundToDecimal(ske))
+                .kur(roundToDecimal(kur))
+                .tv(roundToDecimal(TV))
                 .build();
         return toValue(result, new TypeReference<Map<String, Object>>() {
         });

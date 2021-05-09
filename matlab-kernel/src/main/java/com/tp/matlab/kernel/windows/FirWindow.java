@@ -70,7 +70,7 @@ public class FirWindow {
      */
     public List<String> format() {
         return this.getResult().stream()
-                .map(NumberFormatUtils::roundToFiveDigits)
+                .map(NumberFormatUtils::roundToString)
                 .collect(Collectors.toList());
     }
 
