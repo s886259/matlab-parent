@@ -57,7 +57,7 @@ public class FirFilter {
      */
     public List<String> format() {
         return this.getResult().stream()
-                .map(NumberFormatUtils::roundToString)
+                .map(NumberFormatUtils::roundToFiveDigits)
                 .collect(Collectors.toList());
     }
 

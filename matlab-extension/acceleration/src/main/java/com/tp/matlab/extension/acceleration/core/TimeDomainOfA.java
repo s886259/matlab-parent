@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 import java.util.Map;
 
+import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToFourDecimal;
 import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
 
 /**
@@ -41,7 +42,7 @@ public class TimeDomainOfA {
         //[p,m]=max(a_fir);
         final DoubleMax pm_max = PythonUtils.getMax(filtResult.getAfir());
         //tm=m/fs;
-        final double tm = (double) (pm_max.getIndex() + 1) / fs;
+        final double tm = (double) pm_max.getIndex() / fs;
         final double A = pm_max.getVal();
         //[Pp,Np]=Value_of_Peak(a_fir);
         final ValueOfPeakResult valueOfPeakResult = new ValueOfPeak(filtResult.getAfir()).execute();
@@ -60,24 +61,23 @@ public class TimeDomainOfA {
         //[TV]=total_value(a,fs,5,10000,16);
         final double TV = new TotalValue(a, fs, 5, 10000, 16).execute();
         final TimeDomainOfAResult result = new TimeDomainOfAResult.TimeDomainOfAResultBuilder()
-                .afir(filtResult.getAfir())
-                .rpm(RPM)
-                .time(time)
-                .a(A)
+                //保留小数点后4位 e.g 54.0373
+                .rpm(roundToFourDecimal(RPM))
+                .time(roundToFourDecimal(time))
+                .a(roundToFourDecimal(A))
                 .m(pm_max.getIndex())
-                .p(pm_max.getVal())
-                .tm(tm)
-                .pp(valueOfPeakResult.getPp())
-                .np(valueOfPeakResult.getNp())
-                .vmean(vmean)
-                .vrms(vrms)
-                .sigma(sigma)
-                .pf(pf)
-                .ske(ske)
-                .kur(kur)
-                .tv(TV)
+                .p(roundToFourDecimal(pm_max.getVal()))
+                .tm(roundToFourDecimal(tm))
+                .pp(roundToFourDecimal(valueOfPeakResult.getPp()))
+                .np(roundToFourDecimal(valueOfPeakResult.getNp()))
+                .vmean(roundToFourDecimal(vmean))
+                .vrms(roundToFourDecimal(vrms))
+                .sigma(roundToFourDecimal(sigma))
+                .pf(roundToFourDecimal(pf))
+                .ske(roundToFourDecimal(ske))
+                .kur(roundToFourDecimal(kur))
+                .tv(roundToFourDecimal(TV))
                 .build();
-
         return toValue(result, new TypeReference<Map<String, Object>>() {
         });
     }
@@ -85,7 +85,6 @@ public class TimeDomainOfA {
     @Getter
     @Builder
     private static class TimeDomainOfAResult {
-        private List<Double> afir;
         private double rpm;
         private double time;
         private double a;

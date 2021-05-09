@@ -1,8 +1,5 @@
 package com.tp.matlab.web.acceleration.param;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreType;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -20,9 +17,6 @@ public class AccResponse {
 
     @ApiModelProperty(value = "需要分析的通道序号")
     private Integer columnIndex;
-
-    @ApiModelProperty(value = "姓名", required = true)
-    private List<Double> afir;
 
     @ApiModelProperty(value = "实际转速", required = true)
     private Double rpm;

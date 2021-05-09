@@ -12,21 +12,34 @@ import java.text.DecimalFormat;
  */
 @UtilityClass
 public class NumberFormatUtils {
+    //科学技术计数法保留4位小数
+    private static final DecimalFormat FOUR_DECIMAL_DF = new DecimalFormat("#.0000");
     //科学技术计数法保留5位有效数字
-    private static final DecimalFormat df = new DecimalFormat("0.####E0");
+    private static final DecimalFormat FIVE_DIGITS_DF = new DecimalFormat("0.####E0");
 
     static {
-        df.setRoundingMode(RoundingMode.HALF_UP);
+        FIVE_DIGITS_DF.setRoundingMode(RoundingMode.HALF_UP);
+        FOUR_DECIMAL_DF.setRoundingMode(RoundingMode.HALF_UP);
     }
 
-    public static String roundToString(final double d) {
+    public static String roundToFiveDigits(final double d) {
         if (d == 0) {
             return String.valueOf(0);
         }
-        return scientificNotation2String(d);
+        return scientificNotation2String(d, FIVE_DIGITS_DF);
     }
 
-    private static String scientificNotation2String(@NonNull final Double d) {
+    /**
+     * 保留小数点后4位 e.g 54.0373
+     */
+    public static double roundToFourDecimal(final double d) {
+        if (d == 0) {
+            return 0;
+        }
+        return new BigDecimal(scientificNotation2String(d, FOUR_DECIMAL_DF)).doubleValue();
+    }
+
+    private static String scientificNotation2String(@NonNull final Double d, @NonNull DecimalFormat df) {
         return new BigDecimal(df.format(d)).toString();
     }
 

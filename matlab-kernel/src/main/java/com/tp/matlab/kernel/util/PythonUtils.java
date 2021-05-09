@@ -69,7 +69,7 @@ public class PythonUtils {
                 .max()
                 .getAsDouble();
         final int index = IntStream.range(0, newLimit).reduce((a, b) -> k.get(a) < k.get(b) ? b : a).getAsInt();
-        return DoubleMax.of(val, index);
+        return DoubleMax.of(val, index + 1);
     }
 
     public static DoubleMax getMax(

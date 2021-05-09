@@ -11,9 +11,7 @@ import lombok.RequiredArgsConstructor;
 public class DoubleMax {
     private final double val;
     /**
-     * 注意：
-     * matlab index从1开始,
-     * 此处从0,返回处理时应加1
+     * matlab index从1开始, 这里也是从1开始
      */
     private final int index;
 }
