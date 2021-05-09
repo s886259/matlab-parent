@@ -44,8 +44,7 @@ public class AccController {
     public ResponseEntity<AccResponse> fromList(
             @RequestBody @Valid AccFromListRequest accFromListRequest
     ) throws JsonProcessingException {
-        log.info("1");
-        return execute(accFromListRequest.getA(), null);
+        return execute(accFromListRequest.getArray(), null);
     }
 
     @ApiOperation(value = "上传文件生成加速度时序图")

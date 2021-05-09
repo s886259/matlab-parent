@@ -15,11 +15,11 @@ import java.util.Map;
 public class AccService {
 
     /**
-     * @param a 需要分析的列值
+     * @param array 需要分析的列值
      * @return 分析后的结果
      */
-    public Map<String, Object> execute(@NonNull final List<Double> a) throws JsonProcessingException {
-        return new TimeDomainOfA().execute(a);
+    public Map<String, Object> execute(@NonNull final List<Double> array) throws JsonProcessingException {
+        return new TimeDomainOfA().execute(array);
     }
 
 }
