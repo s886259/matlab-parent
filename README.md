@@ -44,3 +44,4 @@ cd logs
 
 ### 示例
 ![image](https://github.com/s886259/matlab-parent/blob/master/image/1417_time_domain_1.jpg)
+![image](https://github.com/s886259/matlab-parent/blob/master/image/1417_time_domain_2.jpg)

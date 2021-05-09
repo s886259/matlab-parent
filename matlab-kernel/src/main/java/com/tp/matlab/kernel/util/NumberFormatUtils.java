@@ -13,7 +13,7 @@ import java.text.DecimalFormat;
 @UtilityClass
 public class NumberFormatUtils {
     //科学技术计数法保留4位小数
-    private static final DecimalFormat FOUR_DECIMAL_DF = new DecimalFormat("#.0000");
+    private static final DecimalFormat FOUR_DECIMAL_DF = new DecimalFormat("#.0000E0");
     //科学技术计数法保留5位有效数字
     private static final DecimalFormat FIVE_DIGITS_DF = new DecimalFormat("0.####E0");
 
