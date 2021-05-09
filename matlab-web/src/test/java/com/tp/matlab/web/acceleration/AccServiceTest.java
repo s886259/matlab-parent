@@ -1,6 +1,7 @@
 package com.tp.matlab.web.acceleration;
 
 import com.tp.matlab.kernel.util.ExcelUtils;
+import com.tp.matlab.kernel.util.FileUtils;
 import com.tp.matlab.web.acceleration.service.AccService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -31,7 +32,9 @@ public class AccServiceTest {
     public void testMain() throws IOException, InvalidFormatException {
         //my output
         final String fileName = this.getClass().getResource(TIME_DOMAIN_TEST_EXCEL).getFile();
-        final List<Double> a = ExcelUtils.xlsRead(fileName, TEST_EXCEL_COLUMN_INDEX);
-        accService.execute(a);
+        final List<Double> records = ExcelUtils.xlsRead(fileName, TEST_EXCEL_COLUMN_INDEX);
+        //save source input file
+        FileUtils.double2File(String.format("%s_column%d_source_.txt", fileName, TEST_EXCEL_COLUMN_INDEX), records);
+        accService.execute(records);
     }
 }

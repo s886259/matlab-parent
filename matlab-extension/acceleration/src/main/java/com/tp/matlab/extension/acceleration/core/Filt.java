@@ -78,7 +78,7 @@ public class Filt {
     @Getter
     @RequiredArgsConstructor(staticName = "of")
     static class FiltResult {
-        private final List<Double> _Afir;
-        private final double _mf;
+        private final List<Double> afir;
+        private final double mf;
     }
 }

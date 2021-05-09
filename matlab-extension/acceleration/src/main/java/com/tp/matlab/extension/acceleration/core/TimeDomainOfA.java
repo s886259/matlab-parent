@@ -5,9 +5,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.tp.matlab.extension.acceleration.core.ValueOfPeak.ValueOfPeakResult;
 import com.tp.matlab.kernel.core.DoubleMax;
 import com.tp.matlab.kernel.util.PythonUtils;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -37,37 +37,70 @@ public class TimeDomainOfA {
         final double time = (double) N / fs;
         //[a_fir,mf]=filt(a,fs,fcut,fs/2.56);
         final Filt.FiltResult filtResult = new Filt(a, fs, fcut, fs / 2.56).execute();
-        final double RPM = filtResult.get_mf() * 60;
+        final double RPM = filtResult.getMf() * 60;
         //[p,m]=max(a_fir);
-        final DoubleMax pm_max = PythonUtils.getMax(filtResult.get_Afir());
+        final DoubleMax pm_max = PythonUtils.getMax(filtResult.getAfir());
         //tm=m/fs;
-        final double tm = pm_max.getIndex() / fs;
+        final double tm = (double) (pm_max.getIndex() + 1) / fs;
         final double A = pm_max.getVal();
         //[Pp,Np]=Value_of_Peak(a_fir);
-        final ValueOfPeakResult valueOfPeakResult = new ValueOfPeak(filtResult.get_Afir()).execute();
+        final ValueOfPeakResult valueOfPeakResult = new ValueOfPeak(filtResult.getAfir()).execute();
         //[vmean]=Mean_Value(a_fir);
-        final double vmean = new MeanValue(filtResult.get_Afir()).execute();
+        final double vmean = new MeanValue(filtResult.getAfir()).execute();
         //[sigma]=Value_of_Sigma(a_fir,vmean);
-        final double sigma = new ValueOfSigma(filtResult.get_Afir(), vmean).execute();
+        final double sigma = new ValueOfSigma(filtResult.getAfir(), vmean).execute();
         //[vrms]=Value_of_RMS(a_fir);
-        final double vrms = new ValueOfRMS(filtResult.get_Afir()).execute();
+        final double vrms = new ValueOfRMS(filtResult.getAfir()).execute();
         //pf=p/vrms;
         final double pf = pm_max.getVal() / vrms;
         //[ske]=Value_of_Skewness(a_fir,vmean);
-        final double ske = new ValueOfSkeness(filtResult.get_Afir(), vmean).execute();
+        final double ske = new ValueOfSkeness(filtResult.getAfir(), vmean).execute();
         //[ske]=Value_of_Kurtosis(a_fir,vmean,sigma);
-        final double kur = new ValueOfKurtosis(filtResult.get_Afir(), vmean, sigma).execute();
+        final double kur = new ValueOfKurtosis(filtResult.getAfir(), vmean, sigma).execute();
         //[TV]=total_value(a,fs,5,10000,16);
         final double TV = new TotalValue(a, fs, 5, 10000, 16).execute();
-        return toValue(TimeDomainOfAResult.of(filtResult.get_Afir(), tm, pm_max.getVal()), new TypeReference<Map<String, Object>>() {
+        final TimeDomainOfAResult result = new TimeDomainOfAResult.TimeDomainOfAResultBuilder()
+                .afir(filtResult.getAfir())
+                .rpm(RPM)
+                .time(time)
+                .a(A)
+                .m(pm_max.getIndex())
+                .p(pm_max.getVal())
+                .tm(tm)
+                .pp(valueOfPeakResult.getPp())
+                .np(valueOfPeakResult.getNp())
+                .vmean(vmean)
+                .vrms(vrms)
+                .sigma(sigma)
+                .pf(pf)
+                .ske(ske)
+                .kur(kur)
+                .tv(TV)
+                .build();
+
+        return toValue(result, new TypeReference<Map<String, Object>>() {
         });
     }
 
     @Getter
-    @RequiredArgsConstructor(staticName = "of")
+    @Builder
     private static class TimeDomainOfAResult {
-        private final List<Double> _Afir;
-        private final double tm;
-        private final double p;
+        private List<Double> afir;
+        private double rpm;
+        private double time;
+        private double a;
+        private int m;
+        private double p;
+        private double tm;
+        private double pp;
+        private double np;
+        private double vmean;
+        private double vrms;
+        private double sigma;
+        private double pf;
+        private double ske;
+        private double kur;
+        private double tv;
+
     }
 }

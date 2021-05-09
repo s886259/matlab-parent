@@ -34,9 +34,8 @@ public class IFFTService {
             @NonNull final Integer columnIndex
     ) throws IOException, InvalidFormatException {
         final List<Double> records = xlsRead(fileName, columnIndex);
-        //TODO: result to file
+        //save source input file
         FileUtils.double2File(String.format("%s_column%d_source_.txt", fileName, columnIndex), records);
-        //TODO: result to file
         final Complex[] myComplexes = records.stream()
                 .map(i -> new Complex(i, 0))
                 .toArray(Complex[]::new);

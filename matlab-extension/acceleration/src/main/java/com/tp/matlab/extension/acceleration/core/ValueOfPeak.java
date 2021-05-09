@@ -37,8 +37,8 @@ public class ValueOfPeak {
 
     @Getter
     @RequiredArgsConstructor(staticName = "of")
-    public static class ValueOfPeakResult {
-        private final double _Pp;
-        private final double _Np;
+    static class ValueOfPeakResult {
+        private final double pp;
+        private final double np;
     }
 }
