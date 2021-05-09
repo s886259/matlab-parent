@@ -1,7 +1,7 @@
 package com.tp.matlab.web.acceleration.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.tp.matlab.web.acceleration.param.AccFromListRequest;
+import com.tp.matlab.web.acceleration.param.AccFromArrayRequest;
 import com.tp.matlab.web.acceleration.param.AccResponse;
 import com.tp.matlab.web.acceleration.service.AccService;
 import io.swagger.annotations.Api;
@@ -40,11 +40,11 @@ public class AccController {
     private final AccService accService;
 
     @ApiOperation(value = "从数组中生成加速度时序图")
-    @PostMapping("fromList")
-    public ResponseEntity<AccResponse> fromList(
-            @RequestBody @Valid AccFromListRequest accFromListRequest
+    @PostMapping("fromArray")
+    public ResponseEntity<AccResponse> fromArray(
+            @RequestBody @Valid AccFromArrayRequest accFromArrayRequest
     ) throws JsonProcessingException {
-        return execute(accFromListRequest.getArray(), null);
+        return execute(accFromArrayRequest.getArray(), null);
     }
 
     @ApiOperation(value = "上传文件生成加速度时序图")
