@@ -16,9 +16,9 @@
     <description>matlab web application</description>
     <properties>
         <java.version>1.8</java.version>
-    </properties>   `
-    <dependencies>
+    </properties>
 
+    <dependencies>
         <dependency>
             <groupId>com.tp.matlab.extension</groupId>
             <artifactId>acceleration</artifactId>

@@ -8,7 +8,7 @@ import java.util.List;
  * Created by tangpeng on 2021-05-04
  */
 @RequiredArgsConstructor
-public class ValueOfRMS {
+class ValueOfRMS {
 
     /**
      * 源数据

@@ -8,7 +8,7 @@ import java.util.List;
  * Created by tangpeng on 2021-05-10
  */
 @RequiredArgsConstructor
-public class ValueOfSigma {
+class ValueOfSigma {
 
     /**
      * 源数据

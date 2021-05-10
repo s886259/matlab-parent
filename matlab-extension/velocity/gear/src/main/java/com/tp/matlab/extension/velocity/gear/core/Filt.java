@@ -18,7 +18,7 @@ import static java.util.stream.Collectors.toList;
  * Created by tangpeng on 2021-05-04
  */
 @RequiredArgsConstructor
-public class Filt {
+class Filt {
 
     /**
      * 源数据

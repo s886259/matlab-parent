@@ -10,7 +10,7 @@ import java.util.List;
  * Created by tangpeng on 2021-05-04
  */
 @RequiredArgsConstructor
-public class ValueOfPeak {
+class ValueOfPeak {
 
     /**
      * 源数据
