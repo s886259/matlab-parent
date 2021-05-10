@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created by tangpeng on 2021-05-08
@@ -65,5 +66,11 @@ public class AccResponse {
 
     @ApiModelProperty(value = "振动总值，m/s^2（用于计算整体趋势）", required = true)
     private BigDecimal tv;
+
+    @ApiModelProperty(value = "x轴,时间/s", required = true)
+    private List<BigDecimal> x;
+
+    @ApiModelProperty(value = "y轴,加速度时域/ (m/s^2）", required = true)
+    private List<BigDecimal> y;
 
 }

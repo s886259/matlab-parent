@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tp.matlab.extension.acceleration.core.ValueOfPeak.ValueOfPeakResult;
 import com.tp.matlab.kernel.core.DoubleMax;
+import com.tp.matlab.kernel.util.NumberFormatUtils;
 import com.tp.matlab.kernel.util.PythonUtils;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,9 +14,12 @@ import lombok.extern.slf4j.Slf4j;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
 
 import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDecimal;
 import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Created by tangpeng on 2021-05-05
@@ -61,8 +65,20 @@ public class TimeDomainOfA {
         final double kur = new ValueOfKurtosis(filtResult.getAfir(), vmean, sigma).execute();
         //[TV]=total_value(a,fs,5,10000,16);
         final double TV = new TotalValue(a, fs, 5, 10000, 16).execute();
+
+        //t=(0:N-1)/fs;
+        final List<BigDecimal> t = DoubleStream.iterate(0, i -> i + 1)
+                .limit(N)
+                .map(i -> i / fs)
+                .boxed()
+                .map(NumberFormatUtils::roundToDecimal)
+                .collect(toList());
+        final List<BigDecimal> y = filtResult.getAfir()
+                .stream()
+                .map(NumberFormatUtils::roundToDecimal)
+                .collect(toList());
+
         final TimeDomainOfAResult result = new TimeDomainOfAResult.TimeDomainOfAResultBuilder()
-                //保留小数点后4位 e.g 54.0373
                 .rpm(roundToDecimal(RPM))
                 .time(roundToDecimal(time))
                 .a(roundToDecimal(A))
@@ -78,6 +94,8 @@ public class TimeDomainOfA {
                 .ske(roundToDecimal(ske))
                 .kur(roundToDecimal(kur))
                 .tv(roundToDecimal(TV))
+                .x(t)
+                .y(y)
                 .build();
         return toValue(result, new TypeReference<Map<String, Object>>() {
         });
@@ -101,6 +119,7 @@ public class TimeDomainOfA {
         private BigDecimal ske;
         private BigDecimal kur;
         private BigDecimal tv;
-
+        private List<BigDecimal> x;
+        private List<BigDecimal> y;
     }
 }
