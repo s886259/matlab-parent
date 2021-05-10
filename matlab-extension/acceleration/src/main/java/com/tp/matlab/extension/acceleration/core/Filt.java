@@ -42,17 +42,17 @@ class Filt {
         final Double df = (double) this.fs / n;
         //final double a_fft= fft(detrend(a));
         final List<Double> detrend = PythonUtils.detrend(this.a);
-        final List<ResultComplex> a_fft = new FFTTransformer().transform(detrend);
+        final List<ResultComplex> afft = new FFTTransformer().transform(detrend);
         final int n_inferior = (int) Math.round(this.flow / df);
         final int n_superior = (int) Math.round(this.fhigh / df);
         final ResultComplex[] k = new ResultComplex[this.a.size()];
         for (int i = 0; i < k.length; i++) {
             if (i >= n_inferior - 1 && i < n_superior) {
                 //k(n_inferior:n_superior)=a_fft(n_inferior:n_superior);
-                k[i] = a_fft.get(i);
+                k[i] = afft.get(i);
             } else if (i >= n - n_superior && i < n - n_inferior + 1) {
                 //k(n-n_superior+1:n-n_inferior+1)=a_fft(n-n_superior+1:n-n_inferior+1);
-                k[i] = a_fft.get(i);
+                k[i] = afft.get(i);
             } else {
                 k[i] = ResultComplex.of(0d, 0d);
             }

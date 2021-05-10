@@ -1,24 +1,26 @@
 package com.tp.matlab.extension.velocity.gear.core;
 
+import com.tp.matlab.extension.velocity.gear.core.OnceIntegral.OnceIntegralResult;
 import com.tp.matlab.kernel.core.DoubleMax;
 import com.tp.matlab.kernel.core.ResultComplex;
 import com.tp.matlab.kernel.transform.FFTTransformer;
 import com.tp.matlab.kernel.transform.IFFTTransformer;
 import com.tp.matlab.kernel.util.PythonUtils;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.math3.complex.Complex;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.DoubleStream;
 
 import static java.util.stream.Collectors.toList;
 
 /**
- * Created by tangpeng on 2021-05-04
+ * Created by tangpeng on 2021-05-10
  */
 @RequiredArgsConstructor
-class Filt {
+class A2v {
 
     /**
      * 源数据
@@ -37,14 +39,32 @@ class Filt {
      */
     private final Double fhigh;
 
-    public FiltResult execute() {
-        final Integer n = this.a.size();
-        final Double df = (double) this.fs / n;
+    public double execute() {
+        final Integer n = this.a.size();     //%采样点数
         //final double a_fft= fft(detrend(a));
         final List<Double> detrend = PythonUtils.detrend(this.a);
         final List<ResultComplex> afft = new FFTTransformer().transform(detrend);
+        //df=fs/n;
+        final Double df = (double) this.fs / n;
+        //f1=-(fs/2):df:-df;
+        final List<Double> f1 = DoubleStream.iterate((double) -fs / 2, i -> i + df)
+                .limit((long) ((double) fs / 2 / df))
+                .boxed()
+                .collect(toList());
+        //f2=0:df:(fs/2)-df;
+        final List<Double> f2 = DoubleStream.iterate(0, i -> i + df)
+                .limit((long) ((double) fs / 2 / df))
+                .boxed()
+                .collect(toList());
+        final List<Double> f = ListUtils.union(f2, f1);
+        //w=2*pi*f;
+        final List<Double> w = f.stream().map(i -> 2 * Math.PI * i).collect(toList());
         final int n_inferior = (int) Math.round(this.flow / df);
         final int n_superior = (int) Math.round(this.fhigh / df);
+        // [Rv,Iv,Complexv]=Once_integral(w,a_fft);
+        final OnceIntegralResult onceIntegralResult = new OnceIntegral(w, afft).execute();
+
+        //TODO  k=zeros(1,n);
         final ResultComplex[] k = new ResultComplex[this.a.size()];
         for (int i = 0; i < k.length; i++) {
             if (i >= n_inferior - 1 && i < n_superior) {
@@ -70,14 +90,8 @@ class Filt {
         );
         // %滤波后数据
         final List<Double> a_fir = a_time.stream().map(ResultComplex::getReal).collect(toList());
-        return FiltResult.of(a_fir, mf);
+        return 0;
     }
 
 
-    @Getter
-    @RequiredArgsConstructor(staticName = "of")
-    static class FiltResult {
-        private final List<Double> afir;
-        private final double mf;
-    }
 }

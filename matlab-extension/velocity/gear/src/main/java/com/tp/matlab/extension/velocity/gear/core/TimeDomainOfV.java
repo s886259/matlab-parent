@@ -1,8 +1,8 @@
-package com.tp.matlab.extension.acceleration.core;
+package com.tp.matlab.extension.velocity.gear.core;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.tp.matlab.extension.acceleration.core.ValueOfPeak.ValueOfPeakResult;
+import com.tp.matlab.extension.velocity.gear.core.ValueOfPeak.ValueOfPeakResult;
 import com.tp.matlab.kernel.core.DoubleMax;
 import com.tp.matlab.kernel.util.NumberFormatUtils;
 import com.tp.matlab.kernel.util.PythonUtils;
@@ -24,7 +24,7 @@ import static java.util.stream.Collectors.toList;
  * Created by tangpeng on 2021-05-05
  */
 @Slf4j
-public class TimeDomainOfA {
+public class TimeDomainOfV {
 
     /**
      * @param a 需要分析的列值
@@ -36,33 +36,35 @@ public class TimeDomainOfA {
         final int N = a.size();   //%数据长度
         //df=fs/N;
         final double df = fs / N;
-        final double fcut = 5;          //%低频截止
+        final double fcut = 4;          //%低频截止
         final int fmin = 5;          //%fmin：起始频率
-        final int fmax = 10000;      //famx：终止频率
+        final int fmax = 5000;      //famx：终止频率
         final double time = (double) N / fs;
+        //TODO [v]=a2v(a,fs,fcut,fs/2.25);
+        final double v = new A2v(a, fs, fcut, fs / 2.56).execute();
         //[a_fir,mf]=filt(a,fs,fcut,fs/2.56);
         final Filt.FiltResult filtResult = new Filt(a, fs, fcut, fs / 2.56).execute();
         final double RPM = filtResult.getMf() * 60;
-        //[p,m]=max(a_fir);
+        //TODO [p,m]=max(v);
         final DoubleMax pm_max = PythonUtils.getMax(filtResult.getAfir());
         //tm=m/fs;
         final double tm = (double) pm_max.getIndex() / fs;
         final double A = pm_max.getVal();
-        //[Pp,Np]=Value_of_Peak(a_fir);
+        //TODO [Pp,Np]=Value_of_Peak(v);
         final ValueOfPeakResult valueOfPeakResult = new ValueOfPeak(filtResult.getAfir()).execute();
-        //[vmean]=Mean_Value(a_fir);
+        //TODO [vmean]=Mean_Value(v);
         final double vmean = new MeanValue(filtResult.getAfir()).execute();
-        //[sigma]=Value_of_Sigma(a_fir,vmean);
+        //TODO [sigma]=Value_of_Sigma(v,vmean);
         final double sigma = new ValueOfSigma(filtResult.getAfir(), vmean).execute();
-        //[vrms]=Value_of_RMS(a_fir);
+        //TODO [vrms]=Value_of_RMS(v);
         final double vrms = new ValueOfRMS(filtResult.getAfir()).execute();
         //pf=p/vrms;
         final double pf = pm_max.getVal() / vrms;
-        //[ske]=Value_of_Skewness(a_fir,vmean);
+        //TODO [ske]=Value_of_Skewness(v,vmean);
         final double ske = new ValueOfSkeness(filtResult.getAfir(), vmean).execute();
-        //[ske]=Value_of_Kurtosis(a_fir,vmean,sigma);
+        //TODO [ske]=Value_of_Kurtosis(v,vmean,sigma);
         final double kur = new ValueOfKurtosis(filtResult.getAfir(), vmean, sigma).execute();
-        //[TV]=total_value(a,fs,5,10000,16);
+        //TODO [TV]=total_value(v,fs,5,10000,16);
         final double TV = new TotalValue(a, fs, fmin, fmax, 16).execute();
 
         //t=(0:N-1)/fs;

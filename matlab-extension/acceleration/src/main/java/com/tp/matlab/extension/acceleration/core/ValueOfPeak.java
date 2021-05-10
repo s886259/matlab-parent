@@ -29,9 +29,9 @@ class ValueOfPeak {
                 y[i] = cur;
             }
         }
-        final double _Pp = Arrays.stream(x).max().getAsDouble();
-        final double _Np = Arrays.stream(y).min().getAsDouble();
-        return ValueOfPeakResult.of(_Pp, _Np);
+        final double pp = Arrays.stream(x).max().getAsDouble();
+        final double np = Arrays.stream(y).min().getAsDouble();
+        return ValueOfPeakResult.of(pp, np);
     }
 
 

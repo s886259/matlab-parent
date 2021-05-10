@@ -1,9 +1,9 @@
-package com.tp.matlab.web.acceleration.controller;
+package com.tp.matlab.web.velocity.gear.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.tp.matlab.web.param.FromArrayRequest;
-import com.tp.matlab.web.acceleration.param.AccResponse;
-import com.tp.matlab.web.acceleration.service.AccService;
+import com.tp.matlab.web.velocity.gear.param.GearResponse;
+import com.tp.matlab.web.velocity.gear.service.GearService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -28,32 +28,32 @@ import static com.tp.matlab.kernel.util.ExcelUtils.xlsRead;
 import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
 
 /**
- * Created by tangpeng on 2021-05-07
+ * Created by tangpeng on 2021-05-10
  */
 @Slf4j
 @RestController
-@RequestMapping(value = "/api/v1/acc/")
+@RequestMapping(value = "/api/v1/velocity/gear")
 @RequiredArgsConstructor
-@Api(value = "加速度时序图", tags = "加速度时序图")
-public class AccController {
+@Api(value = "速度时域图（齿轮）", tags = "速度时域图（齿轮）")
+public class GearController {
 
-    private final AccService accService;
+    private final GearService gearService;
 
-    @ApiOperation(value = "从数组中生成加速度时序图")
+    @ApiOperation(value = "从数组中生成速度时域图（齿轮）")
     @PostMapping("fromArray")
-    public ResponseEntity<AccResponse> fromArray(
+    public ResponseEntity<GearResponse> fromArray(
             @RequestBody @Valid FromArrayRequest fromArrayRequest
     ) throws JsonProcessingException {
         return execute(fromArrayRequest.getArray(), null, null);
     }
 
-    @ApiOperation(value = "上传文件生成加速度时序图")
+    @ApiOperation(value = "上传文件速度时域图（齿轮）")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "file", value = "需要上传的excel", required = true, dataType = "__file"),
             @ApiImplicitParam(name = "columnIndex", value = "excel列(从1开始)", required = true, dataType = "int")}
     )
     @PostMapping("fromUpload")
-    public ResponseEntity<AccResponse> fromUpload(
+    public ResponseEntity<GearResponse> fromUpload(
             @RequestPart MultipartFile file,
             @RequestParam Integer columnIndex
     ) throws IOException, InvalidFormatException {
@@ -61,13 +61,13 @@ public class AccController {
         return execute(records, columnIndex, file.getOriginalFilename());
     }
 
-    @ApiOperation(value = "从URL生成加速度时序图")
+    @ApiOperation(value = "从URL生成速度时域图（齿轮）")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "url", value = "e.g \"ftp://ip:port/*.xlsx\"", required = true, dataType = "string"),
             @ApiImplicitParam(name = "columnIndex", value = "excel列(从1开始)", required = true, dataType = "int")}
     )
     @PostMapping("fromUrl")
-    public ResponseEntity<AccResponse> fromUrl(
+    public ResponseEntity<GearResponse> fromUrl(
             @RequestParam String url,
             @RequestParam Integer columnIndex
     ) throws IOException, InvalidFormatException {
@@ -80,12 +80,12 @@ public class AccController {
         return execute(records, columnIndex, url);
     }
 
-    private ResponseEntity<AccResponse> execute(
+    private ResponseEntity<GearResponse> execute(
             @NonNull final List<Double> records,
             @Nullable Integer columnIndex,
             @Nullable String file
     ) throws JsonProcessingException {
-        final AccResponse response = toValue(accService.execute(records), AccResponse.class);
+        final GearResponse response = toValue(gearService.execute(records), GearResponse.class);
         response.setColumnIndex(columnIndex);
         response.setFile(file);
         return ResponseEntity.ok(response);
