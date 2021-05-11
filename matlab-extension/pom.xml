@@ -20,6 +20,7 @@
     <modules>
         <module>acceleration</module>
         <module>velocity</module>
+        <module>envolope</module>
     </modules>
 
     <dependencies>

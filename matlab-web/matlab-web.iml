@@ -62,6 +62,7 @@
     <orderEntry type="module" module-name="gear" />
     <orderEntry type="module" module-name="velocity-common" />
     <orderEntry type="module" module-name="vibrator" />
+    <orderEntry type="module" module-name="envolope" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:2.4.5" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:2.4.5" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context:5.3.6" level="project" />
