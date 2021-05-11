@@ -1,4 +1,4 @@
-package com.tp.matlab.web.velocity.gear.param;
+package com.tp.matlab.web.velocity.param;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -12,9 +12,9 @@ import java.util.List;
  * Created by tangpeng on 2021-05-10
  */
 @Data
-@ApiModel(description = "【速度时域图（齿轮）】【返回值】")
+@ApiModel(description = "【速度时域图】【返回值】")
 @NoArgsConstructor
-public class GearResponse {
+public class VelocityResponse {
 
     @ApiModelProperty(value = "需要分析的文件")
     private String file;

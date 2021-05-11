@@ -1,9 +1,9 @@
-package com.tp.matlab.web.velocity.gear.controller;
+package com.tp.matlab.web.velocity.vibrator.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.tp.matlab.web.param.FromArrayRequest;
-import com.tp.matlab.web.velocity.gear.service.GearService;
 import com.tp.matlab.web.velocity.param.VelocityResponse;
+import com.tp.matlab.web.velocity.vibrator.service.VibratorService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -28,18 +28,18 @@ import static com.tp.matlab.kernel.util.ExcelUtils.xlsRead;
 import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
 
 /**
- * Created by tangpeng on 2021-05-10
+ * Created by tangpeng on 2021-05-11
  */
 @Slf4j
 @RestController
-@RequestMapping(value = "/api/v1/velocity/gear")
+@RequestMapping(value = "/api/v1/velocity/vibrator")
 @RequiredArgsConstructor
-@Api(value = "速度时域图（齿轮）", tags = "速度时域图（齿轮）")
-public class GearController {
+@Api(value = "速度时域图（激振器）", tags = "速度时域图（激振器）")
+public class VibratorController {
 
-    private final GearService gearService;
+    private final VibratorService vibratorService;
 
-    @ApiOperation(value = "从数组中生成速度时域图（齿轮）")
+    @ApiOperation(value = "从数组中生成速度时域图（激振器）")
     @PostMapping("fromArray")
     public ResponseEntity<VelocityResponse> fromArray(
             @RequestBody @Valid FromArrayRequest fromArrayRequest
@@ -47,7 +47,7 @@ public class GearController {
         return execute(fromArrayRequest.getArray(), null, null);
     }
 
-    @ApiOperation(value = "上传文件速度时域图（齿轮）")
+    @ApiOperation(value = "上传文件速度时域图（激振器）")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "file", value = "需要上传的excel", required = true, dataType = "__file"),
             @ApiImplicitParam(name = "columnIndex", value = "excel列(从1开始)", required = true, dataType = "int")}
@@ -61,7 +61,7 @@ public class GearController {
         return execute(records, columnIndex, file.getOriginalFilename());
     }
 
-    @ApiOperation(value = "从URL生成速度时域图（齿轮）")
+    @ApiOperation(value = "从URL生成速度时域图（激振器）")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "url", value = "e.g \"ftp://ip:port/*.xlsx\"", required = true, dataType = "string"),
             @ApiImplicitParam(name = "columnIndex", value = "excel列(从1开始)", required = true, dataType = "int")}
@@ -85,7 +85,7 @@ public class GearController {
             @Nullable Integer columnIndex,
             @Nullable String file
     ) throws JsonProcessingException {
-        final VelocityResponse response = toValue(gearService.execute(records), VelocityResponse.class);
+        final VelocityResponse response = toValue(vibratorService.execute(records), VelocityResponse.class);
         response.setColumnIndex(columnIndex);
         response.setFile(file);
         return ResponseEntity.ok(response);

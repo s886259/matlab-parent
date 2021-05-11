@@ -38,9 +38,9 @@ public class TimeDomainOfV {
         final int N = a.size();   //%数据长度
         //df=fs/N;
         final double df = fs / N;
-        final double fcut = 4;          //%低频截止
+        final double fcut = 5;          //%低频截止
         final int fmin = 5;          //%fmin：起始频率
-        final int fmax = 5000;      //famx：终止频率
+        final int fmax = 500;      //famx：终止频率
         final double time = (double) N / fs;
         //[v]=a2v(a,fs,fcut,fs/2.25);
         final List<Double> v = new A2v(a, fs, fcut, fs / 2.56).execute();
@@ -67,7 +67,7 @@ public class TimeDomainOfV {
         //[ske]=Value_of_Kurtosis(v,vmean,sigma);
         final double kur = new ValueOfKurtosis(v, vmean, sigma).execute();
         //[TV]=total_value(v,fs,5,10000,16);
-        final double TV = new TotalValue(v, fs, fmin, fmax, 16).execute();
+        final double TV = new TotalValue(v, fs, fmin, fmax, 128).execute();
 
         //t=(0:N-1)/fs;
         final List<BigDecimal> t = DoubleStream.iterate(0, i -> i + 1)
