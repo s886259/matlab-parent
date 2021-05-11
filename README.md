@@ -6,7 +6,11 @@ matlab-parent
 |
 ├──matlab-extension --程序扩展
 |  |
-|  ├──acceleration --加速度程序
+|  |──acceleration --加速度程序
+|  |
+|  |──velocity
+|     |
+|     |──gear --速度时域(齿轮)
 |
 ├──matlab-kernel --核心算法及工具类
 |
