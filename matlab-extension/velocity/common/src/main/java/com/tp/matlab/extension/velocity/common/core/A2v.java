@@ -1,6 +1,6 @@
-package com.tp.matlab.extension.velocity.vibrator.core;
+package com.tp.matlab.extension.velocity.common.core;
 
-import com.tp.matlab.extension.velocity.vibrator.core.OnceIntegral.OnceIntegralResult;
+import com.tp.matlab.extension.velocity.common.core.OnceIntegral.OnceIntegralResult;
 import com.tp.matlab.kernel.core.ResultComplex;
 import com.tp.matlab.kernel.transform.FFTTransformer;
 import com.tp.matlab.kernel.transform.IFFTTransformer;
@@ -19,7 +19,7 @@ import static java.util.stream.Collectors.toList;
  * Created by tangpeng on 2021-05-10
  */
 @RequiredArgsConstructor
-class A2v {
+public class A2v {
 
     /**
      * 源数据

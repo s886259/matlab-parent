@@ -1,4 +1,4 @@
-package com.tp.matlab.extension.velocity.gear.core;
+package com.tp.matlab.extension.velocity.common.core;
 
 import com.tp.matlab.kernel.core.DoubleMax;
 import com.tp.matlab.kernel.core.ResultComplex;
@@ -18,7 +18,7 @@ import static java.util.stream.Collectors.toList;
  * Created by tangpeng on 2021-05-04
  */
 @RequiredArgsConstructor
-class Filt {
+public class Filt {
 
     /**
      * 源数据
@@ -76,7 +76,7 @@ class Filt {
 
     @Getter
     @RequiredArgsConstructor(staticName = "of")
-    static class FiltResult {
+    public static class FiltResult {
         private final List<Double> afir;
         private final double mf;
     }

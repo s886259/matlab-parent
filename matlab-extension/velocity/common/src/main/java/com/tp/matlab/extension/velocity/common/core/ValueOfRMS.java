@@ -1,14 +1,14 @@
-package com.tp.matlab.extension.velocity.vibrator.core;
+package com.tp.matlab.extension.velocity.common.core;
 
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 /**
- * Created by tangpeng on 2021-05-04
+ * Created by tangpeng on 2021-05-10
  */
 @RequiredArgsConstructor
-class MeanValue {
+public class ValueOfRMS {
 
     /**
      * 源数据
@@ -19,8 +19,8 @@ class MeanValue {
         final int n = this.a.size();
         double sum = 0;
         for (int i = 0; i < n; i++) {
-            sum += this.a.get(i);
+            sum = sum + Math.pow(this.a.get(i), 2);
         }
-        return sum / n;
+        return Math.sqrt(sum / n);
     }
 }

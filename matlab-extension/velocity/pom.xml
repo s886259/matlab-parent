@@ -19,5 +19,6 @@
     <modules>
         <module>gear</module>
         <module>vibrator</module>
+        <module>common</module>
     </modules>
 </project>

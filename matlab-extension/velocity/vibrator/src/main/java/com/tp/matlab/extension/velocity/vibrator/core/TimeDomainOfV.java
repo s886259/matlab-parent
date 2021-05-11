@@ -2,7 +2,9 @@ package com.tp.matlab.extension.velocity.vibrator.core;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.tp.matlab.extension.velocity.vibrator.core.ValueOfPeak.ValueOfPeakResult;
+import com.tp.matlab.extension.velocity.common.core.*;
+import com.tp.matlab.extension.velocity.common.core.Filt.FiltResult;
+import com.tp.matlab.extension.velocity.common.core.ValueOfPeak.ValueOfPeakResult;
 import com.tp.matlab.kernel.core.DoubleMax;
 import com.tp.matlab.kernel.util.NumberFormatUtils;
 import com.tp.matlab.kernel.util.PythonUtils;
@@ -43,7 +45,7 @@ public class TimeDomainOfV {
         //[v]=a2v(a,fs,fcut,fs/2.25);
         final List<Double> v = new A2v(a, fs, fcut, fs / 2.56).execute();
         //[a_fir,mf]=filt(a,fs,fcut,fs/2.56);
-        final Filt.FiltResult filtResult = new Filt(a, fs, fcut, fs / 2.56).execute();
+        final FiltResult filtResult = new Filt(a, fs, fcut, fs / 2.56).execute();
         final double RPM = filtResult.getMf() * 60;
         //[p,m]=max(v);
         final DoubleMax pm_max = PythonUtils.getMax(v);

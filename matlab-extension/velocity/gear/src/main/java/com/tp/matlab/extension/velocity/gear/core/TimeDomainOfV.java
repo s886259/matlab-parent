@@ -2,8 +2,9 @@ package com.tp.matlab.extension.velocity.gear.core;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.tp.matlab.extension.velocity.gear.core.Filt.FiltResult;
-import com.tp.matlab.extension.velocity.gear.core.ValueOfPeak.ValueOfPeakResult;
+import com.tp.matlab.extension.velocity.common.core.*;
+import com.tp.matlab.extension.velocity.common.core.Filt.FiltResult;
+import com.tp.matlab.extension.velocity.common.core.ValueOfPeak.ValueOfPeakResult;
 import com.tp.matlab.kernel.core.DoubleMax;
 import com.tp.matlab.kernel.util.NumberFormatUtils;
 import com.tp.matlab.kernel.util.PythonUtils;

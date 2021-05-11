@@ -1,4 +1,4 @@
-package com.tp.matlab.extension.velocity.gear.core;
+package com.tp.matlab.extension.velocity.common.core;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +10,7 @@ import java.util.List;
  * Created by tangpeng on 2021-05-04
  */
 @RequiredArgsConstructor
-class ValueOfPeak {
+public class ValueOfPeak {
 
     /**
      * 源数据
@@ -37,7 +37,7 @@ class ValueOfPeak {
 
     @Getter
     @RequiredArgsConstructor(staticName = "of")
-    static class ValueOfPeakResult {
+    public static class ValueOfPeakResult {
         private final double pp;
         private final double np;
     }

@@ -1,4 +1,4 @@
-package com.tp.matlab.extension.velocity.gear.core;
+package com.tp.matlab.extension.velocity.common.core;
 
 import com.tp.matlab.kernel.core.ResultComplex;
 import lombok.Getter;
@@ -11,7 +11,7 @@ import java.util.List;
  * Created by tangpeng on 2021-05-10
  */
 @RequiredArgsConstructor
-class OnceIntegral {
+public class OnceIntegral {
 
     private final List<Double> w;
     private final List<ResultComplex> afft;
