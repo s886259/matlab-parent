@@ -8,16 +8,12 @@
         <artifactId>matlab-extension</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>velocity</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>vibrator</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <properties>
         <java.version>1.8</java.version>
     </properties>
+    <dependencies>
 
-    <!-- 模块说明：这里声明多个子模块 -->
-    <modules>
-        <module>gear</module>
-        <module>vibrator</module>
-    </modules>
+    </dependencies>
 </project>
