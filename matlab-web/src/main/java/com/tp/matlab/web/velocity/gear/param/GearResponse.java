@@ -64,13 +64,13 @@ public class GearResponse {
     @ApiModelProperty(value = "峭度", required = true)
     private BigDecimal kur;
 
-    @ApiModelProperty(value = "振动总值，m/s^2（用于计算整体趋势）", required = true)
+    @ApiModelProperty(value = "振动总值, mm/s,（用于计算整体趋势）", required = true)
     private BigDecimal tv;
 
     @ApiModelProperty(value = "x轴,时间/s", required = true)
     private List<BigDecimal> x;
 
-    @ApiModelProperty(value = "y轴,加速度时域/ (m/s^2）", required = true)
+    @ApiModelProperty(value = "y轴,速度时域/ (mm/s）", required = true)
     private List<BigDecimal> y;
 
 }

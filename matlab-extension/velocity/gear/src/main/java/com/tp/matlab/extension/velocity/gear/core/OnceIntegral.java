@@ -20,28 +20,28 @@ class OnceIntegral {
         //nn=length(w);
         final int nn = this.w.size();
         //R=imag(A)./w;
-        final List<Double> imagList = new ArrayList<>();
+        final List<Double> rList = new ArrayList<>();
         //I=real(A)./w;
-        final List<Double> realList = new ArrayList<>();
+        final List<Double> iList = new ArrayList<>();
         final List<ResultComplex> complexes = new ArrayList<>();
-        for (int i = 0; i < nn; i++) {
-            final double imag = afft.get(i).getImag() / w.get(i);
-            imagList.add(imag);
-            final double real = afft.get(i).getReal() / w.get(i);
-            realList.add(real);
-            complexes.add(ResultComplex.of(real, imag));
+        for (int index = 0; index < nn; index++) {
+            final double r = afft.get(index).getImag() / w.get(index);
+            rList.add(r);
+            final double i = afft.get(index).getReal() / w.get(index);
+            iList.add(i);
+            complexes.add(ResultComplex.of(r, i));
         }
         complexes.set(0, ResultComplex.of(0d, 0d));
         complexes.set(nn - 1, ResultComplex.of(0d, 0d));
-        return OnceIntegralResult.of(realList, imagList, complexes);
+        return OnceIntegralResult.of(rList, iList, complexes);
     }
 
 
     @Getter
     @RequiredArgsConstructor(staticName = "of")
     static class OnceIntegralResult {
-        private final List<Double> iv;
         private final List<Double> rv;
+        private final List<Double> iv;
         private final List<ResultComplex> complexv;
     }
 }

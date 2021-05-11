@@ -2,6 +2,7 @@ package com.tp.matlab.extension.velocity.gear.core;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.tp.matlab.extension.velocity.gear.core.Filt.FiltResult;
 import com.tp.matlab.extension.velocity.gear.core.ValueOfPeak.ValueOfPeakResult;
 import com.tp.matlab.kernel.core.DoubleMax;
 import com.tp.matlab.kernel.util.NumberFormatUtils;
@@ -40,32 +41,32 @@ public class TimeDomainOfV {
         final int fmin = 5;          //%fmin：起始频率
         final int fmax = 5000;      //famx：终止频率
         final double time = (double) N / fs;
-        //TODO [v]=a2v(a,fs,fcut,fs/2.25);
-        final double v = new A2v(a, fs, fcut, fs / 2.56).execute();
+        //[v]=a2v(a,fs,fcut,fs/2.25);
+        final List<Double> v = new A2v(a, fs, fcut, fs / 2.56).execute();
         //[a_fir,mf]=filt(a,fs,fcut,fs/2.56);
-        final Filt.FiltResult filtResult = new Filt(a, fs, fcut, fs / 2.56).execute();
+        final FiltResult filtResult = new Filt(a, fs, fcut, fs / 2.56).execute();
         final double RPM = filtResult.getMf() * 60;
-        //TODO [p,m]=max(v);
-        final DoubleMax pm_max = PythonUtils.getMax(filtResult.getAfir());
+        //[p,m]=max(v);
+        final DoubleMax pm_max = PythonUtils.getMax(v);
         //tm=m/fs;
         final double tm = (double) pm_max.getIndex() / fs;
         final double A = pm_max.getVal();
-        //TODO [Pp,Np]=Value_of_Peak(v);
-        final ValueOfPeakResult valueOfPeakResult = new ValueOfPeak(filtResult.getAfir()).execute();
-        //TODO [vmean]=Mean_Value(v);
-        final double vmean = new MeanValue(filtResult.getAfir()).execute();
-        //TODO [sigma]=Value_of_Sigma(v,vmean);
-        final double sigma = new ValueOfSigma(filtResult.getAfir(), vmean).execute();
-        //TODO [vrms]=Value_of_RMS(v);
-        final double vrms = new ValueOfRMS(filtResult.getAfir()).execute();
+        //[Pp,Np]=Value_of_Peak(v);
+        final ValueOfPeakResult valueOfPeakResult = new ValueOfPeak(v).execute();
+        //[vmean]=Mean_Value(v);
+        final double vmean = new MeanValue(v).execute();
+        //[sigma]=Value_of_Sigma(v,vmean);
+        final double sigma = new ValueOfSigma(v, vmean).execute();
+        //[vrms]=Value_of_RMS(v);
+        final double vrms = new ValueOfRMS(v).execute();
         //pf=p/vrms;
         final double pf = pm_max.getVal() / vrms;
-        //TODO [ske]=Value_of_Skewness(v,vmean);
-        final double ske = new ValueOfSkeness(filtResult.getAfir(), vmean).execute();
-        //TODO [ske]=Value_of_Kurtosis(v,vmean,sigma);
-        final double kur = new ValueOfKurtosis(filtResult.getAfir(), vmean, sigma).execute();
-        //TODO [TV]=total_value(v,fs,5,10000,16);
-        final double TV = new TotalValue(a, fs, fmin, fmax, 16).execute();
+        //[ske]=Value_of_Skewness(v,vmean);
+        final double ske = new ValueOfSkeness(v, vmean).execute();
+        //[ske]=Value_of_Kurtosis(v,vmean,sigma);
+        final double kur = new ValueOfKurtosis(v, vmean, sigma).execute();
+        //[TV]=total_value(v,fs,5,10000,16);
+        final double TV = new TotalValue(v, fs, fmin, fmax, 16).execute();
 
         //t=(0:N-1)/fs;
         final List<BigDecimal> t = DoubleStream.iterate(0, i -> i + 1)
@@ -74,8 +75,7 @@ public class TimeDomainOfV {
                 .boxed()
                 .map(NumberFormatUtils::roundToDecimal)
                 .collect(toList());
-        final List<BigDecimal> y = filtResult.getAfir()
-                .stream()
+        final List<BigDecimal> y = v.stream()
                 .map(NumberFormatUtils::roundToDecimal)
                 .collect(toList());
 

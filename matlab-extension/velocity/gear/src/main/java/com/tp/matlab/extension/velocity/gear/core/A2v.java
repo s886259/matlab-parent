@@ -1,7 +1,6 @@
 package com.tp.matlab.extension.velocity.gear.core;
 
 import com.tp.matlab.extension.velocity.gear.core.OnceIntegral.OnceIntegralResult;
-import com.tp.matlab.kernel.core.DoubleMax;
 import com.tp.matlab.kernel.core.ResultComplex;
 import com.tp.matlab.kernel.transform.FFTTransformer;
 import com.tp.matlab.kernel.transform.IFFTTransformer;
@@ -39,7 +38,7 @@ class A2v {
      */
     private final Double fhigh;
 
-    public double execute() {
+    public List<Double> execute() {
         final Integer n = this.a.size();     //%采样点数
         //final double a_fft= fft(detrend(a));
         final List<Double> detrend = PythonUtils.detrend(this.a);
@@ -61,36 +60,30 @@ class A2v {
         final List<Double> w = f.stream().map(i -> 2 * Math.PI * i).collect(toList());
         final int n_inferior = (int) Math.round(this.flow / df);
         final int n_superior = (int) Math.round(this.fhigh / df);
-        // [Rv,Iv,Complexv]=Once_integral(w,a_fft);
+        //[Rv,Iv,Complexv]=Once_integral(w,a_fft);
         final OnceIntegralResult onceIntegralResult = new OnceIntegral(w, afft).execute();
-
-        //TODO  k=zeros(1,n);
         final ResultComplex[] k = new ResultComplex[this.a.size()];
         for (int i = 0; i < k.length; i++) {
             if (i >= n_inferior - 1 && i < n_superior) {
-                //k(n_inferior:n_superior)=a_fft(n_inferior:n_superior);
-                k[i] = afft.get(i);
+                //k(n_inferior:n_superior)=Complexv(n_inferior:n_superior);
+                k[i] = onceIntegralResult.getComplexv().get(i);
             } else if (i >= n - n_superior && i < n - n_inferior + 1) {
-                //k(n-n_superior+1:n-n_inferior+1)=a_fft(n-n_superior+1:n-n_inferior+1);
-                k[i] = afft.get(i);
+                //k(n-n_superior+1:n-n_inferior+1)=Complexv(n-n_superior+1:n-n_inferior+1);
+                k[i] = onceIntegralResult.getComplexv().get(i);
             } else {
                 k[i] = ResultComplex.of(0d, 0d);
             }
         }
-        //[peak_mf,loc_mf]=max(abs_tmp);
-        final DoubleMax k_max = PythonUtils.getMax(Arrays.stream(k).map(ResultComplex::getAbs).collect(toList()), n / 2);
-        final double peak_mf = k_max.getVal();
-        final double loc_mf = k_max.getIndex();
-
-        //mf=loc_mf*df;
-        final double mf = loc_mf * df;
-        //a_time=ifft(k)
-        final List<ResultComplex> a_time = new IFFTTransformer().transform(
+        //v_time=ifft(k);
+        final List<ResultComplex> v_time = new IFFTTransformer().transform(
                 Arrays.stream(k).map(i -> new Complex(i.getReal(), i.getImag())).toArray(Complex[]::new)
         );
-        // %滤波后数据
-        final List<Double> a_fir = a_time.stream().map(ResultComplex::getReal).collect(toList());
-        return 0;
+
+        final List<Double> v = PythonUtils.detrend( //v=detrend(v);
+                v_time.stream().map(ResultComplex::getReal).collect(toList()))  //v=real(v_time(1:n));
+                .stream().map(i -> 1000 * i)    //v=1000*v';
+                .collect(toList());
+        return v;
     }
 
 

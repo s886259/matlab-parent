@@ -1,8 +1,6 @@
 package com.tp.matlab.web.velocity.gear;
 
-import com.tp.matlab.kernel.util.ExcelUtils;
 import com.tp.matlab.kernel.util.FileUtils;
-import com.tp.matlab.web.acceleration.service.AccService;
 import com.tp.matlab.web.velocity.gear.service.GearService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -15,7 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.IOException;
 import java.util.List;
 
-import static com.tp.matlab.kernel.util.ExcelUtils.*;
+import static com.tp.matlab.kernel.util.ExcelUtils.xlsRead;
 import static com.tp.matlab.web.base.AbstractTransformTest.TEST_EXCEL_COLUMN_INDEX;
 import static com.tp.matlab.web.base.AbstractTransformTest.TIME_DOMAIN_TEST_EXCEL;
 
