@@ -15,6 +15,8 @@ matlab-parent
 |     |──gear --速度时域(齿轮)
 |     |
 |     |──velocity --速度时域(激振器)
+|     |
+|     |──envolope --包络时域
 |
 ├──matlab-kernel --核心算法及工具类
 |
