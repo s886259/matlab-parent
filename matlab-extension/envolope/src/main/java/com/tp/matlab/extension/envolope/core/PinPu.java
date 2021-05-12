@@ -4,7 +4,7 @@ import com.tp.matlab.extension.envolope.core.OnceIntegral.OnceIntegralResult;
 import com.tp.matlab.kernel.core.ResultComplex;
 import com.tp.matlab.kernel.transform.FFTTransformer;
 import com.tp.matlab.kernel.transform.IFFTTransformer;
-import com.tp.matlab.kernel.util.PythonUtils;
+import com.tp.matlab.kernel.util.MatlabUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.math3.complex.Complex;
@@ -19,7 +19,7 @@ import static java.util.stream.Collectors.toList;
  * Created by tangpeng on 2021-05-10
  */
 @RequiredArgsConstructor
-class A2v {
+class PinPu {
 
     /**
      * 源数据
@@ -41,7 +41,7 @@ class A2v {
     public List<Double> execute() {
         final Integer n = this.a.size();     //%采样点数
         //final double a_fft= fft(detrend(a));
-        final List<Double> detrend = PythonUtils.detrend(this.a);
+        final List<Double> detrend = MatlabUtils.detrend(this.a);
         final List<ResultComplex> afft = new FFTTransformer().transform(detrend);
         //df=fs/n;
         final Double df = (double) this.fs / n;
@@ -79,7 +79,7 @@ class A2v {
                 Arrays.stream(k).map(i -> new Complex(i.getReal(), i.getImag())).toArray(Complex[]::new)
         );
 
-        final List<Double> v = PythonUtils.detrend( //v=detrend(v);
+        final List<Double> v = MatlabUtils.detrend( //v=detrend(v);
                 v_time.stream().map(ResultComplex::getReal).collect(toList()))  //v=real(v_time(1:n));
                 .stream().map(i -> 1000 * i)    //v=1000*v';
                 .collect(toList());

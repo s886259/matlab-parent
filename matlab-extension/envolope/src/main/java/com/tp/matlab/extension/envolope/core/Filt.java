@@ -4,7 +4,7 @@ import com.tp.matlab.kernel.core.DoubleMax;
 import com.tp.matlab.kernel.core.ResultComplex;
 import com.tp.matlab.kernel.transform.FFTTransformer;
 import com.tp.matlab.kernel.transform.IFFTTransformer;
-import com.tp.matlab.kernel.util.PythonUtils;
+import com.tp.matlab.kernel.util.MatlabUtils;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.math3.complex.Complex;
@@ -41,7 +41,7 @@ class Filt {
         final Integer n = this.a.size();
         final Double df = (double) this.fs / n;
         //final double a_fft= fft(detrend(a));
-        final List<Double> detrend = PythonUtils.detrend(this.a);
+        final List<Double> detrend = MatlabUtils.detrend(this.a);
         final List<ResultComplex> afft = new FFTTransformer().transform(detrend);
         final int n_inferior = (int) Math.round(this.flow / df);
         final int n_superior = (int) Math.round(this.fhigh / df);
@@ -58,7 +58,7 @@ class Filt {
             }
         }
         //[peak_mf,loc_mf]=max(abs_tmp);
-        final DoubleMax k_max = PythonUtils.getMax(Arrays.stream(k).map(ResultComplex::getAbs).collect(toList()), n / 2);
+        final DoubleMax k_max = MatlabUtils.getMax(Arrays.stream(k).map(ResultComplex::getAbs).collect(toList()), n / 2);
         final double peak_mf = k_max.getVal();
         final double loc_mf = k_max.getIndex();
 

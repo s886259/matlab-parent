@@ -2,7 +2,7 @@ package com.tp.matlab.extension.envolope.core;
 
 import com.tp.matlab.kernel.core.ResultComplex;
 import com.tp.matlab.kernel.transform.FFTTransformer;
-import com.tp.matlab.kernel.util.PythonUtils;
+import com.tp.matlab.kernel.util.MatlabUtils;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -28,7 +28,7 @@ class TotalValue {
     public double execute() {
         final int n = this.a.size();
         //afft=fft(detrend(a),n);
-        final List<Double> detrend = PythonUtils.detrend(this.a);
+        final List<Double> detrend = MatlabUtils.detrend(this.a);
         final List<ResultComplex> afft = new FFTTransformer().transform(detrend);
         //df=fs/n;
         final double df = (double) fs / n;

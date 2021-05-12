@@ -1,7 +1,7 @@
 package com.tp.matlab.kernel.filter;
 
 import com.tp.matlab.kernel.util.NumberFormatUtils;
-import com.tp.matlab.kernel.util.PythonUtils;
+import com.tp.matlab.kernel.util.MatlabUtils;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.Accessors;
@@ -47,7 +47,7 @@ public class FirFilter {
      */
     private List<Double> transform() {
         final double[] b = this.firArray.stream().mapToDouble(i -> i).toArray();
-        final List<Double> out_full = PythonUtils.apply_along_axis(b, this.inputArray.stream().mapToDouble(i -> i).toArray());
+        final List<Double> out_full = MatlabUtils.apply_along_axis(b, this.inputArray.stream().mapToDouble(i -> i).toArray());
         final List<Double> out = out_full.stream().limit(this.inputArray.size()).collect(toList());
         return out;
     }

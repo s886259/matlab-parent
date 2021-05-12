@@ -1,7 +1,7 @@
 package com.tp.matlab.kernel.windows;
 
 import com.tp.matlab.kernel.util.NumberFormatUtils;
-import com.tp.matlab.kernel.util.PythonUtils;
+import com.tp.matlab.kernel.util.MatlabUtils;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.Accessors;
@@ -92,9 +92,9 @@ public class FirWindow {
         final List<Double> h = m.stream()
                 .map(i -> {
                     // h += right * sinc(right * m)
-                    double tmp = right * PythonUtils.sinc(i * right);
+                    double tmp = right * MatlabUtils.sinc(i * right);
                     // h -= right * sinc(left * m)
-                    return tmp - left * PythonUtils.sinc(left * i);
+                    return tmp - left * MatlabUtils.sinc(left * i);
                 })
                 .collect(toList());
         /**
