@@ -6,17 +6,19 @@ matlab-parent
 |
 ├──matlab-extension --程序扩展
 |  |
-|  |──acceleration --加速度
-|  |
-|  |──velocity
+|  |──time --时域计算程序
+|     | 
+|     |──time-acceleration --加速度
 |     |
-|     |──common --速度时域公共类
+|     |──time-velocity --速度时域
+|        |
+|        |──time-velocity-common --速度时域公共类
+|        |
+|        |──time-velocity-gear --速度时域(齿轮)
+|        |
+|        |──time-velocity-vibrator --速度时域(激振器)
 |     |
-|     |──gear --速度时域(齿轮)
-|     |
-|     |──velocity --速度时域(激振器)
-|     |
-|     |──envolope --包络时域
+|     |──time-envolope --包络时域
 |
 ├──matlab-kernel --核心算法及工具类
 |

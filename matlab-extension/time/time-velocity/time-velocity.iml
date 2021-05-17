@@ -5,7 +5,6 @@
     <output-test url="file://$MODULE_DIR$/../time-velocity/target/test-classes" />
     <content url="file://$MODULE_DIR$/../time-velocity">
       <excludeFolder url="file://$MODULE_DIR$/../time-velocity/target" />
-      <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
