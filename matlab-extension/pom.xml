@@ -19,6 +19,7 @@
     <!-- 模块说明：这里声明多个子模块 -->
     <modules>
         <module>time</module>
+        <module>frequency</module>
     </modules>
 
     <dependencies>
