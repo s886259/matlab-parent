@@ -19,5 +19,6 @@
     <modules>
         <module>frequency-acceleration</module>
         <module>frequency-envolope</module>
+        <module>frequency-velocity</module>
     </modules>
 </project>

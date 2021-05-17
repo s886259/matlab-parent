@@ -6,9 +6,11 @@ matlab-parent
 |
 ├──matlab-extension --程序扩展
 |  |
-|  |──time --时域计算程序
+|  |──time --时域程序
 |     | 
-|     |──time-acceleration --加速度
+|     |──time-acceleration --加速度时域
+|     |
+|     |──time-envolope --包络时域
 |     |
 |     |──time-velocity --速度时域
 |        |
@@ -17,8 +19,18 @@ matlab-parent
 |        |──time-velocity-gear --速度时域(齿轮)
 |        |
 |        |──time-velocity-vibrator --速度时域(激振器)
-|     |
-|     |──time-envolope --包络时域
+| 
+|  |──frequency --频谱图程序
+|     | 
+|     |──frequency-acceleration --加速度时域
+|     | 
+|     |──frequency-envolope --包络频谱(轴承)
+|     | 
+|     |──frequency-velocity --速度时域
+|        |
+|        |──frequency-velocity-gear --速度时域(齿轮)
+|        |
+|        |──frequency-velocity-vibrator --速度时域(激振器)
 |
 ├──matlab-kernel --核心算法及工具类
 |

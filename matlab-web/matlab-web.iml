@@ -27,7 +27,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: com.tp.matlab.extension:time-acceleration:0.0.1-SNAPSHOT" level="project" />
+    <orderEntry type="module" module-name="time-acceleration" />
     <orderEntry type="module" module-name="matlab-kernel" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-math3:3.6.1" level="project" />
     <orderEntry type="library" name="Maven: com.github.wendykierp:JTransforms:3.1" level="project" />
@@ -59,10 +59,14 @@
     <orderEntry type="library" name="Maven: com.github.virtuald:curvesapi:1.03" level="project" />
     <orderEntry type="library" name="Maven: cn.hutool:hutool-all:5.6.5" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-collections4:4.4" level="project" />
-    <orderEntry type="library" name="Maven: com.tp.matlab.extension:time-velocity-gear:0.0.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: com.tp.matlab.extension:time-velocity-common:0.0.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: com.tp.matlab.extension:time-velocity-vibrator:0.0.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: com.tp.matlab.extension:time-envolope:0.0.1-SNAPSHOT" level="project" />
+    <orderEntry type="module" module-name="time-velocity-gear" />
+    <orderEntry type="module" module-name="time-velocity-common" />
+    <orderEntry type="module" module-name="time-velocity-vibrator" />
+    <orderEntry type="module" module-name="time-envolope" />
+    <orderEntry type="module" module-name="frequency-envolope" />
+    <orderEntry type="module" module-name="frequency-acceleration" />
+    <orderEntry type="module" module-name="frequency-velocity-gear" />
+    <orderEntry type="module" module-name="frequency-velocity-vibrator" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:2.4.5" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:2.4.5" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context:5.3.6" level="project" />
