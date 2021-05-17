@@ -4,13 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
     <!-- 继承本项目的父工程 -->
     <parent>
-        <groupId>com.tp.matlab</groupId>
-        <artifactId>matlab-parent</artifactId>
+        <groupId>com.tp.matlab.extension</groupId>
+        <artifactId>matlab-extension</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>matlab-extension</artifactId>
+    <artifactId>time</artifactId>
     <packaging>pom</packaging>
-    <groupId>com.tp.matlab.extension</groupId>
     <version>0.0.1-SNAPSHOT</version>
     <properties>
         <java.version>1.8</java.version>
@@ -18,15 +17,8 @@
 
     <!-- 模块说明：这里声明多个子模块 -->
     <modules>
-        <module>time</module>
+        <module>time-acceleration</module>
+        <module>time-envolope</module>
+        <module>time-velocity</module>
     </modules>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.tp.matlab</groupId>
-            <artifactId>matlab-kernel</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
-
 </project>

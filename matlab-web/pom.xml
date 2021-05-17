@@ -21,22 +21,22 @@
     <dependencies>
         <dependency>
             <groupId>com.tp.matlab.extension</groupId>
-            <artifactId>acceleration</artifactId>
+            <artifactId>time-acceleration</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.tp.matlab.extension</groupId>
-            <artifactId>gear</artifactId>
+            <artifactId>time-velocity-gear</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.tp.matlab.extension</groupId>
-            <artifactId>vibrator</artifactId>
+            <artifactId>time-velocity-vibrator</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.tp.matlab.extension</groupId>
-            <artifactId>envolope</artifactId>
+            <artifactId>time-envolope</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
