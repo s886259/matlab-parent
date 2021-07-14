@@ -67,6 +67,7 @@
     <orderEntry type="module" module-name="frequency-acceleration" />
     <orderEntry type="module" module-name="frequency-velocity-gear" />
     <orderEntry type="module" module-name="frequency-velocity-vibrator" />
+    <orderEntry type="module" module-name="frequency-triaxial" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:2.4.5" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:2.4.5" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context:5.3.6" level="project" />
