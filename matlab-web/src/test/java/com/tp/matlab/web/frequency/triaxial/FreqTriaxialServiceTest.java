@@ -17,6 +17,7 @@ import java.util.List;
 import static com.tp.matlab.kernel.util.ExcelUtils.xlsRead;
 import static com.tp.matlab.web.base.AbstractTransformTest.TEST_EXCEL_COLUMN_INDEX;
 import static com.tp.matlab.web.base.AbstractTransformTest.TIME_DOMAIN_TEST_EXCEL;
+import static org.apache.commons.lang3.ArrayUtils.toPrimitive;
 
 /**
  * Created by tangpeng on 2021-07-13
@@ -36,13 +37,13 @@ public class FreqTriaxialServiceTest {
         final List<Double> records = xlsRead(fileName, TEST_EXCEL_COLUMN_INDEX);
         //save source input file
         FileUtils.double2File(String.format("%s_column%d_source_.txt", fileName, TEST_EXCEL_COLUMN_INDEX), records);
-        final List<List<Double>> lists = new ArrayList<>();
-        lists.add(xlsRead(fileName, 1));
-        lists.add(xlsRead(fileName, 2));
-        lists.add(xlsRead(fileName, 3));
-        lists.add(xlsRead(fileName, 4));
-        lists.add(xlsRead(fileName, 5));
-        lists.add(xlsRead(fileName, 6));
+        final List<double[]> lists = new ArrayList<>();
+        lists.add(toPrimitive(xlsRead(fileName, 1).toArray(new Double[0])));
+        lists.add(toPrimitive(xlsRead(fileName, 2).toArray(new Double[0])));
+        lists.add(toPrimitive(xlsRead(fileName, 3).toArray(new Double[0])));
+        lists.add(toPrimitive(xlsRead(fileName, 4).toArray(new Double[0])));
+        lists.add(toPrimitive(xlsRead(fileName, 5).toArray(new Double[0])));
+        lists.add(toPrimitive(xlsRead(fileName, 6).toArray(new Double[0])));
         freqTriaxialService.execute(lists);
     }
 }

@@ -26,7 +26,7 @@ public class A2x {
     /**
      * 源数据
      */
-    private final List<List<Double>> a;
+    private final List<double[]> a;
     /**
      * 采样频率
      */
@@ -37,7 +37,7 @@ public class A2x {
         final int fmin = 5;
         final int fmax = 300;
         //TODO: a1=a(:,c);
-        final List<Double> a1 = a.get(c - 1);
+        final List<Double> a1 = DoubleStream.of(a.get(c - 1)).boxed().collect(toList());
         //fs=25600;
         final int fs = 25600;
         final int n = a1.size();     //%采样点数

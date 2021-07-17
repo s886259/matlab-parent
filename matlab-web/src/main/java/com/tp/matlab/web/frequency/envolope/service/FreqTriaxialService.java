@@ -18,7 +18,7 @@ public class FreqTriaxialService {
      * @param array 需要分析的列值
      * @return 分析后的结果
      */
-    public Map<String, Object> execute(@NonNull final List<List<Double>> array) throws JsonProcessingException {
+    public Map<String, Object> execute(@NonNull final List<double[]> array) throws JsonProcessingException {
         return new Trails().execute(array);
     }
 

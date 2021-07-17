@@ -33,7 +33,7 @@ public class Trails {
      * @param a 需要分析的列值
      * @return 分析后的结果
      */
-    public Map<String, Object> execute(@NonNull final List<List<Double>> a) throws JsonProcessingException {
+    public Map<String, Object> execute(@NonNull final List<double[]> a) throws JsonProcessingException {
         /**
          * %%%%%%%%%%%%%%%%%%%%%%%%字母说明%%%%%%%%%%%%%%%%%%%%%%%%
          *     %   单位：mm
