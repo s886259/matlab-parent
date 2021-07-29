@@ -31,6 +31,8 @@ matlab-parent
 |        |──frequency-velocity-gear --速度时域(齿轮)
 |        |
 |        |──frequency-velocity-vibrator --速度时域(激振器)
+|     | 
+|     |──frequency-triaxial --轴心轨迹
 |
 ├──matlab-kernel --核心算法及工具类
 |
