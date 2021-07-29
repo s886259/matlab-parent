@@ -40,6 +40,6 @@ class Spectrum {
     @RequiredArgsConstructor(staticName = "of")
     static class SpectrumResult {
         private final List<Double> f;
-        private final List<Double> vi;
+        private final List<Double> ai;
     }
 }
