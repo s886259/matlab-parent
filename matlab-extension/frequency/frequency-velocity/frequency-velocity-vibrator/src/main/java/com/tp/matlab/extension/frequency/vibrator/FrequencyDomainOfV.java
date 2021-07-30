@@ -162,6 +162,7 @@ public class FrequencyDomainOfV {
                 .map(NumberFormatUtils::roundToDecimal)
                 .collect(toList());
         final FrequencyDomainOfVResult result = FrequencyDomainOfVResult.builder()
+                .ymax(ymax)
                 .p(roundToDecimal(pm_max.getVal()))
                 .mf(roundToDecimal(mf))
                 .tv(roundToDecimal(TV))
@@ -190,6 +191,10 @@ public class FrequencyDomainOfV {
     @Getter
     @Builder
     private static class FrequencyDomainOfVResult {
+        /**
+         * 满刻度
+         */
+        private int ymax;
         /**
          * 峰值；mf：峰值对应的频率
          */
