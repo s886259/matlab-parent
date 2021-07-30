@@ -28,6 +28,7 @@ import static java.util.stream.Collectors.toList;
 public class FrequencyDomainOfEnvolope {
     /**
      * @param a   需要分析的列值
+     * @param fs  采样频率
      * @param fam FAM [bpfi,bpfo,bsf,ftf]
      * @param f0  基频
      * @return 分析后的结果
@@ -35,11 +36,11 @@ public class FrequencyDomainOfEnvolope {
      */
     public Map<String, Object> execute(
             @NonNull final List<Double> a,
+            @NonNull final Integer fs,
             @NonNull final Fam fam,
             @NonNull final Integer f0
     ) throws JsonProcessingException {
         final double g = 9.8;
-        final long fs = 25600;           //%采样频率
         //n=length(inputArray);
         final int N = a.size();   //%数据长度
         //df=fs/N;
@@ -166,6 +167,7 @@ public class FrequencyDomainOfEnvolope {
                 .map(NumberFormatUtils::roundToDecimal)
                 .collect(toList());
         final FrequencyDomainOfEnvolopeResult result = FrequencyDomainOfEnvolopeResult.builder()
+                .ymax(ymax)
                 .p(roundToDecimal(pm_max.getVal()))
                 .mf(roundToDecimal(mf))
                 .tv(roundToDecimal(TV))
@@ -194,6 +196,10 @@ public class FrequencyDomainOfEnvolope {
     @Getter
     @Builder
     private static class FrequencyDomainOfEnvolopeResult {
+        /**
+         * 满刻度
+         */
+        private double ymax;
         /**
          * 峰值；mf：峰值对应的频率
          */

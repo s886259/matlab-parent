@@ -5,8 +5,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.tp.matlab.extension.time.velocity.common.*;
 import com.tp.matlab.extension.time.velocity.common.ValueOfPeak.ValueOfPeakResult;
 import com.tp.matlab.kernel.core.DoubleMax;
-import com.tp.matlab.kernel.util.NumberFormatUtils;
 import com.tp.matlab.kernel.util.MatlabUtils;
+import com.tp.matlab.kernel.util.NumberFormatUtils;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
@@ -26,17 +26,19 @@ import static java.util.stream.Collectors.toList;
  */
 @Slf4j
 public class TimeDomainOfV {
-
     /**
-     * @param a 需要分析的列值
+     * @param a  需要分析的列值
+     * @param fs 采样频率
      * @return 分析后的结果
      */
-    public Map<String, Object> execute(@NonNull final List<Double> a) throws JsonProcessingException {
-        final long fs = 25600;           //%采样频率
+    public Map<String, Object> execute(
+            @NonNull final List<Double> a,
+            @NonNull final Integer fs
+    ) throws JsonProcessingException {
         //n=length(inputArray);
         final int N = a.size();   //%数据长度
         //df=fs/N;
-        final double df = fs / N;
+        final double df = (double) fs / N;
         final double fcut = 5;          //%低频截止
         final int fmin = 5;          //%fmin：起始频率
         final int fmax = 500;      //famx：终止频率

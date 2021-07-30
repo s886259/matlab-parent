@@ -19,7 +19,7 @@ public class TimeEnvolopeService {
      * @return 分析后的结果
      */
     public Map<String, Object> execute(@NonNull final List<Double> array) throws JsonProcessingException {
-        return new TimeDomainOfEnvolope().execute(array);
+        return new TimeDomainOfEnvolope().execute(array, 25600);
     }
 
 }

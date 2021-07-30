@@ -16,7 +16,7 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 class Spectrum {
 
-    private final Long fs;
+    private final Integer fs;
     /**
      * 源数据
      */

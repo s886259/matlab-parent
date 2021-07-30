@@ -25,7 +25,7 @@ public class FreqEnvolopeService {
         final double ftf = 0.410686;
         final Fam fam = Fam.builder().bpfi(bpfi).bpfo(bpfo).bsf(bsf).ftf(ftf).build();
         final Integer f0 = 12;
-        return new FrequencyDomainOfEnvolope().execute(array, fam, f0);
+        return new FrequencyDomainOfEnvolope().execute(array, 25600, fam, f0);
     }
 
 }

@@ -17,7 +17,7 @@ class HannFilt {
     /**
      * 采样频率
      */
-    private final Long fs;
+    private final Integer fs;
     /**
      * 源数据
      */

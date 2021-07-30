@@ -19,7 +19,6 @@ import static java.util.stream.Collectors.toList;
  */
 @RequiredArgsConstructor
 class Filt {
-
     /**
      * 源数据
      */
@@ -27,7 +26,7 @@ class Filt {
     /**
      * 采样频率
      */
-    private final Long fs;
+    private final Integer fs;
     /**
      * 低频截止
      */

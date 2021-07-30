@@ -20,7 +20,7 @@ class TotalValue {
      * 源数据
      */
     private final List<Double> a;
-    private final Long fs;
+    private final Integer fs;
     private final Integer fmin;
     private final Integer fmax;
     private final Integer m;

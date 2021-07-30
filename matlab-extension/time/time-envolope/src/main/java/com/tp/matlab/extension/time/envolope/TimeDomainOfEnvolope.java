@@ -24,18 +24,20 @@ import static java.util.stream.Collectors.toList;
  */
 @Slf4j
 public class TimeDomainOfEnvolope {
-
     /**
-     * @param a 需要分析的列值
+     * @param a  需要分析的列值
+     * @param fs 采样频率
      * @return 分析后的结果
      */
-    public Map<String, Object> execute(@NonNull final List<Double> a) throws JsonProcessingException {
+    public Map<String, Object> execute(
+            @NonNull final List<Double> a,
+            @NonNull final Integer fs
+    ) throws JsonProcessingException {
         final double g = 9.80;
-        final long fs = 25600;           //%采样频率
         //n=length(inputArray);
         final int N = a.size();   //%数据长度
         //df=fs/N;
-        final double df = fs / N;
+        final double df = (double)fs / N;
         final int fmin = 2;          //%fmin：起始频率
         final int fmax = 1000;      //famx：终止频率
         final double time = (double) N / fs;

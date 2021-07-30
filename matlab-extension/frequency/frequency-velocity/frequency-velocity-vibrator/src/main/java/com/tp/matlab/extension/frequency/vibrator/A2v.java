@@ -18,7 +18,6 @@ import static java.util.stream.Collectors.toList;
  */
 @RequiredArgsConstructor
 public class A2v {
-
     /**
      * 源数据
      */
@@ -26,7 +25,7 @@ public class A2v {
     /**
      * 采样频率
      */
-    private final Long fs;
+    private final Integer fs;
 
     public List<Double> execute() {
         final Integer n = this.a.size();     //%采样点数

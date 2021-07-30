@@ -28,6 +28,7 @@ import static java.util.stream.Collectors.toList;
 public class FrequencyDomainOfA {
     /**
      * @param a   需要分析的列值
+     * @param fs  采样频率
      * @param fam FAM [bpfi,bpfo,bsf,ftf]
      * @param f0  基频
      * @return 分析后的结果
@@ -35,14 +36,14 @@ public class FrequencyDomainOfA {
      */
     public Map<String, Object> execute(
             @NonNull final List<Double> a,
+            @NonNull final Integer fs,
             @NonNull final Fam fam,
             @NonNull final Integer f0
     ) throws JsonProcessingException {
-        final long fs = 25600;           //%采样频率
         //n=length(inputArray);
         final int N = a.size();   //%数据长度
         //df=fs/N;
-        final double df = fs / N;
+        final double df = (double) fs / N;
         final double fcut = 5;          //%低频截止
         final int fmin = 5;          //%fmin：起始频率
         final int fmax = 10000;      //famx：终止频率
@@ -157,6 +158,7 @@ public class FrequencyDomainOfA {
                 .map(NumberFormatUtils::roundToDecimal)
                 .collect(toList());
         final FrequencyDomainOfAResult result = FrequencyDomainOfAResult.builder()
+                .ymax(ymax)
                 .p(roundToDecimal(pm_max.getVal()))
                 .mf(roundToDecimal(mf))
                 .tv(roundToDecimal(TV))
@@ -185,6 +187,10 @@ public class FrequencyDomainOfA {
     @Getter
     @Builder
     private static class FrequencyDomainOfAResult {
+        /**
+         * 满刻度
+         */
+        private int ymax;
         /**
          * 峰值；mf：峰值对应的频率
          */

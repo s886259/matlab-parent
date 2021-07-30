@@ -21,14 +21,11 @@ import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDecimal;
 import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
 import static java.util.stream.Collectors.toList;
 
-//import com.tp.matlab.extension.time.envolope.Filt.FiltResult;
-
 /**
  * Created by tangpeng on 2021-07-13
  */
 @Slf4j
 public class Trails {
-
     /**
      * @param a 需要分析的列值
      * @return 分析后的结果
@@ -44,7 +41,6 @@ public class Trails {
          * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
          */
         final int N = a.size();   //%数据长度
-        final long fs = 25600;           //%采样频率
         /**
          * x1=1000*a2x(a,1);y1=1000*a2x(a,2);z1=1000*a2x(a,3);
          * x2=1000*a2x(a,4);y2=1000*a2x(a,5);z2=1000*a2x(a,6);

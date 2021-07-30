@@ -16,7 +16,6 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDecimal;
 import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
@@ -29,6 +28,7 @@ import static java.util.stream.Collectors.toList;
 public class FrequencyDomainOfV {
     /**
      * @param a   需要分析的列值
+     * @param fs  采样频率
      * @param fam FAM [bpfi,bpfo,bsf,ftf]
      * @param f0  基频
      * @return 分析后的结果
@@ -36,14 +36,14 @@ public class FrequencyDomainOfV {
      */
     public Map<String, Object> execute(
             @NonNull final List<Double> a,
+            @NonNull final Integer fs,
             @NonNull final Fam fam,
             @NonNull final Integer f0
     ) throws JsonProcessingException {
-        final long fs = 25600;           //%采样频率
         //n=length(inputArray);
         final int N = a.size();   //%数据长度
         //df=fs/N;
-        final double df = fs / N;
+        final double df = (double) fs / N;
         final double fcut = 5;          //%低频截止
         final int fmin = 0;          //%fmin：起始频率
         final int fmax = 500;      //famx：终止频率
