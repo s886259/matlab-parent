@@ -20,6 +20,7 @@
     <modules>
         <module>time</module>
         <module>frequency</module>
+        <module>displacement</module>
     </modules>
 
     <dependencies>
