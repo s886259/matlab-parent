@@ -21,52 +21,7 @@
     <dependencies>
         <dependency>
             <groupId>com.tp.matlab.extension</groupId>
-            <artifactId>time-acceleration</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.tp.matlab.extension</groupId>
-            <artifactId>time-velocity-gear</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.tp.matlab.extension</groupId>
-            <artifactId>time-velocity-vibrator</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.tp.matlab.extension</groupId>
-            <artifactId>time-envolope</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.tp.matlab.extension</groupId>
-            <artifactId>frequency-envolope</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.tp.matlab.extension</groupId>
-            <artifactId>frequency-acceleration</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.tp.matlab.extension</groupId>
-            <artifactId>frequency-velocity-gear</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.tp.matlab.extension</groupId>
-            <artifactId>frequency-velocity-vibrator</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.tp.matlab.extension</groupId>
-            <artifactId>frequency-triaxial</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.tp.matlab.extension</groupId>
-            <artifactId>displacement</artifactId>
+            <artifactId>matlab-extension-starter</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->

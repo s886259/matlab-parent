@@ -27,6 +27,7 @@
         <module>matlab-web</module>
         <module>matlab-kernel</module>
         <module>matlab-extension</module>
+        <module>matlab-extension-starter</module>
     </modules>
 
     <dependencies>
