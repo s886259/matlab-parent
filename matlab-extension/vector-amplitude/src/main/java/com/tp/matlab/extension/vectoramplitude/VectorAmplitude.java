@@ -103,7 +103,7 @@ public class VectorAmplitude {
         //A2=p3-p4;   %矢量幅值
         final double a2 = pm3.getVal() - pm4.getVal();
 
-        final DisplacementResult result = DisplacementResult.builder()
+        final VectorAmplitudeResult result = VectorAmplitudeResult.builder()
                 .p1(roundToDecimal(pm1.getVal()))
                 .p2(roundToDecimal(pm2.getVal()))
                 .p3(roundToDecimal(pm3.getVal()))
@@ -121,7 +121,7 @@ public class VectorAmplitude {
 
     @Getter
     @Builder
-    private static class DisplacementResult {
+    private static class VectorAmplitudeResult {
         /**
          * p1：左侧正半轴峰值
          */
