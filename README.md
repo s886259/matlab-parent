@@ -38,6 +38,8 @@ matlab-parent
 |     
 |  |──displacement --位移图程序
 |
+|  |──vector-amplitude --矢量振幅程序
+|
 ├──matlab-kernel --核心算法及工具类
 |
 ├──matlab-web --对外提供api

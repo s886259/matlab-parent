@@ -1,6 +1,6 @@
 package com.tp.matlab.extension.time.velocity.common;
 
-import com.tp.matlab.kernel.core.DoubleMax;
+import com.tp.matlab.kernel.core.ValueWithIndex;
 import com.tp.matlab.kernel.core.ResultComplex;
 import com.tp.matlab.kernel.transform.FFTTransformer;
 import com.tp.matlab.kernel.transform.IFFTTransformer;
@@ -57,7 +57,7 @@ public class Filt {
             }
         }
         //[peak_mf,loc_mf]=max(abs_tmp);
-        final DoubleMax k_max = MatlabUtils.getMax(Arrays.stream(k).map(ResultComplex::getAbs).collect(toList()), n / 2);
+        final ValueWithIndex k_max = MatlabUtils.getMax(Arrays.stream(k).map(ResultComplex::getAbs).collect(toList()), n / 2);
         final double peak_mf = k_max.getVal();
         final double loc_mf = k_max.getIndex();
 

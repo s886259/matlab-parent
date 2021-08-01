@@ -3,7 +3,7 @@ package com.tp.matlab.extension.frequency.vibrator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tp.matlab.extension.frequency.vibrator.Spectrum.SpectrumResult;
-import com.tp.matlab.kernel.core.DoubleMax;
+import com.tp.matlab.kernel.core.ValueWithIndex;
 import com.tp.matlab.kernel.core.Fam;
 import com.tp.matlab.kernel.util.MatlabUtils;
 import com.tp.matlab.kernel.util.NumberFormatUtils;
@@ -56,7 +56,7 @@ public class FrequencyDomainOfV {
         final SpectrumResult spectrumResult = new Spectrum(fs, v).execute();    //%ai用于存储频谱幅值数据
         //[p,m]=max(vi);  %寻峰
         final List<Double> ai = spectrumResult.getAi();
-        final DoubleMax pm_max = MatlabUtils.getMax(ai);
+        final ValueWithIndex pm_max = MatlabUtils.getMax(ai);
         //mf=f(m);    %峰值对应频率值
         final double mf = spectrumResult.getF().get(pm_max.getIndex() - 1);
         //[vrms]=Value_of_RMS(v);

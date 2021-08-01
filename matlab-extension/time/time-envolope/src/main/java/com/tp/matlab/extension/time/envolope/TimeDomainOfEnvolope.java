@@ -3,7 +3,7 @@ package com.tp.matlab.extension.time.envolope;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tp.matlab.extension.time.envolope.Filt.FiltResult;
-import com.tp.matlab.kernel.core.DoubleMax;
+import com.tp.matlab.kernel.core.ValueWithIndex;
 import com.tp.matlab.kernel.util.MatlabUtils;
 import com.tp.matlab.kernel.util.NumberFormatUtils;
 import lombok.Builder;
@@ -44,13 +44,13 @@ public class TimeDomainOfEnvolope {
         //[a_fir,mf]=filt(a,fs,fcut,fs/2.56);
         final FiltResult filtResult = new Filt(a, fs, 500d, 10000d).execute();   //500~10k的过滤器范围
         //[p,m]=findpeaks(a_fir);
-        final List<DoubleMax> afir_max = MatlabUtils.findPeaks(filtResult.getAfir());
+        final List<ValueWithIndex> afir_max = MatlabUtils.findPeaks(filtResult.getAfir());
         //p=p/g;
-        final List<Double> p = afir_max.stream().map(DoubleMax::getVal).map(i -> i / g).collect(toList());
+        final List<Double> p = afir_max.stream().map(ValueWithIndex::getVal).map(i -> i / g).collect(toList());
         //m=m/fs;
-        final List<Double> m = afir_max.stream().map(DoubleMax::getIndex).mapToDouble(i -> i).map(i -> i / fs).boxed().collect(toList());
+        final List<Double> m = afir_max.stream().map(ValueWithIndex::getIndex).mapToDouble(i -> i).map(i -> i / fs).boxed().collect(toList());
         //[pv,tm]=max(p);
-        final DoubleMax pm_max = MatlabUtils.getMax(p);
+        final ValueWithIndex pm_max = MatlabUtils.getMax(p);
         //tm=m(tm)
         final double tm = m.get(pm_max.getIndex() - 1); //对应matlab从1开始,此处数组索引要减1
         final double A = pm_max.getVal();

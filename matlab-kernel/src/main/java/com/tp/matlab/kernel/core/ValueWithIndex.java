@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
  */
 @Getter
 @RequiredArgsConstructor(staticName = "of")
-public class DoubleMax {
+public class ValueWithIndex {
     private final double val;
     /**
      * matlab index从1开始, 这里也是从1开始

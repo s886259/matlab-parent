@@ -3,7 +3,7 @@ package com.tp.matlab.extension.frequency.envolope;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tp.matlab.extension.frequency.envolope.Spectrum.SpectrumResult;
-import com.tp.matlab.kernel.core.DoubleMax;
+import com.tp.matlab.kernel.core.ValueWithIndex;
 import com.tp.matlab.kernel.core.Fam;
 import com.tp.matlab.kernel.util.MatlabUtils;
 import com.tp.matlab.kernel.util.NumberFormatUtils;
@@ -63,7 +63,7 @@ public class FrequencyDomainOfEnvolope {
         //[p,m]=max(ai);  %寻峰
         //[p,m]=max(ai(2:500));  %寻峰
         final List<Double> ai = spectrumResult.getAi();
-        final DoubleMax pm_max = MatlabUtils.getMax(ai.subList(1, 500));
+        final ValueWithIndex pm_max = MatlabUtils.getMax(ai.subList(1, 500));
         //mf=f(m);    %峰值对应频率值
         final double mf = spectrumResult.getF().get(pm_max.getIndex() - 1);
         //[TV]=total_value(a_fir,fs,fmin,fmax,16);  %整体频谱 (也是 整体趋势）

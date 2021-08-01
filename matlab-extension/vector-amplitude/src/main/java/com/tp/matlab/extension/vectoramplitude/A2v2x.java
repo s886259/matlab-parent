@@ -1,11 +1,12 @@
-package com.tp.matlab.extension.frequency.triaxial;
+package com.tp.matlab.extension.vectoramplitude;
 
-import com.tp.matlab.extension.frequency.triaxial.OnceIntegral.OnceIntegralResult;
+import com.tp.matlab.extension.vectoramplitude.OnceIntegral.OnceIntegralResult;
 import com.tp.matlab.kernel.core.ResultComplex;
 import com.tp.matlab.kernel.transform.FFTTransformer;
 import com.tp.matlab.kernel.transform.IFFTTransformer;
 import com.tp.matlab.kernel.util.MatlabUtils;
 import com.tp.matlab.kernel.util.NumberFormatUtils;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.math3.complex.Complex;
@@ -18,29 +19,30 @@ import java.util.stream.DoubleStream;
 import static java.util.stream.Collectors.toList;
 
 /**
- * Created by tangpeng on 2021-07-13
+ * Created by tangpeng on 2021-07-31
  */
 @RequiredArgsConstructor
-public class A2x {
+public class A2v2x {
 
     /**
      * 源数据
      */
-    private final List<double[]> a;
+    private final List<Double> a;
     /**
      * 采样频率
      */
-    private final int c;
+    private final int fs;
+    /**
+     * 起始频率
+     */
+    private final int fmin;
+    /**
+     * 终止频率
+     */
+    private final int fmax;
 
-    public List<Double> execute() {
-        //fmin=5;fmax=300;
-        final int fmin = 5;
-        final int fmax = 300;
-        //a1=a(:,c);
-        final List<Double> a1 = DoubleStream.of(a.get(c - 1)).boxed().collect(toList());
-        //fs=25600;
-        final int fs = 25600;
-        final int n = a1.size();     //%采样点数
+    public A2v2xResult execute() {
+        final int n = a.size();     //%采样点数
         //t=(0:n-1)/fs; %时间
         final List<BigDecimal> t = DoubleStream.iterate(0, i -> i + 1)
                 .limit(n)
@@ -50,7 +52,7 @@ public class A2x {
                 .collect(toList());
 
         //final double a_fft= fft(detrend(a));
-        final List<Double> detrend = MatlabUtils.detrend(a1);
+        final List<Double> detrend = MatlabUtils.detrend(a);
         final List<ResultComplex> afft = new FFTTransformer().transform(detrend);
         //df=fs/n;
         final Double df = (double) fs / n;
@@ -126,8 +128,14 @@ public class A2x {
         );
         //v=real(v_time(1:n));
         final List<Double> x = x_time.stream().map(ResultComplex::getReal).collect(toList());
-        return x;
+        return A2v2xResult.of(v, x);
     }
 
 
+    @Getter
+    @RequiredArgsConstructor(staticName = "of")
+    static class A2v2xResult {
+        private final List<Double> v;
+        private final List<Double> x;
+    }
 }

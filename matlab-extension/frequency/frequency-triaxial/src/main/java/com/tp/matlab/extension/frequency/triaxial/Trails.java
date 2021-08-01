@@ -2,7 +2,7 @@ package com.tp.matlab.extension.frequency.triaxial;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.tp.matlab.kernel.core.DoubleMax;
+import com.tp.matlab.kernel.core.ValueWithIndex;
 import com.tp.matlab.kernel.util.MatlabUtils;
 import com.tp.matlab.kernel.util.NumberFormatUtils;
 import lombok.Builder;
@@ -58,12 +58,12 @@ public class Trails {
         for (int i = 0; i < 6; i++) {
             // pks_x1=findpeaks(xx(:,i));%正峰值
             final List<Double> pks_x1 = MatlabUtils.findPeaks(xx.get(i)).stream()
-                    .map(DoubleMax::getVal)
+                    .map(ValueWithIndex::getVal)
                     .collect(toList());
             // pks_x2=findpeaks(-1*xx(:,i));%负峰值
             final List<Double> pks_x2 = MatlabUtils.findPeaks(xx.get(i).stream().map(j -> j * -1).collect(toList()))
                     .stream()
-                    .map(DoubleMax::getVal)
+                    .map(ValueWithIndex::getVal)
                     .collect(toList());
             // mx1=mean(pks_x1);
             final Double mx1 = pks_x1.stream().collect(Collectors.averagingDouble(p -> p));

@@ -3,7 +3,7 @@ package com.tp.matlab.extension.time.acceleration;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tp.matlab.extension.time.acceleration.ValueOfPeak.ValueOfPeakResult;
-import com.tp.matlab.kernel.core.DoubleMax;
+import com.tp.matlab.kernel.core.ValueWithIndex;
 import com.tp.matlab.kernel.util.MatlabUtils;
 import com.tp.matlab.kernel.util.NumberFormatUtils;
 import lombok.Builder;
@@ -46,7 +46,7 @@ public class TimeDomainOfA {
         final Filt.FiltResult filtResult = new Filt(a, fs, fcut, fs / 2.56).execute();
         final double RPM = filtResult.getMf() * 60;
         //[p,m]=max(a_fir);
-        final DoubleMax pm_max = MatlabUtils.getMax(filtResult.getAfir());
+        final ValueWithIndex pm_max = MatlabUtils.getMax(filtResult.getAfir());
         //tm=m/fs;
         final double tm = (double) pm_max.getIndex() / fs;
         final double A = pm_max.getVal();

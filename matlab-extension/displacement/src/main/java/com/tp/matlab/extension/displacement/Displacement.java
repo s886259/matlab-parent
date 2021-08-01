@@ -3,7 +3,7 @@ package com.tp.matlab.extension.displacement;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tp.matlab.extension.displacement.A2v2x.A2v2xResult;
-import com.tp.matlab.kernel.core.DoubleMax;
+import com.tp.matlab.kernel.core.ValueWithIndex;
 import com.tp.matlab.kernel.util.MatlabUtils;
 import com.tp.matlab.kernel.util.NumberFormatUtils;
 import lombok.Builder;
@@ -51,9 +51,9 @@ public class Displacement {
         //x=x*1000;
         final List<Double> x = a2v2xResult.getX().stream().map(i -> i * 1000).collect(toList());
         //[p1,m1]=max(x);%正半轴
-        final DoubleMax pm1 = MatlabUtils.getMax(x);
+        final ValueWithIndex pm1 = MatlabUtils.getMax(x);
         //[p2,m2]=max(-x);%负半轴
-        final DoubleMax pm2 = MatlabUtils.getMax(x.stream().map(i -> i * -1).collect(toList()));
+        final ValueWithIndex pm2 = MatlabUtils.getMax(x.stream().map(i -> i * -1).collect(toList()));
         //m1=m1/fs;
         final double m1 = (double) pm1.getIndex() / fs;
         //m2=m2/fs;

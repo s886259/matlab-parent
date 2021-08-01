@@ -67,7 +67,10 @@
             <artifactId>displacement</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.tp.matlab.extension</groupId>
+            <artifactId>vector-amplitude</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
-
-
 </project>
