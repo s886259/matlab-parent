@@ -174,9 +174,13 @@ public class FrequencyDomainOfEnvolope {
                 /**
                  * FAM
                  */
+                .num_BPFI(num_BPFI.stream().map(NumberFormatUtils::roundToDecimal).collect(toList()))
                 .valu_BPFI(valu_BPFI.stream().map(NumberFormatUtils::roundToDecimal).collect(toList()))
+                .num_BPFO(num_BPFO.stream().map(NumberFormatUtils::roundToDecimal).collect(toList()))
                 .valu_BPFO(valu_BPFO.stream().map(NumberFormatUtils::roundToDecimal).collect(toList()))
+                .num_BSF(num_BSF.stream().map(NumberFormatUtils::roundToDecimal).collect(toList()))
                 .valu_BSF(valu_BSF.stream().map(NumberFormatUtils::roundToDecimal).collect(toList()))
+                .num_FTF(num_FTF.stream().map(NumberFormatUtils::roundToDecimal).collect(toList()))
                 .valu_FTF(valu_FTF.stream().map(NumberFormatUtils::roundToDecimal).collect(toList()))
                 /**
                  * 谐波光标
@@ -214,20 +218,24 @@ public class FrequencyDomainOfEnvolope {
         private BigDecimal tv;
 
         /**
-         * FAM栏-valu_BPFI
+         * FAM栏-BPFI
          */
+        private List<BigDecimal> num_BPFI;
         private List<BigDecimal> valu_BPFI;
         /**
-         * FAM栏-valu_BPFO
+         * FAM栏-BPFO
          */
+        private List<BigDecimal> num_BPFO;
         private List<BigDecimal> valu_BPFO;
         /**
-         * FAM栏-valu_BSF
+         * FAM栏-BSF
          */
+        private List<BigDecimal> num_BSF;
         private List<BigDecimal> valu_BSF;
         /**
-         * FAM栏-valu_FTF
+         * FAM栏-FTF
          */
+        private List<BigDecimal> num_FTF;
         private List<BigDecimal> valu_FTF;
 
         /**
