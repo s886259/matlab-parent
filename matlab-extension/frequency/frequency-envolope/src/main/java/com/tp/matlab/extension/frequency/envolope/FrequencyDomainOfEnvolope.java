@@ -161,9 +161,13 @@ public class FrequencyDomainOfEnvolope {
                 .collect(toList());
         //to result
         final List<BigDecimal> x = spectrumResult.getF().stream()
+                //xlim([fmin,fmax]);
+                .filter(i-> i <= fmax && i >= fmin)
                 .map(NumberFormatUtils::roundToDecimal)
                 .collect(toList());
         final List<BigDecimal> y = spectrumResult.getAi().stream()
+                //ylim([0,0.25]); 
+                .filter(i-> i <= 0.25 && i >= 0)
                 .map(NumberFormatUtils::roundToDecimal)
                 .collect(toList());
         final FrequencyDomainOfEnvolopeResult result = FrequencyDomainOfEnvolopeResult.builder()
