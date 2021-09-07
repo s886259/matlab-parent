@@ -58,7 +58,7 @@ public class FrequencyDomainOfA {
         //mf=f(m);    %峰值对应频率值
         final double mf = spectrumResult.getF().get(pm_max.getIndex() - 1);
         //[TV]=total_value(a_fir,fs,fmin,fmax,32);  %整体频谱 (也是 整体趋势）
-        final double TV = new TotalValue(a_fir, fs, fmin, fmax, 32).execute();
+        final double TV = new TotalValue(a, fs, fmin, fmax, 32).execute();
         /**
          * %%%%%%%%%%%%%%%%%%%%%%%FAM栏计算%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
          */
