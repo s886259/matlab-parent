@@ -106,10 +106,11 @@ public class FrequencyDomainOfA {
          */
         //num_f0=floor(f0/df)+1;
         final int num_f0 = (int) (Math.floor(f0 / df) + 1);
-        //f_xiebo=k*12;   %谐波
+        //k=[1 2 3 4 5 6 7 8 9 10];   %阶次
         final List<Integer> k = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        //f_xiebo=k*12;   %谐波
         final List<Integer> f_xiebo = k.stream()
-                .map(i -> i * f0)
+                .map(i -> i * 12)
                 .collect(toList());
         //num_f=floor(f_xiebo/df)+1;
         final List<Integer> num_f = f_xiebo.stream()
