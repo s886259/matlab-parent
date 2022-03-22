@@ -27,7 +27,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="matlab-extension (1) (com.tp.matlab.extension-bom)" />
     <orderEntry type="module" module-name="matlab-extension-starter" />
     <orderEntry type="module" module-name="time-acceleration" />
     <orderEntry type="module" module-name="matlab-kernel" />

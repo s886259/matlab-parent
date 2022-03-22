@@ -1,7 +1,6 @@
 package com.tp.matlab.web.vectoramplitude;
 
 import com.tp.matlab.kernel.util.FileUtils;
-import com.tp.matlab.web.frequency.envolope.service.FreqTriaxialService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.junit.Test;

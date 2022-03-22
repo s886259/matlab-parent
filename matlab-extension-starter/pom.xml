@@ -20,42 +20,42 @@
         <dependency>
             <groupId>com.tp.matlab.extension</groupId>
             <artifactId>time-acceleration</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.tp.matlab.extension</groupId>
             <artifactId>time-velocity-gear</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.tp.matlab.extension</groupId>
             <artifactId>time-velocity-vibrator</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.tp.matlab.extension</groupId>
             <artifactId>time-envolope</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.tp.matlab.extension</groupId>
             <artifactId>frequency-envolope</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.tp.matlab.extension</groupId>
             <artifactId>frequency-acceleration</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.tp.matlab.extension</groupId>
             <artifactId>frequency-velocity-gear</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.tp.matlab.extension</groupId>
             <artifactId>frequency-velocity-vibrator</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.tp.matlab.extension</groupId>
@@ -65,12 +65,12 @@
         <dependency>
             <groupId>com.tp.matlab.extension</groupId>
             <artifactId>displacement</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.tp.matlab.extension</groupId>
             <artifactId>vector-amplitude</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>

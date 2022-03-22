@@ -18,7 +18,7 @@ public class VectorAmplitudeService {
      * @return 分析后的结果
      */
     public Map<String, Object> execute(@NonNull final List<double[]> array) throws JsonProcessingException {
-        return new VectorAmplitude().execute(array, 25600);
+        return new VectorAmplitude().execute(array, 25600, 12, null, null);
     }
 
 }

@@ -35,11 +35,11 @@ public class A2v2x {
     /**
      * 起始频率
      */
-    private final int fmin;
+    private final int flcut;
     /**
      * 终止频率
      */
-    private final int fmax;
+    private final int fhcut;
 
     public A2v2xResult execute() {
         final int n = a.size();     //%采样点数
@@ -69,10 +69,10 @@ public class A2v2x {
         final List<Double> f = ListUtils.union(f2, f1);
         //w=2*pi*f;
         final List<Double> w = f.stream().map(i -> 2 * Math.PI * i).collect(toList());
-        //n_inferior=round(fmin/df);
-        final int n_inferior = (int) Math.round(fmin / df);
-        //n_superior=round(fmax/df);
-        final int n_superior = (int) Math.round(fmax / df);
+        //n_inferior=round(flcut/df);
+        final int n_inferior = (int) Math.round(flcut / df);
+        //n_superior=round(fhcut/df);
+        final int n_superior = (int) Math.round(fhcut / df);
 
         //[Rv,Iv,Complexv]=Once_integral(w,a_fft);
         final OnceIntegralResult onceIntegralResult = new OnceIntegral(w, afft).execute();

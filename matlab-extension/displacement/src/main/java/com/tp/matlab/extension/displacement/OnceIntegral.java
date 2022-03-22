@@ -31,6 +31,11 @@ public class OnceIntegral {
             iList.add(i);
             complexes.add(ResultComplex.of(r, i));
         }
+        /*
+          Complex=R+1i*I;
+          Complex(1)=0;
+          Complex(nn)=0;
+         */
         complexes.set(0, ResultComplex.of(0d, 0d));
         complexes.set(nn - 1, ResultComplex.of(0d, 0d));
         return OnceIntegralResult.of(rList, iList, complexes);

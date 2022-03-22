@@ -4,35 +4,46 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tp.matlab.extension.vectoramplitude.A2v2x.A2v2xResult;
 import com.tp.matlab.kernel.core.ValueWithIndex;
-import com.tp.matlab.kernel.util.MatlabUtils;
+import com.tp.matlab.kernel.util.NumberFormatUtils;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.lang.Nullable;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.DoubleStream;
 
+import static com.tp.matlab.kernel.util.MatlabUtils.getMax;
+import static com.tp.matlab.kernel.util.MatlabUtils.getMin;
 import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDecimal;
 import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
 import static java.util.stream.Collectors.toList;
 
 /**
+ * 矢量振幅
  * Created by tangpeng on 2021-08-01
  */
 @Slf4j
 public class VectorAmplitude {
     /**
-     * @param a  需要分析的列值
-     * @param fs 采样频率
+     * @param a     需要分析的列值
+     * @param fs    采样频率
+     * @param n     转频 (20220323)
+     * @param flcut 低频截止,也可以作为入参输入实现图表重新计算 (20220323)
+     * @param fhcut 高频截止,也可以作为入参输入实现图表重新计算 (20220323)
      * @return 分析后的结果
      * @throws JsonProcessingException
      */
     public Map<String, Object> execute(
             @NonNull final List<double[]> a,
-            @NonNull final Integer fs
+            @NonNull final Integer fs,
+            @NonNull final Integer n,
+            @Nullable final Double flcut,
+            @Nullable final Double fhcut
     ) throws JsonProcessingException {
         /**
          * %%%%%%%%%%%%%%%%%%%%%%%% xy平面矢量振幅计算 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -46,72 +57,105 @@ public class VectorAmplitude {
         //ay2=aa(:,5);
         final List<Double> ay2 = DoubleStream.of(a.get(4)).boxed().collect(toList());
         //n=length(ax1); %采样点数
-        final int n = ax1.size();
+        final int size = ax1.size();
         /**
          * %%%%%%%%%%%%%%%%%%%%%%%%字母说明%%%%%%%%%%%%%%%%%%%%%%%%
          *     %   单位：mm
-         *     %   fmin：低频截止；fmax：高频截止
-         *     %   检测值：左侧矢量振幅A1（对应通道1、2），右侧矢量振幅A2（对应通道4、5）
+         *     %   flcut：低频截止；fhcut：高频截止
+         *     %   检测值：左侧矢量振幅A1（对应通道1、2），右侧矢量振幅A2（对应通道4、5）   //该值为输出值，需要存库
          * %%%%%%%%%%%%%%%%%%%%%%%%字母说明%%%%%%%%%%%%%%%%%%%%%%%%
+         * //1、n为转频，作为入参；
+         * //2、滤波器：
+         * //1）每张图表有固定的滤波器设置；
+         * //2）也可以作为入参输入实现图表重新计算：flcut、fhcut作为入参；
          */
-        final int fmin = 9;       //fmin：起始频率
-        final int fmax = 30;      //fmax：终止频率
-        //[v1,x1]=a2v2x(ax1,fs,fmin,fmax);
-        final A2v2xResult v1x1 = new A2v2x(ax1, fs, fmin, fmax).execute();
-        //[v2,y1]=a2v2x(ay1,fs,fmin,fmax);
-        final A2v2xResult v2y1 = new A2v2x(ay1, fs, fmin, fmax).execute();
-        //[v3,x2]=a2v2x(ax2,fs,fmin,fmax);
-        final A2v2xResult v3x2 = new A2v2x(ax2, fs, fmin, fmax).execute();
-        //[v4,y2]=a2v2x(ay2,fs,fmin,fmax);
-        final A2v2xResult v4y2 = new A2v2x(ay2, fs, fmin, fmax).execute();
-        //x1=x1*1000+20;
-        final List<Double> x1 = v1x1.getX().stream().map(i -> i * 1000 + 20).collect(toList());
-        //y1=y1*1000+20;
-        final List<Double> y1 = v2y1.getX().stream().map(i -> i * 1000 + 20).collect(toList());
-        //x2=x2*1000+20;
-        final List<Double> x2 = v3x2.getX().stream().map(i -> i * 1000 + 20).collect(toList());
-        //y2=y2*1000+20;
-        final List<Double> y2 = v4y2.getX().stream().map(i -> i * 1000 + 20).collect(toList());
+        final double flcut_1 = Optional.ofNullable(flcut).orElse(n - 0.25 * n);      //flcut：低频截止
+        final double fhcut_1 = Optional.ofNullable(fhcut).orElse(n + 0.25 * n);      //fhcut：高频截止
+        //[v1,x1]=a2v2x(ax1,fs,flcut,fhcut);
+        final A2v2xResult v1x1 = new A2v2x(ax1, fs, flcut_1, fhcut_1).execute();
+        //[v2,y1]=a2v2x(ay1,fs,flcut,fhcut);
+        final A2v2xResult v2y1 = new A2v2x(ay1, fs, flcut_1, fhcut_1).execute();
+        //[v3,x2]=a2v2x(ax2,fs,flcut,fhcut);
+        final A2v2xResult v3x2 = new A2v2x(ax2, fs, flcut_1, fhcut_1).execute();
+        //[v4,y2]=a2v2x(ay2,fs,flcut,fhcut);
+        final A2v2xResult v4y2 = new A2v2x(ay2, fs, flcut_1, fhcut_1).execute();
+        /*
+          [leftx,lefty]=[x1*1000,y1*1000];  %*1000变换单位mm,左侧（对应通道1、2）XY数组 ////该值为输出值，需要存库
+          [rightx,righty]=[x2*1000,y2*1000]; %*1000变换单位mm,右侧（对应通道4、5）XY数组 ////该值为输出值，需要存库
+         */
+        //x1=x1*1000;
+        final List<Double> leftx = v1x1.getX().stream().map(i -> i * 1000).collect(toList());
+        //y1=y1*1000;
+        final List<Double> lefty = v2y1.getX().stream().map(i -> i * 1000).collect(toList());
+        //x2=x2*1000;
+        final List<Double> rightx = v3x2.getX().stream().map(i -> i * 1000).collect(toList());
+        //y2=y2*1000;
+        final List<Double> righty = v4y2.getX().stream().map(i -> i * 1000).collect(toList());
+
+        //delta=1000*max([max(x1),max(y1),max(x2),max(y2)]);
+        final double delta = DoubleStream.of(getMax(v1x1.getX()).getVal(), getMax(v2y1.getX()).getVal(), getMax(v3x2.getX()).getVal(), getMax(v4y2.getX()).getVal()).max().getAsDouble() * 1000;
+        //x1=x1*1000+delta;
+        final List<Double> x1 = v1x1.getX().stream().map(i -> i * 1000 + delta).collect(toList());
+        //y1=y1*1000+delta;
+        final List<Double> y1 = v2y1.getX().stream().map(i -> i * 1000 + delta).collect(toList());
+        //x2=x2*1000+delta;
+        final List<Double> x2 = v3x2.getX().stream().map(i -> i * 1000 + delta).collect(toList());
+        //y2=y2*1000+delta;
+        final List<Double> y2 = v4y2.getX().stream().map(i -> i * 1000 + delta).collect(toList());
+
+        //xmax_1=max(x1);
+        final double xmax_1 = getMax(x1).getVal();
+        //ymmax_1=max(y1);
+        final double ymmax_1 = getMax(y1).getVal();
+        //xmin_1=min(x1);
+        final double xmin_1 = getMin(x1).getVal();
+        //ymin_1=min(y1);
+        final double ymin_1 = getMin(y1).getVal();
+        //theta1=180*atan((ymmax_1-ymin_1)/(xmax_1-xmin_1))/pi;  %左侧（对应通道1、2）与水平方向夹角  //该值为输出值，需要存库
+        final double theta1 = Math.toDegrees(Math.atan((ymmax_1 - ymin_1) / (xmax_1 - xmin_1)));
+
+        //xmax_2=max(x2);
+        final double xmax_2 = getMax(x2).getVal();
+        //ymmax_2=max(y2);
+        final double ymmax_2 = getMax(y2).getVal();
+        //xmin_2=min(x2);
+        final double xmin_2 = getMin(x2).getVal();
+        //ymin_2=min(y2);
+        final double ymin_2 = getMin(y2).getVal();
+        //theta2=180*atan((ymax_2-ymin_2)/(xmax_2-xmin_2))/pi;   %右侧（对应通道4、5）与水平方向夹角  //该值为输出值，需要存库
+        final double theta2 = Math.toDegrees(Math.atan((ymmax_2 - ymin_2) / (xmax_2 - xmin_2)));
+
         //dis_xy1=sqrt(x1.^2+y1.^2);
-        final List<Double> dis_xy1 = DoubleStream.iterate(0, i -> i + 1).limit(n)
+        final List<Double> dis_xy1 = DoubleStream.iterate(0, i -> i + 1).limit(size)
                 .map(i -> Math.sqrt(Math.pow(x1.get((int) i), 2) + Math.pow(y1.get((int) i), 2)))
                 .boxed()
                 .collect(toList());
         //dis_xy2=sqrt(x2.^2+y2.^2);
-        final List<Double> dis_xy2 = DoubleStream.iterate(0, i -> i + 1).limit(n)
+        final List<Double> dis_xy2 = DoubleStream.iterate(0, i -> i + 1).limit(size)
                 .map(i -> Math.sqrt(Math.pow(x2.get((int) i), 2) + Math.pow(y2.get((int) i), 2)))
                 .boxed()
                 .collect(toList());
+
         //[p1,m1]=max(dis_xy1);%正半轴
-        final ValueWithIndex pm1 = MatlabUtils.getMax(dis_xy1);
+        final ValueWithIndex pm1 = getMax(dis_xy1);
         //[p2,m2]=min(dis_xy1);%负半轴
-        final ValueWithIndex pm2 = MatlabUtils.getMin(dis_xy1);
+        final ValueWithIndex pm2 = getMin(dis_xy1);
         //[p3,m3]=max(dis_xy2);%正半轴
-        final ValueWithIndex pm3 = MatlabUtils.getMax(dis_xy2);
+        final ValueWithIndex pm3 = getMax(dis_xy2);
         //[p4,m4]=min(dis_xy2);%负半轴
-        final ValueWithIndex pm4 = MatlabUtils.getMin(dis_xy2);
-        //m1=m1/fs;
-        final double m1 = (double) pm1.getIndex() / fs;
-        //m2=m2/fs;
-        final double m2 = (double) pm2.getIndex() / fs;
-        //m3=m3/fs;
-        final double m3 = (double) pm3.getIndex() / fs;
-        //m4=m4/fs;   %极值出现的位置
-        final double m4 = (double) pm4.getIndex() / fs;
-        //A1=p1-p2;
+        final ValueWithIndex pm4 = getMin(dis_xy2);
+        //A1=p1-p2;     %矢量幅值   //该值为输出值，需要存库
         final double a1 = pm1.getVal() - pm2.getVal();
-        //A2=p3-p4;   %矢量幅值
+        //A2=p3-p4;     %矢量幅值   //该值为输出值，需要存库
         final double a2 = pm3.getVal() - pm4.getVal();
 
         final VectorAmplitudeResult result = VectorAmplitudeResult.builder()
-                .p1(roundToDecimal(pm1.getVal()))
-                .p2(roundToDecimal(pm2.getVal()))
-                .p3(roundToDecimal(pm3.getVal()))
-                .p4(roundToDecimal(pm4.getVal()))
-                .m1(roundToDecimal(m1))
-                .m2(roundToDecimal(m2))
-                .m3(roundToDecimal(m3))
-                .m4(roundToDecimal(m4))
+                .leftx(leftx.stream().map(NumberFormatUtils::roundToDecimal).collect(toList()))
+                .lefty(lefty.stream().map(NumberFormatUtils::roundToDecimal).collect(toList()))
+                .rightx(rightx.stream().map(NumberFormatUtils::roundToDecimal).collect(toList()))
+                .righty(righty.stream().map(NumberFormatUtils::roundToDecimal).collect(toList()))
+                .theta1(roundToDecimal(theta1))
+                .theta2(roundToDecimal(theta2))
                 .a1(roundToDecimal(a1))
                 .a2(roundToDecimal(a2))
                 .build();
@@ -123,37 +167,29 @@ public class VectorAmplitude {
     @Builder
     private static class VectorAmplitudeResult {
         /**
-         * p1：左侧正半轴峰值
+         * leftx：单位mm,左侧（对应通道1、2）X数组
          */
-        private BigDecimal p1;
+        private List<BigDecimal> leftx;
         /**
-         * p2：左侧负半轴峰值
+         * lefty：单位mm,左侧（对应通道1、2）Y数组
          */
-        private BigDecimal p2;
+        private List<BigDecimal> lefty;
         /**
-         * p3：右侧正半轴峰值
+         * rightx：单位mm,右侧（对应通道4、5）X数组
          */
-        private BigDecimal p3;
+        private List<BigDecimal> rightx;
         /**
-         * p4：右侧负半轴峰值
+         * righty：单位mm,右侧（对应通道4、5）Y数组
          */
-        private BigDecimal p4;
+        private List<BigDecimal> righty;
         /**
-         * m1：左侧正半轴峰值对应的频率
+         * theta1：左侧（对应通道1、2）与水平方向夹角
          */
-        private BigDecimal m1;
+        private BigDecimal theta1;
         /**
-         * m2：左侧负半轴峰值对应的频率
+         * theta2：右侧（对应通道4、5）与水平方向夹角
          */
-        private BigDecimal m2;
-        /**
-         * m3：右侧正半轴峰值对应的频率
-         */
-        private BigDecimal m3;
-        /**
-         * m4：右侧负半轴峰值对应的频率
-         */
-        private BigDecimal m4;
+        private BigDecimal theta2;
         /**
          * a1：左侧矢量振幅A1（对应通道1、2）
          */
