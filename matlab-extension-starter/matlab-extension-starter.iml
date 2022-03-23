@@ -99,6 +99,6 @@
     <orderEntry type="module" module-name="frequency-triaxial" />
     <orderEntry type="module" module-name="displacement" />
     <orderEntry type="module" module-name="vector-amplitude" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:1.18.20" level="project" />
+    <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.18.20" level="project" />
   </component>
 </module>

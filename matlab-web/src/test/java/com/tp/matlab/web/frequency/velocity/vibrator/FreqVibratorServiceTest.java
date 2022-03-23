@@ -2,7 +2,6 @@ package com.tp.matlab.web.frequency.velocity.vibrator;
 
 import com.tp.matlab.kernel.util.FileUtils;
 import com.tp.matlab.web.frequency.envolope.service.FreqVibratorService;
-import com.tp.matlab.web.time.velocity.vibrator.service.TimeVibratorService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.junit.Test;
