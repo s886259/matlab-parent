@@ -1,4 +1,4 @@
-package com.tp.matlab.kernel.core;
+package com.tp.matlab.kernel.domain.request;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Getter
 @Builder
-public class Xiebo {
+public class XieboRequest {
     /**
      * 转频
      */

@@ -3,19 +3,19 @@ package com.tp.matlab.extension.frequency.vibrator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tp.matlab.extension.frequency.vibrator.Spectrum.SpectrumResult;
-import com.tp.matlab.kernel.core.Biandai;
-import com.tp.matlab.kernel.core.Fam;
-import com.tp.matlab.kernel.core.ValueWithIndex;
-import com.tp.matlab.kernel.core.Xiebo;
+import com.tp.matlab.kernel.domain.ValueWithIndex;
+import com.tp.matlab.kernel.domain.request.BiandaiRequest;
+import com.tp.matlab.kernel.domain.request.FamRequest;
+import com.tp.matlab.kernel.domain.request.XieboRequest;
+import com.tp.matlab.kernel.domain.result.BiandaiResult;
+import com.tp.matlab.kernel.domain.result.FamResult;
+import com.tp.matlab.kernel.domain.result.FrequencyDomainOfVResult;
+import com.tp.matlab.kernel.domain.result.XieboResult;
 import com.tp.matlab.kernel.util.MatlabUtils;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -53,9 +53,9 @@ public class FrequencyDomainOfV {
     public Map<String, Object> execute(
             @NonNull final List<Double> a,
             @NonNull final Integer fs,
-            @NonNull final Fam fam,
-            @NonNull final Xiebo xiebo,
-            @NonNull final Biandai biandai,
+            @NonNull final FamRequest fam,
+            @NonNull final XieboRequest xiebo,
+            @NonNull final BiandaiRequest biandai,
             @Nullable final Double fmin,
             @Nullable final Double fmax,
             @Nullable final Double flcut,
@@ -63,26 +63,25 @@ public class FrequencyDomainOfV {
     ) throws JsonProcessingException {
         /**
          * %%%%%%%%%%%%%%%%%%%%%%%%字母说明%%%%%%%%%%%%%%%%%%%%%%%%
-         *     %   单位：mm/s
-         *     %   fcut：低频截止
-         *     %   fmin：开始频率；fmax：结束频率；fmin~fmax为频率范围
-         *     %   ymax：满刻度
-         *     %   检测值：均方根值
-         *     %   rms：均方根值
-         *     %   p：峰值；mf：峰值对应的频率
-         *     %   TV：振动总值=整体频谱=整体趋势，m/s^2    //该值为输出值，需要存库
-         *     %   光标信息：见下面光标信息后的注释
+         *     单位：mm/s
+         *     fcut：低频截止
+         *     fmin：开始频率；fmax：结束频率；fmin~fmax为频率范围
+         *     ymax：满刻度
+         *     检测值：均方根值
+         *     rms：均方根值
+         *     p：峰值；mf：峰值对应的频率
+         *     TV：振动总值=整体频谱=整体趋势，m/s^2    //该值为输出值，需要存库
+         *     光标信息：见下面光标信息后的注释
          * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-         * % //1、采样频率和数据长度为入参；
-         * % //2、滤波器：
-         * % //1）每张图表有固定的滤波器设置；
-         * % //2）也可以作为入参输入实现图表重新计算：fmin、fmax、flcut、fhcut等字段；
+         * 1、采样频率和数据长度为入参；
+         * 2、滤波器：
+         * 1）每张图表有固定的滤波器设置；
+         * 2）也可以作为入参输入实现图表重新计算：fmin、fmax、flcut、fhcut等字段；
          */
         //n=length(inputArray);
         final int N = a.size();   //%数据长度
         //df=fs/N;
         final double df = (double) fs / N;
-        final double fcut = 5;          //%低频截止
         final double fmin_1 = Optional.ofNullable(fmin).orElse(0d);             //fmin：起始频率
         final double fmax_1 = Optional.ofNullable(fmax).orElse(500d);           //famx：终止频率
         final double flcut_1 = Optional.ofNullable(flcut).orElse(5d);           //flcut：低频截止
@@ -146,9 +145,9 @@ public class FrequencyDomainOfV {
         //r_BPFO=f(num_BPFO);      %PBF0实际频率
         List<Double> r_BPFO = num_BPFO.stream().map(i -> f.get(i.intValue() - 1)).collect(toList());
         //r_BSF=f(num_BSF);       %BSF实际频率
-        List<Double> r_BSF = num_BSF.stream().map(i -> f.get(i.intValue()) - 1).collect(toList());
+        List<Double> r_BSF = num_BSF.stream().map(i -> f.get(i.intValue() - 1)).collect(toList());
         //r_FTF=f(num_FTF);       %FTF实际频率
-        List<Double> r_FTF = num_FTF.stream().map(i -> f.get(i.intValue()) - 1).collect(toList());
+        List<Double> r_FTF = num_FTF.stream().map(i -> f.get(i.intValue() - 1)).collect(toList());
         //valu_BPFI=vi(num_BPFI);  %BPFI幅值
         final List<Double> valu_BPFI = num_BPFI.stream().map(i -> vi.get(i.intValue() - 1)).collect(toList());
         //valu_BPFO=vi(num_BPFO);  %BPF0幅值
@@ -305,172 +304,5 @@ public class FrequencyDomainOfV {
                 .build();
         return toValue(result, new TypeReference<Map<String, Object>>() {
         });
-    }
-
-    @Getter
-    @AllArgsConstructor(staticName = "of")
-    private static class FamResult {
-        /**
-         * 频率
-         */
-        @NonNull
-        private final BigDecimal pl;
-        /**
-         * 幅值
-         */
-        @NonNull
-        private final BigDecimal fz;
-    }
-
-    @Getter
-    @AllArgsConstructor(staticName = "of")
-    private static class XieboResult {
-        /**
-         * 频率
-         */
-        @NonNull
-        private final BigDecimal pl;
-        /**
-         * 幅值
-         */
-        @NonNull
-        private final BigDecimal fz;
-        /**
-         * 相对百分比
-         */
-        @NonNull
-        private final BigDecimal percent;
-    }
-
-    @Getter
-    @AllArgsConstructor(staticName = "of")
-    private static class BiandaiResult {
-        /**
-         * 位置
-         */
-        @NonNull
-        private final BigDecimal position;
-        /**
-         * 频率
-         */
-        @NonNull
-        private final BigDecimal pl;
-        /**
-         * 幅值
-         */
-        @NonNull
-        private final BigDecimal fz;
-        /**
-         * 阶次
-         */
-        @NonNull
-        private final BigDecimal k;
-        /**
-         * db
-         */
-        @NonNull
-        private final BigDecimal db;
-    }
-
-    @Getter
-    @Builder
-    private static class FrequencyDomainOfVResult {
-        /**
-         * 振动总值=整体频谱=整体趋势，m/s^2
-         */
-        @NonNull
-        private BigDecimal tv;
-        /**
-         * 输出BPFI*1的频率和幅值 //该值为输出值，需要存库，bpfi1~4
-         */
-        @NonNull
-        private FamResult bpfi1;
-        @NonNull
-        private FamResult bpfi2;
-        @NonNull
-        private FamResult bpfi3;
-        @NonNull
-        private FamResult bpfi4;
-        /**
-         * 输出BPFO*1的频率和幅值 //该值为输出值，需要存库，bpfo1~4
-         */
-        @NonNull
-        private FamResult bpfo1;
-        @NonNull
-        private FamResult bpfo2;
-        @NonNull
-        private FamResult bpfo3;
-        @NonNull
-        private FamResult bpfo4;
-        /**
-         * 输出BSF*1的频率和幅值 //该值为输出值，需要存库，bsf1~4
-         */
-        @NonNull
-        private FamResult bsf1;
-        @NonNull
-        private FamResult bsf2;
-        @NonNull
-        private FamResult bsf3;
-        @NonNull
-        private FamResult bsf4;
-        /**
-         * 输出FTF*1的频率和幅值 //该值为输出值，需要存库，ftf1~4
-         */
-        @NonNull
-        private FamResult ftf1;
-        @NonNull
-        private FamResult ftf2;
-        @NonNull
-        private FamResult ftf3;
-        @NonNull
-        private FamResult ftf4;
-        /**
-         * 输出谐波为1时【频率 幅值 相对百分比】//对应K2的第1个值，该值为输出值，需要存库 harmonic1~10
-         */
-        @NonNull
-        private XieboResult harmonic1;
-        @NonNull
-        private XieboResult harmonic2;
-        @NonNull
-        private XieboResult harmonic3;
-        @NonNull
-        private XieboResult harmonic4;
-        @NonNull
-        private XieboResult harmonic5;
-        @NonNull
-        private XieboResult harmonic6;
-        @NonNull
-        private XieboResult harmonic7;
-        @NonNull
-        private XieboResult harmonic8;
-        @NonNull
-        private XieboResult harmonic9;
-        @NonNull
-        private XieboResult harmonic10;
-        /**
-         * 输出不同位置的【位置 频率 幅值 阶次 dB】//，对应position的第1个值，该值为输出值，需要存库 sidcband1~11
-         */
-        @NonNull
-        private BiandaiResult sidcband1;
-        @NonNull
-        private BiandaiResult sidcband2;
-        @NonNull
-        private BiandaiResult sidcband3;
-        @NonNull
-        private BiandaiResult sidcband4;
-        @NonNull
-        private BiandaiResult sidcband5;
-        @NonNull
-        private BiandaiResult sidcband6;
-        @NonNull
-        private BiandaiResult sidcband7;
-        @NonNull
-        private BiandaiResult sidcband8;
-        @NonNull
-        private BiandaiResult sidcband9;
-        @NonNull
-        private BiandaiResult sidcband10;
-        @NonNull
-        private BiandaiResult sidcband11;
     }
 }

@@ -1,6 +1,6 @@
 package com.tp.matlab.extension.vectoramplitude;
 
-import com.tp.matlab.kernel.core.ResultComplex;
+import com.tp.matlab.kernel.domain.ResultComplex;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

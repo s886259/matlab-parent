@@ -1,7 +1,7 @@
 package com.tp.matlab.kernel.util;
 
 import com.github.psambit9791.jdsp.signal.Detrend;
-import com.tp.matlab.kernel.core.ValueWithIndex;
+import com.tp.matlab.kernel.domain.ValueWithIndex;
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.math3.util.MathArrays;

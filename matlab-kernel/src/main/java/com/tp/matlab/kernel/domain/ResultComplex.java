@@ -1,4 +1,4 @@
-package com.tp.matlab.kernel.core;
+package com.tp.matlab.kernel.domain;
 
 import lombok.Data;
 import lombok.NonNull;

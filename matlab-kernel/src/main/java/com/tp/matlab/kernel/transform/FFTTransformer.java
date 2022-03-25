@@ -1,6 +1,6 @@
 package com.tp.matlab.kernel.transform;
 
-import com.tp.matlab.kernel.core.ResultComplex;
+import com.tp.matlab.kernel.domain.ResultComplex;
 import lombok.NonNull;
 import org.apache.commons.math3.complex.Complex;
 import org.apache.commons.math3.transform.DftNormalization;
@@ -10,7 +10,7 @@ import org.apache.commons.math3.transform.TransformType;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.tp.matlab.kernel.core.ComplexConvertUtils.convertToResultComplex;
+import static com.tp.matlab.kernel.domain.ComplexConvertUtils.convertToResultComplex;
 import static java.util.stream.Collectors.toList;
 
 /**

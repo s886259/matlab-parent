@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tp.matlab.extension.time.velocity.common.*;
 import com.tp.matlab.extension.time.velocity.common.ValueOfPeak.ValueOfPeakResult;
-import com.tp.matlab.kernel.core.ValueWithIndex;
+import com.tp.matlab.kernel.domain.ValueWithIndex;
 import com.tp.matlab.kernel.util.MatlabUtils;
 import com.tp.matlab.kernel.util.NumberFormatUtils;
 import lombok.Builder;

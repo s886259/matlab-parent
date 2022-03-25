@@ -3,7 +3,7 @@ package com.tp.matlab.extension.vectoramplitude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tp.matlab.extension.vectoramplitude.A2v2x.A2v2xResult;
-import com.tp.matlab.kernel.core.ValueWithIndex;
+import com.tp.matlab.kernel.domain.ValueWithIndex;
 import com.tp.matlab.kernel.util.NumberFormatUtils;
 import lombok.Builder;
 import lombok.Getter;

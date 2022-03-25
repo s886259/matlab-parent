@@ -1,7 +1,7 @@
 package com.tp.matlab.extension.frequency.gear;
 
 import com.tp.matlab.extension.frequency.gear.OnceIntegral.OnceIntegralResult;
-import com.tp.matlab.kernel.core.ResultComplex;
+import com.tp.matlab.kernel.domain.ResultComplex;
 import com.tp.matlab.kernel.transform.FFTTransformer;
 import com.tp.matlab.kernel.transform.IFFTTransformer;
 import com.tp.matlab.kernel.util.MatlabUtils;

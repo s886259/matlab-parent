@@ -3,8 +3,8 @@ package com.tp.matlab.extension.frequency.envolope;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tp.matlab.extension.frequency.envolope.Spectrum.SpectrumResult;
-import com.tp.matlab.kernel.core.ValueWithIndex;
-import com.tp.matlab.kernel.core.Fam;
+import com.tp.matlab.kernel.domain.ValueWithIndex;
+import com.tp.matlab.kernel.domain.request.FamRequest;
 import com.tp.matlab.kernel.util.MatlabUtils;
 import com.tp.matlab.kernel.util.NumberFormatUtils;
 import lombok.Builder;
@@ -37,7 +37,7 @@ public class FrequencyDomainOfEnvolope {
     public Map<String, Object> execute(
             @NonNull final List<Double> a,
             @NonNull final Integer fs,
-            @NonNull final Fam fam,
+            @NonNull final FamRequest fam,
             @NonNull final Integer f0
     ) throws JsonProcessingException {
         final double g = 9.8;

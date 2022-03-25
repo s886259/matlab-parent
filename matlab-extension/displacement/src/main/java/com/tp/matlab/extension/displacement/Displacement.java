@@ -3,7 +3,7 @@ package com.tp.matlab.extension.displacement;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tp.matlab.extension.displacement.A2v2x.A2v2xResult;
-import com.tp.matlab.kernel.core.ValueWithIndex;
+import com.tp.matlab.kernel.domain.ValueWithIndex;
 import com.tp.matlab.kernel.util.MatlabUtils;
 import com.tp.matlab.kernel.util.NumberFormatUtils;
 import lombok.Builder;
