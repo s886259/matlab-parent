@@ -9,7 +9,7 @@ import com.tp.matlab.kernel.domain.request.FamRequest;
 import com.tp.matlab.kernel.domain.request.XieboRequest;
 import com.tp.matlab.kernel.domain.result.BiandaiResult;
 import com.tp.matlab.kernel.domain.result.FamResult;
-import com.tp.matlab.kernel.domain.result.FrequencyDomainOfVResult;
+import com.tp.matlab.kernel.domain.result.FrequencyResult;
 import com.tp.matlab.kernel.domain.result.XieboResult;
 import com.tp.matlab.kernel.util.MatlabUtils;
 import lombok.NonNull;
@@ -244,7 +244,7 @@ public class FrequencyDomainOfV {
         }
 
         //to result
-        final FrequencyDomainOfVResult result = FrequencyDomainOfVResult.builder()
+        final FrequencyResult result = FrequencyResult.builder()
                 .tv(roundToDecimal(TV))
                 /**
                  * bpfi

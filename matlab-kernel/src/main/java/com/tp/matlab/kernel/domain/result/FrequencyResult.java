@@ -6,9 +6,15 @@ import lombok.NonNull;
 
 import java.math.BigDecimal;
 
+/**
+ * 频谱结果
+ * 1)速度频谱(激振器)
+ * 2)速度频谱(齿轮)
+ * 3)加速度频谱(激振器)
+ */
 @Getter
 @Builder
-public class FrequencyDomainOfVResult {
+public class FrequencyResult {
     /**
      * 振动总值=整体频谱=整体趋势，m/s^2
      */
