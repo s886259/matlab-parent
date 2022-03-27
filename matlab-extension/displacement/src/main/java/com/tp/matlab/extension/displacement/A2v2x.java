@@ -23,7 +23,6 @@ import static java.util.stream.Collectors.toList;
  */
 @RequiredArgsConstructor
 public class A2v2x {
-
     /**
      * 源数据
      */
@@ -33,13 +32,13 @@ public class A2v2x {
      */
     private final int fs;
     /**
-     * 起始频率
+     * 低频截止
      */
-    private final int flcut;
+    private final double flcut;
     /**
-     * 终止频率
+     * 高频截止
      */
-    private final int fhcut;
+    private final double fhcut;
 
     public A2v2xResult execute() {
         final int n = a.size();     //%采样点数
@@ -77,8 +76,6 @@ public class A2v2x {
         //[Rv,Iv,Complexv]=Once_integral(w,a_fft);
         final OnceIntegralResult onceIntegralResult = new OnceIntegral(w, afft).execute();
         //k=zeros(1,n);
-//        List<Double> k = DoubleStream.iterate(0, i -> i).limit((long) (n)).boxed().collect(toList());
-
         final ResultComplex[] k = new ResultComplex[n];
         for (int i = 0; i < k.length; i++) {
             if (i >= n_inferior - 1 && i < n_superior) {
@@ -97,8 +94,6 @@ public class A2v2x {
         );
         //v=real(v_time(1:n));
         final List<Double> v = v_time.stream().map(ResultComplex::getReal).collect(toList());
-
-
         /**
          * x
          */
@@ -108,8 +103,6 @@ public class A2v2x {
         //[Rv,Iv,Complexv]=Once_integral(w,a_fft);
         final OnceIntegralResult onceIntegralResultV = new OnceIntegral(w, vfft).execute();
         //k=zeros(1,n);
-//        List<Double> k = DoubleStream.iterate(0, i -> i).limit((long) (n)).boxed().collect(toList());
-
         final ResultComplex[] k_x = new ResultComplex[n];
         for (int i = 0; i < k.length; i++) {
             if (i >= n_inferior - 1 && i < n_superior) {
@@ -130,7 +123,6 @@ public class A2v2x {
         final List<Double> x = x_time.stream().map(ResultComplex::getReal).collect(toList());
         return A2v2xResult.of(v, x);
     }
-
 
     @Getter
     @RequiredArgsConstructor(staticName = "of")

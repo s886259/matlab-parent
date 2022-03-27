@@ -36,7 +36,7 @@ matlab-parent
 |     | 
 |     |──frequency-triaxial --轴心轨迹
 |     
-|  |──displacement --位移图程序
+|  |──displacement --位移(单轴加速度传感器使用)单值
 |
 |  |──vector-amplitude --矢量振幅程序
 |

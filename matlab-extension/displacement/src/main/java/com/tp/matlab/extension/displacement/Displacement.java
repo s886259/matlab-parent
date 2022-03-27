@@ -10,10 +10,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.lang.Nullable;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.DoubleStream;
 
 import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDecimal;
@@ -21,6 +23,7 @@ import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
 import static java.util.stream.Collectors.toList;
 
 /**
+ * 位移（单轴加速度传感器使用）单值
  * Created by tangpeng on 2021-07-31
  */
 @Slf4j
@@ -28,27 +31,32 @@ public class Displacement {
     /**
      * @param a  需要分析的列值
      * @param fs 采样频率
+     * @param n  转频为入参 (20220323)
      * @return 分析后的结果
      * @throws JsonProcessingException
      */
     public Map<String, Object> execute(
             @NonNull final List<Double> a,
-            @NonNull final Integer fs
+            @NonNull final Integer fs,
+            @Nullable final Integer n
     ) throws JsonProcessingException {
         /**
-         * %%%%%%%%%%%%%%%%%%%%%%%%字母说明%%%%%%%%%%%%%%%%%%%%%%%%
-         *     %   单位：mm
-         *     %   fmin：低频截止；fmax：高频截止
-         *     %   检测值：峰峰值PPV（就是位移单值）
-         *     %   p：峰值；m：峰值对应的频率
-         * %%%%%%%%%%%%%%%%%%%%%%%%字母说明%%%%%%%%%%%%%%%%%%%%%%%%
+         *  %%%%%%%%%%%%%%%%%%%%%%%%字母说明%%%%%%%%%%%%%%%%%%%%%%%%
+         *     单位：gE
+         *     flcut：低频截止；fhcut：高频截止
+         *     检测值：峰峰值PPV（就是位移单值） //该值为输出值，需要存库
+         *     p：峰值；m：峰值对应的频率
+         *  %%%%%%%%%%%%%%%%%%%%%%%%计算%%%%%%%%%%%%%%%%%%%%%%%%
+         *  1、转频为入参；
          */
-        final int n = a.size();   //%数据长度
-        final int fmin = 9;          //%fmin：起始频率
-        final int fmax = 30;      //fmax：终止频率
-        //[v,x]=a2v2x(a,fs,fmin,fmax);
-        final A2v2xResult a2v2xResult = new A2v2x(a, fs, fmin, fmax).execute();
-        //x=x*1000;
+        final int n_1 = Optional.ofNullable(n).orElse(12);       //设置转频为12
+        //flcut=n-0.25*n;        %低频截止
+        final double flcut = n_1 - 0.25 * n_1;
+        //fhcut=n+0.25*n;        %高频截止
+        final double fhcut = n_1 + 0.25 * n_1;
+        //[v,x]=a2v2x(a,fs,flcut,fhcut);
+        final A2v2xResult a2v2xResult = new A2v2x(a, fs, flcut, fhcut).execute();
+        //x=x*1000;              %单位换算
         final List<Double> x = a2v2xResult.getX().stream().map(i -> i * 1000).collect(toList());
         //[p1,m1]=max(x);%正半轴
         final ValueWithIndex pm1 = MatlabUtils.getMax(x);
