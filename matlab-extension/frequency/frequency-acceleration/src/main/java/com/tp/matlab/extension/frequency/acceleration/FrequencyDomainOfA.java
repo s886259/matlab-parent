@@ -3,6 +3,7 @@ package com.tp.matlab.extension.frequency.acceleration;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tp.matlab.extension.frequency.acceleration.Spectrum.SpectrumResult;
+import com.tp.matlab.kernel.domain.TotalValue;
 import com.tp.matlab.kernel.domain.ValueWithIndex;
 import com.tp.matlab.kernel.domain.request.BiandaiRequest;
 import com.tp.matlab.kernel.domain.request.FamRequest;
@@ -16,7 +17,10 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDecimal;
 import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
@@ -98,6 +102,8 @@ public class FrequencyDomainOfA {
 
         /**
          * %%%%%%%%%%%%%%%%%%%%%%%FAM栏计算%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+         * 1、BPFI、BPFO、BSF、FTF、n为输入变量，入参；
+         * 2、默认K1的倍频为1、2、3、4去乘以计算，但也可以作为输入变量，作为入参；
          */
         //BPFI=9.429032;BPFO=6.570968;BSF=2.645376;FTF=0.410686;
         final List<Integer> f_k = fam.getK1().stream().map(k -> k * fam.getN()).collect(toList());
@@ -234,64 +240,7 @@ public class FrequencyDomainOfA {
         }
 
         //to result
-        final FrequencyResult result = FrequencyResult.builder()
-                .tv(roundToDecimal(TV))
-                /**
-                 * bpfi
-                 */
-                .bpfi1(output_BPFI.get(0))
-                .bpfi2(output_BPFI.get(1))
-                .bpfi3(output_BPFI.get(2))
-                .bpfi4(output_BPFI.get(3))
-                /**
-                 * bpfo
-                 */
-                .bpfo1(output_BPFO.get(0))
-                .bpfo2(output_BPFO.get(1))
-                .bpfo3(output_BPFO.get(2))
-                .bpfo4(output_BPFO.get(3))
-                /**
-                 * bsf
-                 */
-                .bsf1(output_BSF.get(0))
-                .bsf2(output_BSF.get(1))
-                .bsf3(output_BSF.get(2))
-                .bsf4(output_BSF.get(3))
-                /**
-                 * ftf
-                 */
-                .ftf1(output_FTF.get(0))
-                .ftf2(output_FTF.get(1))
-                .ftf3(output_FTF.get(2))
-                .ftf4(output_FTF.get(3))
-                /**
-                 * xiebo
-                 */
-                .harmonic1(xieboResults.get(0))
-                .harmonic2(xieboResults.get(1))
-                .harmonic3(xieboResults.get(2))
-                .harmonic4(xieboResults.get(3))
-                .harmonic5(xieboResults.get(4))
-                .harmonic6(xieboResults.get(5))
-                .harmonic7(xieboResults.get(6))
-                .harmonic8(xieboResults.get(7))
-                .harmonic9(xieboResults.get(8))
-                .harmonic10(xieboResults.get(9))
-                /**
-                 * biandai
-                 */
-                .sidcband1(biandaiResults.get(0))
-                .sidcband2(biandaiResults.get(1))
-                .sidcband3(biandaiResults.get(2))
-                .sidcband4(biandaiResults.get(3))
-                .sidcband5(biandaiResults.get(4))
-                .sidcband6(biandaiResults.get(5))
-                .sidcband7(biandaiResults.get(6))
-                .sidcband8(biandaiResults.get(7))
-                .sidcband9(biandaiResults.get(8))
-                .sidcband10(biandaiResults.get(9))
-                .sidcband11(biandaiResults.get(10))
-                .build();
+        final FrequencyResult result = FrequencyResult.from(TV, output_BPFI, output_BPFO, output_BSF, output_FTF, xieboResults, biandaiResults);
         return toValue(result, new TypeReference<Map<String, Object>>() {
         });
     }

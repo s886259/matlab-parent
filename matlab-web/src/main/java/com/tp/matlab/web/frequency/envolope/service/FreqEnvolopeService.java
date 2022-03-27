@@ -2,7 +2,9 @@ package com.tp.matlab.web.frequency.envolope.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.tp.matlab.extension.frequency.envolope.FrequencyDomainOfEnvolope;
+import com.tp.matlab.kernel.domain.request.BiandaiRequest;
 import com.tp.matlab.kernel.domain.request.FamRequest;
+import com.tp.matlab.kernel.domain.request.XieboRequest;
 import lombok.NonNull;
 import org.springframework.stereotype.Service;
 
@@ -23,9 +25,10 @@ public class FreqEnvolopeService {
         final double bpfo = 6.570968;
         final double bsf = 2.645376;
         final double ftf = 0.410686;
-        final FamRequest fam = FamRequest.builder().bpfi(bpfi).bpfo(bpfo).bsf(bsf).ftf(ftf).build();
-        final Integer f0 = 12;
-        return new FrequencyDomainOfEnvolope().execute(array, 25600, fam, f0);
+        final FamRequest fam = FamRequest.builder().bpfi(bpfi).bpfo(bpfo).bsf(bsf).ftf(ftf).n(12).build();
+        final XieboRequest xiebo = XieboRequest.builder().n(12).build();
+        final BiandaiRequest biandai = BiandaiRequest.builder().n(12).build();
+        return new FrequencyDomainOfEnvolope().execute(array, 25600, fam, xiebo, biandai, null, null, null, null);
     }
 
 }

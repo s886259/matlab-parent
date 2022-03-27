@@ -1,4 +1,4 @@
-package com.tp.matlab.extension.frequency.acceleration;
+package com.tp.matlab.kernel.domain;
 
 import com.tp.matlab.kernel.transform.FFTTransformer;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,7 @@ import static java.util.stream.Collectors.toList;
  * Created by tangpeng on 2021-05-05
  */
 @RequiredArgsConstructor
-class TotalValue {
+public class TotalValue {
     /**
      * 源数据
      */
