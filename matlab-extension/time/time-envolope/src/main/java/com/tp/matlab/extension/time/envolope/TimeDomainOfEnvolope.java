@@ -5,14 +5,12 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.tp.matlab.kernel.core.HannFilt;
 import com.tp.matlab.kernel.domain.TotalValue;
 import com.tp.matlab.kernel.domain.ValueWithIndex;
+import com.tp.matlab.kernel.domain.result.TimeResult;
 import com.tp.matlab.kernel.util.MatlabUtils;
-import lombok.Builder;
-import lombok.Getter;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -112,7 +110,7 @@ public class TimeDomainOfEnvolope {
         double TV = new TotalValue(a, fs, fmin_1, fmax_1).execute();
         TV = TV / g;//单位转换
 
-        final TimeDomainOfEnvolopeResult result = new TimeDomainOfEnvolopeResult.TimeDomainOfEnvolopeResultBuilder()
+        final TimeResult result = TimeResult.builder()
                 .rpp(roundToDecimal(rpp))
                 .time(roundToDecimal(time))
                 .a(roundToDecimal(A))
@@ -129,62 +127,5 @@ public class TimeDomainOfEnvolope {
                 .build();
         return toValue(result, new TypeReference<Map<String, Object>>() {
         });
-    }
-
-    @Getter
-    @Builder
-    private static class TimeDomainOfEnvolopeResult {
-        /**
-         * rpp：真峰峰值
-         */
-        private BigDecimal rpp;
-        /**
-         * time：总时间，时间范围：0~time
-         */
-        private BigDecimal time;
-        /**
-         * A：幅值
-         */
-        private BigDecimal a;
-        /**
-         * p：峰值
-         */
-        private BigDecimal p;
-        /**
-         * tm：时域值（峰值对应的时间点）
-         */
-        private BigDecimal tm;
-        /**
-         * Pp：正峰值
-         */
-        private BigDecimal pp;
-        /**
-         * Np：负峰值
-         */
-        private BigDecimal np;
-        /**
-         * vrms：均方根值
-         */
-        private BigDecimal vrms;
-        /**
-         * sigma：标准偏差
-         */
-        private BigDecimal sigma;
-        /**
-         * pf：波峰因素
-         */
-        private BigDecimal pf;
-        /**
-         * ske：偏斜度
-         */
-        private BigDecimal ske;
-        /**
-         * kur：峭度
-         */
-        private BigDecimal kur;
-        /**
-         * TV：振动总值，m/s^2（用于计算整体趋势）
-         */
-        private BigDecimal tv;
     }
 }

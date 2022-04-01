@@ -7,14 +7,12 @@ import com.tp.matlab.extension.time.velocity.common.ValueOfPeak.ValueOfPeakResul
 import com.tp.matlab.kernel.core.HannFilt;
 import com.tp.matlab.kernel.domain.TotalValue;
 import com.tp.matlab.kernel.domain.ValueWithIndex;
+import com.tp.matlab.kernel.domain.result.TimeResult;
 import com.tp.matlab.kernel.util.MatlabUtils;
-import lombok.Builder;
-import lombok.Getter;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -90,6 +88,8 @@ public class TimeDomainOfV {
         final double A = pm_max.getVal();
         //[Pp,Np]=Value_of_Peak(v);
         final ValueOfPeakResult valueOfPeakResult = new ValueOfPeak(v).execute();
+        //rpp=abs(Pp)+abs(Np);
+        final double rpp = Math.abs(valueOfPeakResult.getNp()) + Math.abs(valueOfPeakResult.getPp());
         //[vmean]=Mean_Value(v);
         final double vmean = new MeanValue(v).execute();
         //[sigma]=Value_of_Sigma(v,vmean);
@@ -105,7 +105,8 @@ public class TimeDomainOfV {
         //[TV]=total_value(v,fs,fmin,fmax);
         final double TV = new TotalValue(v, fs, fmin_1, fmax_1).execute();
 
-        final TimeDomainOfAResult result = new TimeDomainOfAResult.TimeDomainOfAResultBuilder()
+        final TimeResult result = TimeResult.builder()
+                .rpp(roundToDecimal(rpp))
                 .time(roundToDecimal(time))
                 .a(roundToDecimal(A))
                 .p(roundToDecimal(pm_max.getVal()))
@@ -121,58 +122,5 @@ public class TimeDomainOfV {
                 .build();
         return toValue(result, new TypeReference<Map<String, Object>>() {
         });
-    }
-
-    @Getter
-    @Builder
-    private static class TimeDomainOfAResult {
-        /**
-         * time：总时间，时间范围：0~time
-         */
-        private BigDecimal time;
-        /**
-         * A：幅值
-         */
-        private BigDecimal a;
-        /**
-         * p：峰值；
-         */
-        private BigDecimal p;
-        /**
-         * tm：时域值（峰值对应的时间点）
-         */
-        private BigDecimal tm;
-        /**
-         * Pp：正峰值；
-         */
-        private BigDecimal pp;
-        /**
-         * Np：负峰值
-         */
-        private BigDecimal np;
-        /**
-         * vrms：均方根值
-         */
-        private BigDecimal vrms;
-        /**
-         * sigma：标准偏差
-         */
-        private BigDecimal sigma;
-        /**
-         * pf：波峰因素
-         */
-        private BigDecimal pf;
-        /**
-         * ske：偏斜度
-         */
-        private BigDecimal ske;
-        /**
-         * kur：峭度
-         */
-        private BigDecimal kur;
-        /**
-         * TV：振动总值，m/s^2（用于计算整体趋势）
-         */
-        private BigDecimal tv;
     }
 }
