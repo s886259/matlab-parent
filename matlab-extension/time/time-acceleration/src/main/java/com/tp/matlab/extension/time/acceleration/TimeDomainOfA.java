@@ -76,7 +76,7 @@ public class TimeDomainOfA {
         final double fmax_1 = Optional.ofNullable(fmax).orElse(10000d);         //famx：终止频率
         final double flcut_1 = Optional.ofNullable(flcut).orElse(5d);           //flcut：低频截止
         final double fhcut_1 = Optional.ofNullable(fhcut).orElse(fs / 2.56);    //fhcut：高频截止
-        final double time = (double) N / fs;
+        final double time = (double) N / fs;                                          //总时间
         //[a_fir]=hann_filt(a,fs,flcut,fhcut);
         final List<Double> a_fir = new HannFilt(fs, a, flcut_1, fhcut_1).execute();
         //[p,m]=max(a_fir);

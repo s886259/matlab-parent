@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tp.matlab.extension.time.velocity.common.*;
 import com.tp.matlab.extension.time.velocity.common.ValueOfPeak.ValueOfPeakResult;
+import com.tp.matlab.kernel.domain.TotalValue;
 import com.tp.matlab.kernel.domain.ValueWithIndex;
 import com.tp.matlab.kernel.util.MatlabUtils;
 import com.tp.matlab.kernel.util.NumberFormatUtils;
@@ -68,7 +69,7 @@ public class TimeDomainOfV {
         //[ske]=Value_of_Kurtosis(v,vmean,sigma);
         final double kur = new ValueOfKurtosis(v, vmean, sigma).execute();
         //[TV]=total_value(v,fs,5,10000,16);
-        final double TV = new TotalValue(v, fs, fmin, fmax, 128).execute();
+//        final double TV = new TotalValue(v, fs, fmin, fmax).execute();
 
         //t=(0:N-1)/fs;
         final List<BigDecimal> t = DoubleStream.iterate(0, i -> i + 1)
@@ -96,7 +97,7 @@ public class TimeDomainOfV {
                 .pf(roundToDecimal(pf))
                 .ske(roundToDecimal(ske))
                 .kur(roundToDecimal(kur))
-                .tv(roundToDecimal(TV))
+//                .tv(roundToDecimal(TV))
                 .x(t)
                 .y(y)
                 .build();

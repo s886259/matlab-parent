@@ -19,7 +19,7 @@ public class TimeGearService {
      * @return 分析后的结果
      */
     public Map<String, Object> execute(@NonNull final List<Double> array) throws JsonProcessingException {
-        return new TimeDomainOfV().execute(array, 25600);
+        return new TimeDomainOfV().execute(array, 25600, null, null, null, null);
     }
 
 }
