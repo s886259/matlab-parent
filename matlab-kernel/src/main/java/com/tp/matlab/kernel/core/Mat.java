@@ -1,9 +1,9 @@
-package com.tp.matlab.extension.frequency.envolope;
+package com.tp.matlab.kernel.core;
 
 /**
  * Created by tangpeng on 2021-05-18
  */
-public class Mat {
+class Mat {
 
     /**
      * chl

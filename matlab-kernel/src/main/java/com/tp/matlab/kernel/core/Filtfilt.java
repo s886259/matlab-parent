@@ -1,4 +1,4 @@
-package com.tp.matlab.extension.frequency.envolope;
+package com.tp.matlab.kernel.core;
 
 import java.util.ArrayList;
 

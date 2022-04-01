@@ -74,7 +74,7 @@ public class Displacement {
          */
         //t=(0:n-1)/fs; %时间
         final List<BigDecimal> t = DoubleStream.iterate(0, i -> i + 1)
-                .limit(n)
+                .limit(n_1)
                 .map(i -> i / fs)
                 .boxed()
                 .map(NumberFormatUtils::roundToDecimal)
