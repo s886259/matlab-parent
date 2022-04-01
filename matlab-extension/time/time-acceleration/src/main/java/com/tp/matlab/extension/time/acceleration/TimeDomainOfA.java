@@ -3,100 +3,117 @@ package com.tp.matlab.extension.time.acceleration;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tp.matlab.extension.time.acceleration.ValueOfPeak.ValueOfPeakResult;
+import com.tp.matlab.kernel.core.HannFilt;
+import com.tp.matlab.kernel.domain.TotalValue;
 import com.tp.matlab.kernel.domain.ValueWithIndex;
 import com.tp.matlab.kernel.util.MatlabUtils;
-import com.tp.matlab.kernel.util.NumberFormatUtils;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.lang.Nullable;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.DoubleStream;
+import java.util.Optional;
 
 import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDecimal;
 import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
-import static java.util.stream.Collectors.toList;
 
 /**
+ * 加速度时域图(检测:峰值)
  * Created by tangpeng on 2021-05-05
  */
 @Slf4j
 public class TimeDomainOfA {
     /**
-     * @param a 需要分析的列值
-     * @param fs 采样频率
+     * @param a     需要分析的列值
+     * @param fs    采样频率
+     * @param fmin  起始频率,也可以作为入参输入实现图表重新计算 (20220323)
+     * @param fmax  终止频率,也可以作为入参输入实现图表重新计算 (20220323)
+     * @param flcut 低频截止,也可以作为入参输入实现图表重新计算 (20220323)
+     * @param fhcut 高频截止,也可以作为入参输入实现图表重新计算 (20220323)
      * @return 分析后的结果
      */
     public Map<String, Object> execute(
             @NonNull final List<Double> a,
-            @NonNull final Integer fs
+            @NonNull final Integer fs,
+            @Nullable final Double fmin,
+            @Nullable final Double fmax,
+            @Nullable final Double flcut,
+            @Nullable final Double fhcut
     ) throws JsonProcessingException {
+        /**
+         * %%%%%%%%%%%%%%%%%%%%%%%%字母说明%%%%%%%%%%%%%%%%%%%%%%%%
+         *     单位：m/s^2
+         *     time：总时间，时间范围：0~time //该值为输出值，需要存库
+         *     RPM：实际转速
+         *     A：幅值 //该值为输出值，需要存库
+         *     检测值：峰值
+         *     m：峰值出现的位置；
+         *     p：峰值；tm：时域值（峰值对应的时间点）//该值为输出值，需要存库
+         *     Pp：正峰值；Np：负峰值 //该值为输出值，需要存库
+         *     vmean：均值
+         *     vrms：均方根值 //该值为输出值，需要存库
+         *     sigma：标准偏差 //该值为输出值，需要存库
+         *     pf：波峰因素  //该值为输出值，需要存库
+         *     ske：偏斜度  //该值为输出值，需要存库
+         *     kur：峭度  //该值为输出值，需要存库
+         *     TV：振动总值，m/s^2（用于计算整体趋势）  //该值为输出值，需要存库
+         * %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+         * 1、采样频率和数据长度为入参；
+         * 2、滤波器：
+         * 1）每张图表有固定的滤波器设置；
+         * 2）也可以作为入参输入实现图表重新计算：fmin、fmax、flcut、fhcut等字段；
+         * 3、使用的是汉宁窗函数；
+         */
         //n=length(inputArray);
         final int N = a.size();   //%数据长度
         //df=fs/N;
-        final double df = (double)fs / N;
-        final double fcut = 5;          //%低频截止
-        final int fmin = 5;          //%fmin：起始频率
-        final int fmax = 10000;      //famx：终止频率
+        final double df = (double) fs / N;
+        final double fmin_1 = Optional.ofNullable(fmin).orElse(0d);             //fmin：起始频率
+        final double fmax_1 = Optional.ofNullable(fmax).orElse(10000d);         //famx：终止频率
+        final double flcut_1 = Optional.ofNullable(flcut).orElse(5d);           //flcut：低频截止
+        final double fhcut_1 = Optional.ofNullable(fhcut).orElse(fs / 2.56);    //fhcut：高频截止
         final double time = (double) N / fs;
-        //[a_fir,mf]=filt(a,fs,fcut,fs/2.56);
-        final Filt.FiltResult filtResult = new Filt(a, fs, fcut, fs / 2.56).execute();
-        final double RPM = filtResult.getMf() * 60;
+        //[a_fir]=hann_filt(a,fs,flcut,fhcut);
+        final List<Double> a_fir = new HannFilt(fs, a, flcut_1, fhcut_1).execute();
         //[p,m]=max(a_fir);
-        final ValueWithIndex pm_max = MatlabUtils.getMax(filtResult.getAfir());
+        final ValueWithIndex pm_max = MatlabUtils.getMax(a_fir);
         //tm=m/fs;
         final double tm = (double) pm_max.getIndex() / fs;
+        //A=p;
         final double A = pm_max.getVal();
         //[Pp,Np]=Value_of_Peak(a_fir);
-        final ValueOfPeakResult valueOfPeakResult = new ValueOfPeak(filtResult.getAfir()).execute();
+        final ValueOfPeakResult valueOfPeakResult = new ValueOfPeak(a_fir).execute();
         //[vmean]=Mean_Value(a_fir);
-        final double vmean = new MeanValue(filtResult.getAfir()).execute();
+        final double vmean = new MeanValue(a_fir).execute();
         //[sigma]=Value_of_Sigma(a_fir,vmean);
-        final double sigma = new ValueOfSigma(filtResult.getAfir(), vmean).execute();
+        final double sigma = new ValueOfSigma(a_fir, vmean).execute();
         //[vrms]=Value_of_RMS(a_fir);
-        final double vrms = new ValueOfRMS(filtResult.getAfir()).execute();
+        final double vrms = new ValueOfRMS(a_fir).execute();
         //pf=p/vrms;
         final double pf = pm_max.getVal() / vrms;
         //[ske]=Value_of_Skewness(a_fir,vmean);
-        final double ske = new ValueOfSkeness(filtResult.getAfir(), vmean).execute();
+        final double ske = new ValueOfSkeness(a_fir, vmean).execute();
         //[ske]=Value_of_Kurtosis(a_fir,vmean,sigma);
-        final double kur = new ValueOfKurtosis(filtResult.getAfir(), vmean, sigma).execute();
-        //[TV]=total_value(a,fs,5,10000,16);
-        final double TV = new TotalValue(a, fs, fmin, fmax, 16).execute();
-
-        //t=(0:N-1)/fs;
-        final List<BigDecimal> t = DoubleStream.iterate(0, i -> i + 1)
-                .limit(N)
-                .map(i -> i / fs)
-                .boxed()
-                .map(NumberFormatUtils::roundToDecimal)
-                .collect(toList());
-        final List<BigDecimal> y = filtResult.getAfir()
-                .stream()
-                .map(NumberFormatUtils::roundToDecimal)
-                .collect(toList());
+        final double kur = new ValueOfKurtosis(a_fir, vmean, sigma).execute();
+        //[TV]=total_value(a_fir,fs,fmin,fmax);
+        final double TV = new TotalValue(a_fir, fs, fmin_1, fmax_1).execute();
 
         final TimeDomainOfAResult result = new TimeDomainOfAResult.TimeDomainOfAResultBuilder()
-                .rpm(roundToDecimal(RPM))
                 .time(roundToDecimal(time))
                 .a(roundToDecimal(A))
-                .m(pm_max.getIndex())
                 .p(roundToDecimal(pm_max.getVal()))
-                .tm(roundToDecimal(tm))
                 .pp(roundToDecimal(valueOfPeakResult.getPp()))
                 .np(roundToDecimal(valueOfPeakResult.getNp()))
-                .vmean(roundToDecimal(vmean))
                 .vrms(roundToDecimal(vrms))
                 .sigma(roundToDecimal(sigma))
                 .pf(roundToDecimal(pf))
                 .ske(roundToDecimal(ske))
                 .kur(roundToDecimal(kur))
                 .tv(roundToDecimal(TV))
-                .x(t)
-                .y(y)
                 .build();
         return toValue(result, new TypeReference<Map<String, Object>>() {
         });
@@ -105,22 +122,49 @@ public class TimeDomainOfA {
     @Getter
     @Builder
     private static class TimeDomainOfAResult {
-        private BigDecimal rpm;
+        /**
+         * 总时间，时间范围：0~time
+         */
         private BigDecimal time;
+        /**
+         * 幅值
+         */
         private BigDecimal a;
-        private int m;
+        /**
+         * 峰值；tm：时域值（峰值对应的时间点）
+         */
         private BigDecimal p;
-        private BigDecimal tm;
+        /**
+         * Pp：正峰值
+         */
         private BigDecimal pp;
+        /**
+         * Np：负峰值
+         */
         private BigDecimal np;
-        private BigDecimal vmean;
+        /**
+         * vrms：均方根值
+         */
         private BigDecimal vrms;
+        /**
+         * sigma：标准偏差
+         */
         private BigDecimal sigma;
+        /**
+         * pf：波峰因素
+         */
         private BigDecimal pf;
+        /**
+         * ske：偏斜度
+         */
         private BigDecimal ske;
+        /**
+         * kur：峭度
+         */
         private BigDecimal kur;
+        /**
+         * TV：振动总值，m/s^2（用于计算整体趋势）
+         */
         private BigDecimal tv;
-        private List<BigDecimal> x;
-        private List<BigDecimal> y;
     }
 }

@@ -19,7 +19,7 @@ public class TimeAccService {
      * @return 分析后的结果
      */
     public Map<String, Object> execute(@NonNull final List<Double> array) throws JsonProcessingException {
-        return new TimeDomainOfA().execute(array, 25600);
+        return new TimeDomainOfA().execute(array, 25600, null, null, null, null);
     }
 
 }
