@@ -116,6 +116,11 @@ public class FrequencyResult {
     @NonNull
     private BiandaiResult sidcband11;
 
+    @NonNull
+    private List<BigDecimal> x;
+    @NonNull
+    private List<BigDecimal> y;
+
     public static FrequencyResult from(
             @NonNull final Double TV,
             @NonNull final List<FamResult> output_BPFI,
@@ -123,7 +128,9 @@ public class FrequencyResult {
             @NonNull final List<FamResult> output_BSF,
             @NonNull final List<FamResult> output_FTF,
             @NonNull final List<XieboResult> xieboResults,
-            @NonNull final List<BiandaiResult> biandaiResults
+            @NonNull final List<BiandaiResult> biandaiResults,
+            @NonNull final List<BigDecimal> x,
+            @NonNull List<BigDecimal> y
     ) {
         return FrequencyResult.builder()
                 .tv(roundToDecimal(TV))
@@ -182,6 +189,11 @@ public class FrequencyResult {
                 .sidcband9(biandaiResults.get(8))
                 .sidcband10(biandaiResults.get(9))
                 .sidcband11(biandaiResults.get(10))
+                /**
+                 * xy
+                 */
+                .x(x)
+                .y(y)
                 .build();
     }
 }
