@@ -13,10 +13,12 @@ import com.tp.matlab.kernel.domain.result.FamResult;
 import com.tp.matlab.kernel.domain.result.FrequencyResult;
 import com.tp.matlab.kernel.domain.result.XieboResult;
 import com.tp.matlab.kernel.util.MatlabUtils;
+import com.tp.matlab.kernel.util.NumberFormatUtils;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -118,29 +120,13 @@ public class FrequencyDomainOfV {
         final List<Double> f_BSF = f_k.stream().map(i -> i * fam.getBsf()).collect(toList());
         final List<Double> f_FTF = f_k.stream().map(i -> i * fam.getFtf()).collect(toList());
         //num_BPFI=floor(f_BPFI/df)+1;
-        final List<Double> num_BPFI = f_BPFI.stream()
-                .map(i -> i / df)
-                .map(Math::floor)
-                .map(i -> i + 1)
-                .collect(toList());
+        final List<Double> num_BPFI = f_BPFI.stream().map(i -> i / df).map(Math::floor).map(i -> i + 1).collect(toList());
         //num_BPFO=floor(f_BPFO/df)+1;
-        final List<Double> num_BPFO = f_BPFO.stream()
-                .map(i -> i / df)
-                .map(Math::floor)
-                .map(i -> i + 1)
-                .collect(toList());
+        final List<Double> num_BPFO = f_BPFO.stream().map(i -> i / df).map(Math::floor).map(i -> i + 1).collect(toList());
         //num_BSF=floor(f_BSF/df)+1;
-        final List<Double> num_BSF = f_BSF.stream()
-                .map(i -> i / df)
-                .map(Math::floor)
-                .map(i -> i + 1)
-                .collect(toList());
+        final List<Double> num_BSF = f_BSF.stream().map(i -> i / df).map(Math::floor).map(i -> i + 1).collect(toList());
         //num_FTF=floor(f_FTF/df)+1;
-        final List<Double> num_FTF = f_FTF.stream()
-                .map(i -> i / df)
-                .map(Math::floor)
-                .map(i -> i + 1)
-                .collect(toList());
+        final List<Double> num_FTF = f_FTF.stream().map(i -> i / df).map(Math::floor).map(i -> i + 1).collect(toList());
         //r_BPFI=f(num_BPFI);      %BPFI实际频率
         List<Double> r_BPFI = num_BPFI.stream().map(i -> f.get(i.intValue() - 1)).collect(toList());
         //r_BPFO=f(num_BPFO);      %PBF0实际频率
@@ -180,25 +166,15 @@ public class FrequencyDomainOfV {
         //num_n=floor(n/df)+1;
         final int num_n = (int) (Math.floor(xiebo.getN() / df) + 1);
         //f_xiebo=k2*n;   %谐波
-        final List<Integer> f_xiebo = xiebo.getK2().stream()
-                .map(i -> i * 12)
-                .collect(toList());
+        final List<Integer> f_xiebo = xiebo.getK2().stream().map(i -> i * 12).collect(toList());
         //num_f=floor(f_xiebo/df)+1;
-        final List<Integer> num_f = f_xiebo.stream()
-                .map(i -> i / df)
-                .map(Math::floor)
-                .map(i -> i + 1)
-                .map(Double::intValue)
-                .collect(toList());
+        final List<Integer> num_f = f_xiebo.stream().map(i -> i / df).map(Math::floor).map(i -> i + 1).map(Double::intValue).collect(toList());
         //[xiebo_pinlv]=f(num_f);        %谐波频率
         final List<Double> valu_xiebo = num_f.stream().map(i -> f.get(i - 1)).collect(toList());
         //[fuzhi_xiebo]=vi(num_f);      %谐波幅值
         final List<Double> fuzhi_xiebo = num_f.stream().map(i -> vi.get(i - 1)).collect(toList());
         //percent=100*fuzhi_xiebo/fuzhi_xiebo(1); %相对于基频的百分比
-        final List<Double> percent = fuzhi_xiebo.stream()
-                .map(i -> i / fuzhi_xiebo.get(0))
-                .map(i -> i * 100)
-                .collect(toList());
+        final List<Double> percent = fuzhi_xiebo.stream().map(i -> i / fuzhi_xiebo.get(0)).map(i -> i * 100).collect(toList());
         //xiebo=[xiebo_pinlv',fuzhi_xiebo',percent'];  %输出【频率 幅值 相对百分比】
         final List<XieboResult> xieboResults = new ArrayList<>();
         for (int i = 0; i < valu_xiebo.size(); i++) {
@@ -213,12 +189,7 @@ public class FrequencyDomainOfV {
         //f1=fmax/2+n*position;
         final List<Double> f1 = biandai.getPosition().stream().map(i -> fmax_1 / 2 + biandai.getN() * i).collect(toList());
         //num_f1=floor(f1/df)+1;
-        final List<Integer> num_f1 = f1.stream()
-                .map(i -> i / df)
-                .map(Math::floor)
-                .map(i -> i + 1)
-                .map(Double::intValue)
-                .collect(toList());
+        final List<Integer> num_f1 = f1.stream().map(i -> i / df).map(Math::floor).map(i -> i + 1).map(Double::intValue).collect(toList());
         //num_zx=floor((fmax/2)/df)+1;
         final Double num_zx = Math.floor((fmax_1 / 2) / df + 1);
         //[fuzhi_biandai]=vi(num_f1);               %幅值
@@ -228,24 +199,18 @@ public class FrequencyDomainOfV {
         //k=[valu_biandai]./n;                      %阶次
         final List<Double> k = valu_biandai.stream().map(i -> i / biandai.getN()).collect(toList());
         //dB=20*log10([fuzhi_biandai]./vi(num_zx));  %dB
-        final List<Double> dB = fuzhi_biandai.stream()
-                .map(i -> 20 * Math.log10(i / vi.get(num_zx.intValue() - 1)))
-                .collect(toList());
+        final List<Double> dB = fuzhi_biandai.stream().map(i -> 20 * Math.log10(i / vi.get(num_zx.intValue() - 1))).collect(toList());
         //biandai=[position',valu_biandai',fuzhi_biandai',k',dB'] ;%输出【位置 频率 幅值 阶次 dB】
         final List<BiandaiResult> biandaiResults = new ArrayList<>();
         for (int i = 0; i < fuzhi_biandai.size(); i++) {
-            biandaiResults.add(
-                    BiandaiResult.of(
-                            roundToDecimal(biandai.getPosition().get(i)),
-                            roundToDecimal(valu_biandai.get(i)),
-                            roundToDecimal(fuzhi_biandai.get(i)),
-                            roundToDecimal(k.get(i)),
-                            roundToDecimal(dB.get(i))
-                    ));
+            biandaiResults.add(BiandaiResult.of(roundToDecimal(biandai.getPosition().get(i)), roundToDecimal(valu_biandai.get(i)),
+                    roundToDecimal(fuzhi_biandai.get(i)), roundToDecimal(k.get(i)), roundToDecimal(dB.get(i))));
         }
 
         //to result
-        final FrequencyResult result = FrequencyResult.from(TV, output_BPFI, output_BPFO, output_BSF, output_FTF, xieboResults, biandaiResults);
+        final List<BigDecimal> x = f.stream().map(NumberFormatUtils::roundToDecimal).collect(toList());
+        final List<BigDecimal> y = vi.stream().map(NumberFormatUtils::roundToDecimal).collect(toList());
+        final FrequencyResult result = FrequencyResult.from(TV, output_BPFI, output_BPFO, output_BSF, output_FTF, xieboResults, biandaiResults, x, y);
         return toValue(result, new TypeReference<Map<String, Object>>() {
         });
     }
