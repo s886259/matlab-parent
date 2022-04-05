@@ -8,16 +8,20 @@ import com.tp.matlab.kernel.domain.TotalValue;
 import com.tp.matlab.kernel.domain.ValueWithIndex;
 import com.tp.matlab.kernel.domain.result.TimeResult;
 import com.tp.matlab.kernel.util.MatlabUtils;
+import com.tp.matlab.kernel.util.NumberFormatUtils;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.DoubleStream;
 
 import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDecimal;
 import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
+import static java.util.stream.Collectors.toList;
 
 /**
  * 加速度时域图(检测:峰值)
@@ -102,6 +106,18 @@ public class TimeDomainOfA {
         //[TV]=total_value(a_fir,fs,fmin,fmax);
         final double TV = new TotalValue(a_fir, fs, fmin_1, fmax_1).execute();
 
+        //t=(0:N-1)/fs;
+        final List<BigDecimal> t = DoubleStream.iterate(0, i -> i + 1)
+                .limit(N)
+                .map(i -> i / fs)
+                .boxed()
+                .map(NumberFormatUtils::roundToDecimal)
+                .collect(toList());
+        final List<BigDecimal> y = a_fir
+                .stream()
+                .map(NumberFormatUtils::roundToDecimal)
+                .collect(toList());
+
         final TimeResult result = TimeResult.builder()
                 .rpp(roundToDecimal(rpp))
                 .time(roundToDecimal(time))
@@ -116,6 +132,8 @@ public class TimeDomainOfA {
                 .ske(roundToDecimal(ske))
                 .kur(roundToDecimal(kur))
                 .tv(roundToDecimal(TV))
+                .x(t)
+                .y(y)
                 .build();
         return toValue(result, new TypeReference<Map<String, Object>>() {
         });
