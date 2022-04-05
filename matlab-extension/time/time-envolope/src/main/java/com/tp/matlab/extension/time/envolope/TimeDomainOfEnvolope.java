@@ -7,10 +7,12 @@ import com.tp.matlab.kernel.domain.TotalValue;
 import com.tp.matlab.kernel.domain.ValueWithIndex;
 import com.tp.matlab.kernel.domain.result.TimeResult;
 import com.tp.matlab.kernel.util.MatlabUtils;
+import com.tp.matlab.kernel.util.NumberFormatUtils;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -110,6 +112,13 @@ public class TimeDomainOfEnvolope {
         double TV = new TotalValue(a, fs, fmin_1, fmax_1).execute();
         TV = TV / g;//单位转换
 
+        final List<BigDecimal> x = m.stream()
+                .map(NumberFormatUtils::roundToDecimal)
+                .collect(toList());
+        final List<BigDecimal> y = p.stream()
+                .map(NumberFormatUtils::roundToDecimal)
+                .collect(toList());
+
         final TimeResult result = TimeResult.builder()
                 .rpp(roundToDecimal(rpp))
                 .time(roundToDecimal(time))
@@ -124,6 +133,8 @@ public class TimeDomainOfEnvolope {
                 .ske(roundToDecimal(ske))
                 .kur(roundToDecimal(kur))
                 .tv(roundToDecimal(TV))
+                .x(x)
+                .y(y)
                 .build();
         return toValue(result, new TypeReference<Map<String, Object>>() {
         });
