@@ -13,10 +13,12 @@ import com.tp.matlab.kernel.domain.result.FamResult;
 import com.tp.matlab.kernel.domain.result.FrequencyResult;
 import com.tp.matlab.kernel.domain.result.XieboResult;
 import com.tp.matlab.kernel.util.MatlabUtils;
+import com.tp.matlab.kernel.util.NumberFormatUtils;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -240,7 +242,13 @@ public class FrequencyDomainOfA {
         }
 
         //to result
-        final FrequencyResult result = FrequencyResult.from(TV, output_BPFI, output_BPFO, output_BSF, output_FTF, xieboResults, biandaiResults);
+        final List<BigDecimal> x = spectrumResult.getF().stream()
+                .map(NumberFormatUtils::roundToDecimal)
+                .collect(toList());
+        final List<BigDecimal> y = spectrumResult.getAi().stream()
+                .map(NumberFormatUtils::roundToDecimal)
+                .collect(toList());
+        final FrequencyResult result = FrequencyResult.from(TV, output_BPFI, output_BPFO, output_BSF, output_FTF, xieboResults, biandaiResults, x, y);
         return toValue(result, new TypeReference<Map<String, Object>>() {
         });
     }
