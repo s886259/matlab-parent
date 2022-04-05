@@ -77,4 +77,8 @@ public class TimeResult {
      */
     @NonNull
     private BigDecimal tv;
+    @NonNull
+    private List<BigDecimal> x;
+    @NonNull
+    private List<BigDecimal> y;
 }
