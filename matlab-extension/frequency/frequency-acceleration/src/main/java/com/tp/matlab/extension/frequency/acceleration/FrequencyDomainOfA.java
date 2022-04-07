@@ -26,6 +26,7 @@ import java.util.Optional;
 
 import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDecimal;
 import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
+import static java.lang.Math.ulp;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -218,13 +219,13 @@ public class FrequencyDomainOfA {
                 .collect(toList());
         //num_zx=floor((fmax/2)/df)+1;
         final Double num_zx = Math.floor((fmax_1 / 2) / df + 1);
-        //[fuzhi_biandai]=vi(num_f1);               %幅值
+        //[fuzhi_biandai]=vi(num_f1);                   %幅值
         final List<Double> fuzhi_biandai = num_f1.stream().map(i -> ai.get(i - 1)).collect(toList());
-        //[valu_biandai]=f(num_f1);                 %频率
+        //[valu_biandai]=f(num_f1);                     %频率
         final List<Double> valu_biandai = num_f1.stream().map(i -> f.get(i - 1)).collect(toList());
-        //k=[valu_biandai]./n;                      %阶次
-        final List<Double> k = valu_biandai.stream().map(i -> i / biandai.getN()).collect(toList());
-        //dB=20*log10([fuzhi_biandai]./vi(num_zx));  %dB
+        //k=[valu_biandai]./(n+eps);                    %阶次
+        final List<Double> k = valu_biandai.stream().map(i -> i / ulp(biandai.getN())).collect(toList());
+        //dB=20*log10([fuzhi_biandai]./vi(num_zx));     %dB
         final List<Double> dB = fuzhi_biandai.stream()
                 .map(i -> 20 * Math.log10(i / ai.get(num_zx.intValue() - 1)))
                 .collect(toList());
