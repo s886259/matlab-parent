@@ -3,6 +3,8 @@ package com.tp.matlab.kernel.domain.result;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -93,28 +95,22 @@ public class FrequencyResult {
     /**
      * 输出不同位置的【位置 频率 幅值 阶次 dB】//，对应position的第1个值，该值为输出值，需要存库 sidcband1~11
      */
-    @NonNull
     private BiandaiResult sidcband1;
-    @NonNull
     private BiandaiResult sidcband2;
-    @NonNull
     private BiandaiResult sidcband3;
-    @NonNull
     private BiandaiResult sidcband4;
-    @NonNull
     private BiandaiResult sidcband5;
-    @NonNull
     private BiandaiResult sidcband6;
-    @NonNull
     private BiandaiResult sidcband7;
-    @NonNull
     private BiandaiResult sidcband8;
-    @NonNull
     private BiandaiResult sidcband9;
-    @NonNull
     private BiandaiResult sidcband10;
-    @NonNull
     private BiandaiResult sidcband11;
+    /**
+     * 转频对应的幅值
+     */
+    @Setter
+    private BigDecimal fuzhi_zhuanpin;
 
     @NonNull
     private List<BigDecimal> x;
@@ -130,9 +126,9 @@ public class FrequencyResult {
             @NonNull final List<XieboResult> xieboResults,
             @NonNull final List<BiandaiResult> biandaiResults,
             @NonNull final List<BigDecimal> x,
-            @NonNull List<BigDecimal> y
+            @NonNull final List<BigDecimal> y
     ) {
-        return FrequencyResult.builder()
+        FrequencyResultBuilder builder = FrequencyResult.builder()
                 .tv(roundToDecimal(TV))
                 /**
                  * bpfi
@@ -176,24 +172,26 @@ public class FrequencyResult {
                 .harmonic9(xieboResults.get(8))
                 .harmonic10(xieboResults.get(9))
                 /**
-                 * biandai
-                 */
-                .sidcband1(biandaiResults.get(0))
-                .sidcband2(biandaiResults.get(1))
-                .sidcband3(biandaiResults.get(2))
-                .sidcband4(biandaiResults.get(3))
-                .sidcband5(biandaiResults.get(4))
-                .sidcband6(biandaiResults.get(5))
-                .sidcband7(biandaiResults.get(6))
-                .sidcband8(biandaiResults.get(7))
-                .sidcband9(biandaiResults.get(8))
-                .sidcband10(biandaiResults.get(9))
-                .sidcband11(biandaiResults.get(10))
-                /**
                  * xy
                  */
                 .x(x)
-                .y(y)
-                .build();
+                .y(y);
+        if (CollectionUtils.isNotEmpty(biandaiResults)) {
+            /**
+             * biandai
+             */
+            builder.sidcband1(biandaiResults.get(0))
+                    .sidcband2(biandaiResults.get(1))
+                    .sidcband3(biandaiResults.get(2))
+                    .sidcband4(biandaiResults.get(3))
+                    .sidcband5(biandaiResults.get(4))
+                    .sidcband6(biandaiResults.get(5))
+                    .sidcband7(biandaiResults.get(6))
+                    .sidcband8(biandaiResults.get(7))
+                    .sidcband9(biandaiResults.get(8))
+                    .sidcband10(biandaiResults.get(9))
+                    .sidcband11(biandaiResults.get(10));
+        }
+        return builder.build();
     }
 }
