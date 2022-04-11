@@ -159,8 +159,6 @@ public class FrequencyDomainOfV {
          * 1、n为输入变量，入参；
          * 2、默认K2谐波为1、2、3、4、5、6、7、8、9、10去乘以计算，但也可以作为输入变量，作为入参；
          */
-        //num_n=floor(n/df)+1;
-        final int num_n = (int) (Math.floor(xiebo.getN() / df) + 1);
         //f_xiebo=k*12;   %谐波
         final List<Integer> f_xiebo = xiebo.getK2().stream().map(i -> i * 12).collect(toList());
         //num_f=floor(f_xiebo/df)+1;
@@ -182,31 +180,44 @@ public class FrequencyDomainOfV {
          * 1、n为输入变量，入参；
          * 2、默认K2谐波为1、2、3、4、5、6、7、8、9、10去乘以计算，但也可以作为输入变量，作为入参；
          */
-        //f1=fmax/2+n*position;
-        final List<Double> f1 = biandai.getPosition().stream().map(i -> fmax_1 / 2 + biandai.getN() * i).collect(toList());
-        //num_f1=floor(f1/df)+1;
-        final List<Integer> num_f1 = f1.stream().map(i -> i / df).map(Math::floor).map(i -> i + 1).map(Double::intValue).collect(toList());
-        //num_zx=floor((fmax/2)/df)+1;
-        final Double num_zx = Math.floor((fmax_1 / 2) / df + 1);
-        //[fuzhi_biandai]=vi(num_f1);                   %幅值
-        final List<Double> fuzhi_biandai = num_f1.stream().map(i -> ai.get(i - 1)).collect(toList());
-        //[valu_biandai]=f(num_f1);                     %频率
-        final List<Double> valu_biandai = num_f1.stream().map(i -> f.get(i - 1)).collect(toList());
-        //k=[valu_biandai]./(n+eps);                    %阶次
-        final List<Double> k = valu_biandai.stream().map(i -> i / ulp(biandai.getN())).collect(toList());
-        //dB=20*log10([fuzhi_biandai]./vi(num_zx));     %dB
-        final List<Double> dB = fuzhi_biandai.stream().map(i -> 20 * Math.log10(i / ai.get(num_zx.intValue() - 1))).collect(toList());
-        //biandai=[position',valu_biandai',fuzhi_biandai',k',dB'] ;%输出【位置 频率 幅值 阶次 dB】
+        Double fuzhi_zhuanpin = null;
         final List<BiandaiResult> biandaiResults = new ArrayList<>();
-        for (int i = 0; i < fuzhi_biandai.size(); i++) {
-            biandaiResults.add(BiandaiResult.of(roundToDecimal(biandai.getPosition().get(i)), roundToDecimal(valu_biandai.get(i)),
-                    roundToDecimal(fuzhi_biandai.get(i)), roundToDecimal(k.get(i)), roundToDecimal(dB.get(i))));
+        //if n~=0
+        if (biandai.getN() != 0) {
+            //num_n=floor(n/df)+1;
+            final int num_n = (int) (Math.floor(xiebo.getN() / df) + 1);
+            //fuzhi_zhuanpin=ai(num_n);   %转频对应的幅值
+            fuzhi_zhuanpin = ai.get(num_n - 1);
+            //f1=fmax/2+n*position;
+            final List<Double> f1 = biandai.getPosition().stream().map(i -> fmax_1 / 2 + biandai.getN() * i).collect(toList());
+            //num_f1=floor(f1/df)+1;
+            final List<Integer> num_f1 = f1.stream().map(i -> i / df).map(Math::floor).map(i -> i + 1).map(Double::intValue).collect(toList());
+            //num_zx=floor((fmax/2)/df)+1;
+            final Double num_zx = Math.floor((fmax_1 / 2) / df + 1);
+            //[fuzhi_biandai]=vi(num_f1);                   %幅值
+            final List<Double> fuzhi_biandai = num_f1.stream().map(i -> ai.get(i - 1)).collect(toList());
+            //[valu_biandai]=f(num_f1);                     %频率
+            final List<Double> valu_biandai = num_f1.stream().map(i -> f.get(i - 1)).collect(toList());
+            //k=[valu_biandai]./(n+eps);                    %阶次
+            final List<Double> k = valu_biandai.stream().map(i -> i / ulp(biandai.getN())).collect(toList());
+            //dB=20*log10([fuzhi_biandai]./vi(num_zx));     %dB
+            final List<Double> dB = fuzhi_biandai.stream().map(i -> 20 * Math.log10(i / ai.get(num_zx.intValue() - 1))).collect(toList());
+            //biandai=[position',valu_biandai',fuzhi_biandai',k',dB'] ;%输出【位置 频率 幅值 阶次 dB】
+            for (int i = 0; i < fuzhi_biandai.size(); i++) {
+                biandaiResults.add(BiandaiResult.of(roundToDecimal(biandai.getPosition().get(i)), roundToDecimal(valu_biandai.get(i)),
+                        roundToDecimal(fuzhi_biandai.get(i)), roundToDecimal(k.get(i)), roundToDecimal(dB.get(i))));
+            }
+        } else {
+            // k=0;
+            // fuzhi_zhuanpin=0;   %转频对应的幅值
+            fuzhi_zhuanpin = 0d;
         }
 
         //to result
         final List<BigDecimal> x = spectrumResult.getF().stream().map(NumberFormatUtils::roundToDecimal).collect(toList());
         final List<BigDecimal> y = spectrumResult.getAi().stream().map(NumberFormatUtils::roundToDecimal).collect(toList());
-        final FrequencyResult result = FrequencyResult.from(TV, output_BPFI, output_BPFO, output_BSF, output_FTF, xieboResults, biandaiResults, x, y);
+        final FrequencyResult result = FrequencyResult.from(TV, output_BPFI, output_BPFO, output_BSF, output_FTF,
+                xieboResults, biandaiResults, x, y, roundToDecimal(fuzhi_zhuanpin));
         return toValue(result, new TypeReference<Map<String, Object>>() {
         });
     }

@@ -225,8 +225,8 @@ public class FrequencyDomainOfEnvolope {
         final List<BigDecimal> y = spectrumResult.getAi().stream()
                 //ylim([0,0.25]);
                 .filter(i -> i <= 0.25 && i >= 0).map(NumberFormatUtils::roundToDecimal).collect(toList());
-        final FrequencyResult result = FrequencyResult.from(TV, output_BPFI, output_BPFO, output_BSF, output_FTF, xieboResults, biandaiResults, x, y);
-        result.setFuzhi_zhuanpin(roundToDecimal(fuzhi_zhuanpin));
+        final FrequencyResult result = FrequencyResult.from(TV, output_BPFI, output_BPFO, output_BSF, output_FTF,
+                xieboResults, biandaiResults, x, y, roundToDecimal(fuzhi_zhuanpin));
         return toValue(result, new TypeReference<Map<String, Object>>() {
         });
     }

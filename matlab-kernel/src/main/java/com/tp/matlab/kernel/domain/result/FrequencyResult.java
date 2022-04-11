@@ -3,7 +3,6 @@ package com.tp.matlab.kernel.domain.result;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.math.BigDecimal;
@@ -109,7 +108,7 @@ public class FrequencyResult {
     /**
      * 转频对应的幅值
      */
-    @Setter
+    @NonNull
     private BigDecimal fuzhi_zhuanpin;
 
     @NonNull
@@ -126,7 +125,8 @@ public class FrequencyResult {
             @NonNull final List<XieboResult> xieboResults,
             @NonNull final List<BiandaiResult> biandaiResults,
             @NonNull final List<BigDecimal> x,
-            @NonNull final List<BigDecimal> y
+            @NonNull final List<BigDecimal> y,
+            @NonNull final BigDecimal fuzhi_zhuanpin
     ) {
         FrequencyResultBuilder builder = FrequencyResult.builder()
                 .tv(roundToDecimal(TV))
@@ -175,7 +175,8 @@ public class FrequencyResult {
                  * xy
                  */
                 .x(x)
-                .y(y);
+                .y(y)
+                .fuzhi_zhuanpin(fuzhi_zhuanpin);
         if (CollectionUtils.isNotEmpty(biandaiResults)) {
             /**
              * biandai
