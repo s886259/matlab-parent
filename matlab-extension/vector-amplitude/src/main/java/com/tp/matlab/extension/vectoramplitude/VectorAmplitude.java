@@ -79,17 +79,17 @@ public class VectorAmplitude {
         final A2v2xResult v3x2 = new A2v2x(ax2, fs, flcut_1, fhcut_1).execute();
         //[v4,y2]=a2v2x(ay2,fs,flcut,fhcut);
         final A2v2xResult v4y2 = new A2v2x(ay2, fs, flcut_1, fhcut_1).execute();
-        /*
-          [leftx,lefty]=[x1*1000,y1*1000];  %*1000变换单位mm,左侧（对应通道1、2）XY数组 ////该值为输出值，需要存库
-          [rightx,righty]=[x2*1000,y2*1000]; %*1000变换单位mm,右侧（对应通道4、5）XY数组 ////该值为输出值，需要存库
+
+        /**
+         * %%%%%%%%%%%%%%%%用于绘图的数据%%%%%%%%%%%%%%%%%%
          */
-        //x1=x1*1000;
+        //x_left=x1*1000;     %左侧水平方向位移（对应通道1）
         final List<Double> leftx = v1x1.getX().stream().map(i -> i * 1000).collect(toList());
-        //y1=y1*1000;
+        //y_left=y1*1000;     %左侧竖直平方向位移（对应通道2）
         final List<Double> lefty = v2y1.getX().stream().map(i -> i * 1000).collect(toList());
-        //x2=x2*1000;
+        //x_right=x2*1000;    %右侧水平方向位移（对应通道4）
         final List<Double> rightx = v3x2.getX().stream().map(i -> i * 1000).collect(toList());
-        //y2=y2*1000;
+        //y_right=y2*1000;    %右侧竖直方向位移（对应通道5）
         final List<Double> righty = v4y2.getX().stream().map(i -> i * 1000).collect(toList());
 
         //delta=1000*max([max(x1),max(y1),max(x2),max(y2)]);

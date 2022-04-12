@@ -22,17 +22,16 @@ g=9.8;
 % //2）也可以作为入参输入实现图表重新计算：fmin、fmax、flcut、fhcut等字段；
 fs=25600;          %采样频率
 N=length(a);       %数据长度
-fmin=2;            %fmin：起始频率
+fmin=0;            %fmin：起始频率
 fmax=1000;         %famx：终止频率
 flcut=500;         %低频截止
 fhcut=10000;       %高频截止
 df=fs/N;
-ymax=0.025;        %满刻度   
 [a_fir]=hann_filt(a,fs,flcut,fhcut);
 a_fir_2=a_fir.^2;
 [a_fir_3]=hann_filt(a_fir_2,fs,flcut,fhcut);
 [f,ai]=spectrum(fs,a_fir_3);    %ai用于存储频谱幅值数据
-[p,m]=max(ai(2:500));  %寻峰
+[p,m]=max(ai(1:fmax));  %寻峰
 mf=f(m);    %峰值对应频率值
 [TV]=total_value(a_fir,fs,fmin,fmax);  %整体频谱 (也是 整体趋势）
 %%%%%%%%%%%%%%%%%%%%%%%FAM栏计算%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
@@ -112,7 +111,7 @@ num_f1=floor(f1/df)+1;
 num_zx=floor((fmax/2)/df)+1;
 [fuzhi_biandai]=ai(num_f1);                %幅值
 [valu_biandai]=f(num_f1);                  %频率
-k=[valu_biandai]./n;                       %阶次
+k=[valu_biandai]./(n+eps);                       %阶次
 dB=20*log10([fuzhi_biandai]./ai(num_zx));  %dB
 biandai=[position',valu_biandai',fuzhi_biandai,k',dB] ;%输出【位置 频率 幅值 阶次 dB】
 
@@ -127,11 +126,14 @@ biandai_8=biandai(8,:);                    %输出不同位置的【位置 频率 幅值 阶次 
 biandai_9=biandai(9,:);                    %输出不同位置的【位置 频率 幅值 阶次 dB】//，对应position的第9个值，该值为输出值，需要存库 sidcband9
 biandai_10=biandai(10,:);                  %输出不同位置的【位置 频率 幅值 阶次 dB】//，对应position的第10个值，该值为输出值，需要存库 sidcband10
 biandai_11=biandai(11,:);                  %输出不同位置的【位置 频率 幅值 阶次 dB】//，对应position的第11个值，该值为输出值，需要存库 sidcband11
+%%%%%%%%%%%%%%%%%%%%%%%%用于作图的数据%%%%%%%%%%%%%%%%%%%%%%%%
+f_plot=f;   %横轴：频率
+Am_plot=ai; %纵轴：幅值
 %%%%%%%%%%%%%%%%%%%%%%%%图形示例%%%%%%%%%%%%%%%%%%%%%%%%   //图形示范部分不涉及，该部分为MatLab输出图形使用；
 figure;
-plot(f,ai);
+plot(f_plot,Am_plot);
 xlim([fmin,fmax]); 
-ylim([0,0.25]); 
+ylim([0,1.5*p]); 
 title(['通道',num2str(c),'的包络频谱图']);
 xlabel('频率      Hz');
 ylabel('幅值      gE');
@@ -151,14 +153,14 @@ for i=1:4
     p6=valu_BPFO(i);
     p7=num_BPFI(i);
     p8=valu_BPFI(i);
-    text(p1,0.2,['FTF',num2str(i)],'rotation',90);
-    text(p3,0.2,['BSF',num2str(i)],'rotation',90);
-    text(p5,0.2,['BPFO',num2str(i)],'rotation',90);
-    text(p7,0.2,['BPFI',num2str(i)],'rotation',90);
-    plot([p1,p1],[0,0.2],'-- r');
-    plot([p3,p3],[0,0.2],'-- r');
-    plot([p5,p5],[0,0.2],'-- r');
-    plot([p7,p7],[0,0.2],'-- r');
+    text(p1,1.2*p,['FTF',num2str(i)],'rotation',90);
+    text(p3,1.2*p,['BSF',num2str(i)],'rotation',90);
+    text(p5,1.2*p,['BPFO',num2str(i)],'rotation',90);
+    text(p7,1.2*p,['BPFI',num2str(i)],'rotation',90);
+    plot([p1,p1],[0,1.2*p],'-- r');
+    plot([p3,p3],[0,1.2*p],'-- r');
+    plot([p5,p5],[0,1.2*p],'-- r');
+    plot([p7,p7],[0,1.2*p],'-- r');
 end
 
 

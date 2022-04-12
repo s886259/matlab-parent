@@ -1,4 +1,4 @@
-package com.tp.matlab.extension.frequency.vibrator;
+package com.tp.matlab.extension.frequency.common;
 
 import lombok.RequiredArgsConstructor;
 

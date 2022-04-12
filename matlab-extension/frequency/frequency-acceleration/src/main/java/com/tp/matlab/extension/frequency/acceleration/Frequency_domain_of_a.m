@@ -26,7 +26,6 @@ flcut=5;         %低频截止
 fhcut=fs/2.56;   %高频截止
 N=length(a);     %数据长度
 df=fs/N;
-ymax=50;
 [a_fir]=hann_filt(fs,a,flcut,fhcut);
 [f,ai]=spectrum(fs,a_fir);    %ai用于存储频谱幅值数据
 [p,m]=max(ai);  %寻峰
@@ -124,12 +123,14 @@ biandai_8=biandai(8,:);                    %输出不同位置的【位置 频率 幅值 阶次 
 biandai_9=biandai(9,:);                    %输出不同位置的【位置 频率 幅值 阶次 dB】//，对应position的第9个值，该值为输出值，需要存库 sidcband9
 biandai_10=biandai(10,:);                  %输出不同位置的【位置 频率 幅值 阶次 dB】//，对应position的第10个值，该值为输出值，需要存库 sidcband10
 biandai_11=biandai(11,:);                  %输出不同位置的【位置 频率 幅值 阶次 dB】//，对应position的第11个值，该值为输出值，需要存库 sidcband11
-
+%%%%%%%%%%%%%%%%%%%%%%%%用于作图的数据%%%%%%%%%%%%%%%%%%%%%%%%
+f_plot=f;   %横轴：频率
+Am_plot=ai; %纵轴：幅值
 %%%%%%%%%%%%%%%%%%%%%%%%图形示例%%%%%%%%%%%%%%%%%%%%%%%%   //图形示范部分不涉及，该部分为MatLab输出图形使用；
 figure;
-plot(f,ai);
+plot(f_plot,Am_plot);
 xlim([fmin,fmax]); 
-ylim([0,ymax]); 
+ylim([0,1.25*p]); 
 title(['通道',num2str(c),'的加速度频谱图']);
 xlabel('频率/Hz');
 ylabel('幅值 m/s^2');

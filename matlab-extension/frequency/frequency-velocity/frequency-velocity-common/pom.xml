@@ -7,17 +7,12 @@
         <artifactId>frequency-velocity</artifactId>
         <version>0.0.2-SNAPSHOT</version>
     </parent>
-    <artifactId>frequency-velocity-gear</artifactId>
+    <artifactId>frequency-velocity-common</artifactId>
     <version>0.0.2-SNAPSHOT</version>
     <properties>
         <java.version>1.8</java.version>
     </properties>
-
     <dependencies>
-        <dependency>
-            <groupId>com.tp.matlab.extension</groupId>
-            <artifactId>frequency-velocity-common</artifactId>
-            <version>0.0.2-SNAPSHOT</version>
-        </dependency>
+
     </dependencies>
 </project>

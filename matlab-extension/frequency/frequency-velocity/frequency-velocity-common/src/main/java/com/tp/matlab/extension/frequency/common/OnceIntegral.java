@@ -1,4 +1,4 @@
-package com.tp.matlab.extension.frequency.gear;
+package com.tp.matlab.extension.frequency.common;
 
 import com.tp.matlab.kernel.domain.ResultComplex;
 import lombok.Getter;

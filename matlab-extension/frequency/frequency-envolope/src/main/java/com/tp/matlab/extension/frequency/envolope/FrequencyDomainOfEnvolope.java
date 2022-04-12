@@ -2,8 +2,9 @@ package com.tp.matlab.extension.frequency.envolope;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.tp.matlab.extension.frequency.envolope.Spectrum.SpectrumResult;
 import com.tp.matlab.kernel.core.HannFilt;
+import com.tp.matlab.kernel.core.Spectrum;
+import com.tp.matlab.kernel.core.Spectrum.SpectrumResult;
 import com.tp.matlab.kernel.domain.TotalValue;
 import com.tp.matlab.kernel.domain.ValueWithIndex;
 import com.tp.matlab.kernel.domain.request.BiandaiRequest;
@@ -27,7 +28,6 @@ import java.util.Optional;
 
 import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDecimal;
 import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
-import static java.lang.Math.ulp;
 import static java.util.stream.Collectors.toList;
 
 /**
@@ -87,10 +87,10 @@ public class FrequencyDomainOfEnvolope {
         final int N = a.size();   //%数据长度
         //df=fs/N;
         final double df = (double) fs / N;
-        final double fmin_1 = Optional.ofNullable(fmin).orElse(2d);             //fmin：起始频率
-        final double fmax_1 = Optional.ofNullable(fmax).orElse(1000d);          //famx：终止频率
-        final double flcut_1 = Optional.ofNullable(flcut).orElse(500d);         //flcut：低频截止
-        final double fhcut_1 = Optional.ofNullable(fhcut).orElse(10000d);       //fhcut：高频截止
+        final Double fmin_1 = Optional.ofNullable(fmin).orElse(0d);             //fmin：起始频率
+        final Double fmax_1 = Optional.ofNullable(fmax).orElse(1000d);          //famx：终止频率
+        final Double flcut_1 = Optional.ofNullable(flcut).orElse(500d);         //flcut：低频截止
+        final Double fhcut_1 = Optional.ofNullable(fhcut).orElse(10000d);       //fhcut：高频截止
         final int ymax = 50;
 
         //[a_fir]=hann_filt(a,fs,flcut,fhcut);
@@ -102,8 +102,8 @@ public class FrequencyDomainOfEnvolope {
         final SpectrumResult spectrumResult = new Spectrum(fs, a_fir_3).execute();    //%ai用于存储频谱幅值数据
         final List<Double> ai = spectrumResult.getAi();
         final List<Double> f = spectrumResult.getF();
-        //[p,m]=max(ai(2:500));  %寻峰
-        final ValueWithIndex pm_max = MatlabUtils.getMax(ai.subList(1, 500));
+        //[p,m]=max(ai(1:fmax));  %寻峰
+        final ValueWithIndex pm_max = MatlabUtils.getMax(ai.subList(0, fmax_1.intValue()));
         //mf=f(m);    %峰值对应频率值
         final double mf = spectrumResult.getF().get(pm_max.getIndex() - 1);
         //[TV]=total_value(a_fir,fs,fmin,fmax,16);  %整体频谱 (也是 整体趋势）
@@ -203,8 +203,8 @@ public class FrequencyDomainOfEnvolope {
             final List<Double> fuzhi_biandai = num_f1.stream().map(i -> ai.get(i - 1)).collect(toList());
             //[valu_biandai]=f(num_f1);                     %频率
             final List<Double> valu_biandai = num_f1.stream().map(i -> f.get(i - 1)).collect(toList());
-            //k=[valu_biandai]./(n+eps);                    %阶次
-            final List<Double> k = valu_biandai.stream().map(i -> i / ulp(biandai.getN())).collect(toList());
+            //k=[valu_biandai]./(n;                         %阶次
+            final List<Double> k = valu_biandai.stream().map(i -> i / biandai.getN()).collect(toList());
             //dB=20*log10([fuzhi_biandai]./vi(num_zx));     %dB
             final List<Double> dB = fuzhi_biandai.stream().map(i -> 20 * Math.log10(i / ai.get(num_zx.intValue() - 1))).collect(toList());
             //biandai=[position',valu_biandai',fuzhi_biandai',k',dB'] ;%输出【位置 频率 幅值 阶次 dB】
@@ -218,15 +218,17 @@ public class FrequencyDomainOfEnvolope {
             fuzhi_zhuanpin = 0d;
         }
 
+        /**
+         * %%%%%%%%%%%%%%%%%%%%%%%%用于作图的数据%%%%%%%%%%%%%%%%%%%%%%%%
+         */
+        //f_plot=f;   %横轴：频率
+        final List<BigDecimal> f_plot = spectrumResult.getF().stream().map(NumberFormatUtils::roundToDecimal).collect(toList());
+        //Am_plot=ai; %纵轴：幅值
+        final List<BigDecimal> Am_plot = spectrumResult.getAi().stream().map(NumberFormatUtils::roundToDecimal).collect(toList());
+
         //to result
-        final List<BigDecimal> x = spectrumResult.getF().stream()
-                //xlim([fmin,fmax]);
-                .filter(i -> i <= fmax_1 && i >= fmin_1).map(NumberFormatUtils::roundToDecimal).collect(toList());
-        final List<BigDecimal> y = spectrumResult.getAi().stream()
-                //ylim([0,0.25]);
-                .filter(i -> i <= 0.25 && i >= 0).map(NumberFormatUtils::roundToDecimal).collect(toList());
         final FrequencyResult result = FrequencyResult.from(TV, output_BPFI, output_BPFO, output_BSF, output_FTF,
-                xieboResults, biandaiResults, x, y, roundToDecimal(fuzhi_zhuanpin));
+                xieboResults, biandaiResults, f_plot, Am_plot, roundToDecimal(fuzhi_zhuanpin));
         return toValue(result, new TypeReference<Map<String, Object>>() {
         });
     }

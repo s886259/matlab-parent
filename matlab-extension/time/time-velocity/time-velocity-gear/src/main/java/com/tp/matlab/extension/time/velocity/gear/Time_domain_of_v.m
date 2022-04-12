@@ -47,10 +47,12 @@ pf=p/vrms;
 [ske]=Value_of_Skewness(v,vmean);
 [kur]=Value_of_Kurtosis(v,vmean,sigma);
 [TV]=total_value(v,fs,fmin,fmax);
+%%%%%%%%%%%%%%%%%%%%%%%%用于输出图像的数据%%%%%%%%%%%%%%%%%%%%%%%%
+t=(1:N)/fs; %图像的横轴
+v_plot=v;   %图像的纵轴
 %%%%%%%%%%%%%%%%%%%%%%%%图形示范%%%%%%%%%%%%%%%%%%%%%%%%   //图形示范部分不涉及，该部分为MatLab输出图形使用；
-t=(0:N-1)/fs;
 figure;
-plot(t,v);
+plot(t,v_plot);
 xlabel('时间/s');ylabel('速度时域/ (mm/s)');
 title(['通道',num2str(c),'的速度时域图（齿轮）']);
 hold on;

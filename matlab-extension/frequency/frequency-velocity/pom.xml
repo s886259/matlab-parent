@@ -16,6 +16,7 @@
 
     <!-- 模块说明：这里声明多个子模块 -->
     <modules>
+        <module>frequency-velocity-common</module>
         <module>frequency-velocity-gear</module>
         <module>frequency-velocity-vibrator</module>
     </modules>

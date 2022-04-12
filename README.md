@@ -30,6 +30,8 @@ matlab-parent
 |     | 
 |     |──frequency-velocity --速度频谱
 |        |
+|        |──frequency-velocity-common --速度频谱公共类
+|        |
 |        |──frequency-velocity-gear --速度频谱(齿轮)
 |        |
 |        |──frequency-velocity-vibrator --速度频谱(激振器)

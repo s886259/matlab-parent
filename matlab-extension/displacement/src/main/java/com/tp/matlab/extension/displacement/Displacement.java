@@ -70,15 +70,17 @@ public class Displacement {
         final double ppv = pm1.getVal() + pm2.getVal();
 
         /**
-         * %%%%%%%%%%%%%%%%%%%%%%%%作图%%%%%%%%%%%%%%%%%%%%%%%%
+         * %%%%%%%%%%%%%%%%%%%%%%%%用于输出图像的数据%%%%%%%%%%%%%%%%%%%%%%%%
          */
-        //t=(0:n-1)/fs; %时间
-        final List<BigDecimal> t = DoubleStream.iterate(0, i -> i + 1)
+        //t=(1:N)/fs; %横轴：时间
+        final List<BigDecimal> t = DoubleStream.iterate(1, i -> i + 1)
                 .limit(n_1)
                 .map(i -> i / fs)
                 .boxed()
                 .map(NumberFormatUtils::roundToDecimal)
                 .collect(toList());
+        //x_plot=x;   %纵轴：位移
+        final List<BigDecimal> x_plot = a2v2xResult.getX().stream().map(NumberFormatUtils::roundToDecimal).collect(toList());
 
         final DisplacementResult result = DisplacementResult.builder()
                 .ppv(roundToDecimal(ppv))
@@ -87,7 +89,7 @@ public class Displacement {
                 .p2(roundToDecimal(pm1.getVal()))
                 .m2(roundToDecimal(m2))
                 .x(t)
-                .y(a2v2xResult.getX().stream().map(NumberFormatUtils::roundToDecimal).collect(toList()))
+                .y(x_plot)
                 .build();
         return toValue(result, new TypeReference<Map<String, Object>>() {
         });

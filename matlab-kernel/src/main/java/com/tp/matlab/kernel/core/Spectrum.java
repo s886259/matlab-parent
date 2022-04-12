@@ -1,4 +1,4 @@
-package com.tp.matlab.extension.frequency.acceleration;
+package com.tp.matlab.kernel.core;
 
 import cn.hutool.core.util.NumberUtil;
 import com.tp.matlab.kernel.transform.FFTTransformer;
@@ -14,7 +14,7 @@ import static java.util.stream.Collectors.toList;
  * Created by tangpeng on 2021-05-17
  */
 @RequiredArgsConstructor
-class Spectrum {
+public class Spectrum {
 
     private final Integer fs;
     /**
@@ -33,12 +33,14 @@ class Spectrum {
                 .map(i -> i * fs / 2)
                 .collect(toList());
         final List<Double> y = A.subList(0, n / 2);
+        //y(1)=0; %去除直流分量
+        y.set(0, 0d);
         return SpectrumResult.of(f, y);
     }
 
     @Getter
     @RequiredArgsConstructor(staticName = "of")
-    static class SpectrumResult {
+    public static class SpectrumResult {
         private final List<Double> f;
         private final List<Double> ai;
     }

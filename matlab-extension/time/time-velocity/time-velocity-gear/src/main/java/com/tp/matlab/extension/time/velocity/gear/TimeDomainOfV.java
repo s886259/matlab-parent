@@ -109,14 +109,18 @@ public class TimeDomainOfV {
         //[TV]=total_value(v,fs,fmin,fmax);
         final double TV = new TotalValue(v, fs, fmin_1, fmax_1).execute();
 
-        //t=(0:N-1)/fs;
-        final List<BigDecimal> t = DoubleStream.iterate(0, i -> i + 1)
+        /**
+         * %%%%%%%%%%%%%%%%%%%%%%%%用于输出图像的数据%%%%%%%%%%%%%%%%%%%%%%%%
+         */
+        //t=(1:N)/fs; %图像的横轴
+        final List<BigDecimal> t = DoubleStream.iterate(1, i -> i + 1)
                 .limit(N)
                 .map(i -> i / fs)
                 .boxed()
                 .map(NumberFormatUtils::roundToDecimal)
                 .collect(toList());
-        final List<BigDecimal> y = v.stream()
+        //v_plot=v;   %图像的纵轴
+        final List<BigDecimal> v_plot = v.stream()
                 .map(NumberFormatUtils::roundToDecimal)
                 .collect(toList());
 
@@ -135,7 +139,7 @@ public class TimeDomainOfV {
                 .kur(roundToDecimal(kur))
                 .tv(roundToDecimal(TV))
                 .x(t)
-                .y(y)
+                .y(v_plot)
                 .build();
         return toValue(result, new TypeReference<Map<String, Object>>() {
         });
