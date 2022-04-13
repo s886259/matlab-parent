@@ -10,12 +10,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.lang.Nullable;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.DoubleStream;
 
 import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDecimal;
@@ -38,7 +36,7 @@ public class Displacement {
     public Map<String, Object> execute(
             @NonNull final List<Double> a,
             @NonNull final Integer fs,
-            @Nullable final Integer n
+            @NonNull final Integer n
     ) throws JsonProcessingException {
         /**
          *  %%%%%%%%%%%%%%%%%%%%%%%%字母说明%%%%%%%%%%%%%%%%%%%%%%%%
@@ -49,11 +47,10 @@ public class Displacement {
          *  %%%%%%%%%%%%%%%%%%%%%%%%计算%%%%%%%%%%%%%%%%%%%%%%%%
          *  1、转频为入参；
          */
-        final int n_1 = Optional.ofNullable(n).orElse(12);       //设置转频为12
         //flcut=n-0.25*n;        %低频截止
-        final double flcut = n_1 - 0.25 * n_1;
+        final double flcut = n - 0.25 * n;
         //fhcut=n+0.25*n;        %高频截止
-        final double fhcut = n_1 + 0.25 * n_1;
+        final double fhcut = n + 0.25 * n;
         //[v,x]=a2v2x(a,fs,flcut,fhcut);
         final A2v2xResult a2v2xResult = new A2v2x(a, fs, flcut, fhcut).execute();
         //x=x*1000;              %单位换算
@@ -74,7 +71,7 @@ public class Displacement {
          */
         //t=(1:N)/fs; %横轴：时间
         final List<BigDecimal> t = DoubleStream.iterate(1, i -> i + 1)
-                .limit(n_1)
+                .limit(n)
                 .map(i -> i / fs)
                 .boxed()
                 .map(NumberFormatUtils::roundToDecimal)
