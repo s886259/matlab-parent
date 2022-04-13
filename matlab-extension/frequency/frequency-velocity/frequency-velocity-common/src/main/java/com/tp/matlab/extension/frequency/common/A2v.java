@@ -1,5 +1,7 @@
 package com.tp.matlab.extension.frequency.common;
 
+import com.tp.matlab.kernel.core.OnceIntegral;
+import com.tp.matlab.kernel.core.OnceIntegral.OnceIntegralResult;
 import com.tp.matlab.kernel.domain.ResultComplex;
 import com.tp.matlab.kernel.transform.FFTTransformer;
 import com.tp.matlab.kernel.transform.IFFTTransformer;
@@ -48,7 +50,7 @@ public class A2v {
         //w=2*pi*f;
         final List<Double> w = f.stream().map(i -> 2 * Math.PI * i).collect(toList());
         //[Rv,Iv,Complexv]=Once_integral(w,a_fft);
-        final OnceIntegral.OnceIntegralResult onceIntegralResult = new OnceIntegral(w, afft).execute();
+        final OnceIntegralResult onceIntegralResult = new OnceIntegral(w, afft).execute();
         //v_time=ifft(Complexv);
         final List<ResultComplex> v_time = new IFFTTransformer().transform(
                 onceIntegralResult.getComplexv().stream().map(i -> new Complex(i.getReal(), i.getImag())).toArray(Complex[]::new)

@@ -1,4 +1,4 @@
-package com.tp.matlab.extension.frequency.triaxial;
+package com.tp.matlab.kernel.core;
 
 import com.tp.matlab.kernel.domain.ResultComplex;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by tangpeng on 2021-07-13
+ * Created by tangpeng on 2021-07-30
  */
 @RequiredArgsConstructor
 public class OnceIntegral {
@@ -31,6 +31,11 @@ public class OnceIntegral {
             iList.add(i);
             complexes.add(ResultComplex.of(r, i));
         }
+        /*
+          Complex=R+1i*I;
+          Complex(1)=0;
+          Complex(nn)=0;
+         */
         complexes.set(0, ResultComplex.of(0d, 0d));
         complexes.set(nn - 1, ResultComplex.of(0d, 0d));
         return OnceIntegralResult.of(rList, iList, complexes);
@@ -39,7 +44,7 @@ public class OnceIntegral {
 
     @Getter
     @RequiredArgsConstructor(staticName = "of")
-    static class OnceIntegralResult {
+    public static class OnceIntegralResult {
         private final List<Double> rv;
         private final List<Double> iv;
         private final List<ResultComplex> complexv;

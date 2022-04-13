@@ -1,6 +1,7 @@
 package com.tp.matlab.extension.time.velocity.common;
 
-import com.tp.matlab.extension.time.velocity.common.OnceIntegral.OnceIntegralResult;
+import com.tp.matlab.kernel.core.OnceIntegral;
+import com.tp.matlab.kernel.core.OnceIntegral.OnceIntegralResult;
 import com.tp.matlab.kernel.domain.ResultComplex;
 import com.tp.matlab.kernel.transform.FFTTransformer;
 import com.tp.matlab.kernel.transform.IFFTTransformer;

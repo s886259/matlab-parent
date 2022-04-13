@@ -3,6 +3,7 @@ package com.tp.matlab.extension.time.envolope;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tp.matlab.kernel.core.HannFilt;
+import com.tp.matlab.kernel.core.MeanValue;
 import com.tp.matlab.kernel.domain.TotalValue;
 import com.tp.matlab.kernel.domain.ValueWithIndex;
 import com.tp.matlab.kernel.domain.result.TimeResult;

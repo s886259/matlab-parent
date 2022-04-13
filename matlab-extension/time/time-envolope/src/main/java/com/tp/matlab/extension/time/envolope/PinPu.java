@@ -1,5 +1,7 @@
 package com.tp.matlab.extension.time.envolope;
 
+import com.tp.matlab.kernel.core.OnceIntegral;
+import com.tp.matlab.kernel.core.OnceIntegral.OnceIntegralResult;
 import com.tp.matlab.kernel.domain.ResultComplex;
 import com.tp.matlab.kernel.transform.FFTTransformer;
 import com.tp.matlab.kernel.transform.IFFTTransformer;
@@ -60,7 +62,7 @@ class PinPu {
         final int n_inferior = (int) Math.round(this.flow / df);
         final int n_superior = (int) Math.round(this.fhigh / df);
         //[Rv,Iv,Complexv]=Once_integral(w,a_fft);
-        final OnceIntegral.OnceIntegralResult onceIntegralResult = new OnceIntegral(w, afft).execute();
+        final OnceIntegralResult onceIntegralResult = new OnceIntegral(w, afft).execute();
         final ResultComplex[] k = new ResultComplex[this.a.size()];
         for (int i = 0; i < k.length; i++) {
             if (i >= n_inferior - 1 && i < n_superior) {

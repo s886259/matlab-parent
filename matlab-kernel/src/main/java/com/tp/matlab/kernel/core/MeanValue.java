@@ -1,4 +1,4 @@
-package com.tp.matlab.extension.time.envolope;
+package com.tp.matlab.kernel.core;
 
 import lombok.RequiredArgsConstructor;
 
@@ -8,7 +8,7 @@ import java.util.List;
  * Created by tangpeng on 2021-05-04
  */
 @RequiredArgsConstructor
-class MeanValue {
+public class MeanValue {
 
     /**
      * 源数据
