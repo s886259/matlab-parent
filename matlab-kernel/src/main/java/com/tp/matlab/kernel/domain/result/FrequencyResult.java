@@ -8,7 +8,8 @@ import org.apache.commons.collections4.CollectionUtils;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDecimal;
+import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDouble;
+
 
 /**
  * 频谱结果
@@ -23,7 +24,7 @@ public class FrequencyResult {
      * 振动总值=整体频谱=整体趋势，m/s^2
      */
     @NonNull
-    private BigDecimal tv;
+    private Double tv;
     /**
      * 输出BPFI*1的频率和幅值 //该值为输出值，需要存库，bpfi1~4
      */
@@ -109,12 +110,12 @@ public class FrequencyResult {
      * 转频对应的幅值
      */
     @NonNull
-    private BigDecimal fuzhi_zhuanpin;
+    private Double fuzhi_zhuanpin;
 
     @NonNull
-    private List<BigDecimal> x;
+    private List<Double> x;
     @NonNull
-    private List<BigDecimal> y;
+    private List<Double> y;
 
     public static FrequencyResult from(
             @NonNull final Double TV,
@@ -124,12 +125,12 @@ public class FrequencyResult {
             @NonNull final List<FamResult> output_FTF,
             @NonNull final List<XieboResult> xieboResults,
             @NonNull final List<BiandaiResult> biandaiResults,
-            @NonNull final List<BigDecimal> x,
-            @NonNull final List<BigDecimal> y,
-            @NonNull final BigDecimal fuzhi_zhuanpin
+            @NonNull final List<Double> x,
+            @NonNull final List<Double> y,
+            @NonNull final Double fuzhi_zhuanpin
     ) {
         FrequencyResultBuilder builder = FrequencyResult.builder()
-                .tv(roundToDecimal(TV))
+                .tv(roundToDouble(TV))
                 /**
                  * bpfi
                  */

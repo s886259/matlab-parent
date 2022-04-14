@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.DoubleStream;
 
-import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDecimal;
+import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDouble;
 import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
 import static java.util.stream.Collectors.toList;
 
@@ -162,10 +162,10 @@ public class BaseFrequencyDomainOfV {
         //output_FTF=[r_FTF',valu_FTF'];      %输出FTF的频率和幅值
         final List<FamResult> output_FTF = new ArrayList<>();
         for (int i = 0; i < r_BPFI.size(); i++) {
-            output_BPFI.add(FamResult.of(roundToDecimal(r_BPFI.get(i)), roundToDecimal(valu_BPFI.get(i))));
-            output_BPFO.add(FamResult.of(roundToDecimal(r_BPFO.get(i)), roundToDecimal(valu_BPFO.get(i))));
-            output_BSF.add(FamResult.of(roundToDecimal(r_BSF.get(i)), roundToDecimal(valu_BSF.get(i))));
-            output_FTF.add(FamResult.of(roundToDecimal(r_FTF.get(i)), roundToDecimal(valu_FTF.get(i))));
+            output_BPFI.add(FamResult.of(roundToDouble(r_BPFI.get(i)), roundToDouble(valu_BPFI.get(i))));
+            output_BPFO.add(FamResult.of(roundToDouble(r_BPFO.get(i)), roundToDouble(valu_BPFO.get(i))));
+            output_BSF.add(FamResult.of(roundToDouble(r_BSF.get(i)), roundToDouble(valu_BSF.get(i))));
+            output_FTF.add(FamResult.of(roundToDouble(r_FTF.get(i)), roundToDouble(valu_FTF.get(i))));
         }
 
         /**
@@ -193,7 +193,11 @@ public class BaseFrequencyDomainOfV {
         //xiebo=[xiebo_pinlv',fuzhi_xiebo',percent'];  %输出【频率 幅值 相对百分比】
         final List<XieboResult> xieboResults = new ArrayList<>();
         for (int i = 0; i < valu_xiebo.size(); i++) {
-            xieboResults.add(XieboResult.of(roundToDecimal(valu_xiebo.get(i)), roundToDecimal(fuzhi_xiebo.get(i)), roundToDecimal(percent.get(i))));
+            xieboResults.add(XieboResult.of(
+                    roundToDouble(valu_xiebo.get(i)),
+                    roundToDouble(fuzhi_xiebo.get(i)),
+                    roundToDouble(percent.get(i)))
+            );
         }
 
         /**
@@ -226,11 +230,11 @@ public class BaseFrequencyDomainOfV {
         //biandai=[position',valu_biandai',fuzhi_biandai',k',dB'] ;%输出【位置 频率 幅值 阶次 dB】
         for (int i = 0; i < fuzhi_biandai.size(); i++) {
             biandaiResults.add(BiandaiResult.of(
-                    roundToDecimal(biandai.getPosition().get(i)),
-                    roundToDecimal(valu_biandai.get(i)),
-                    roundToDecimal(fuzhi_biandai.get(i)),
-                    roundToDecimal(k.get(i)),
-                    roundToDecimal(dB.get(i)))
+                    roundToDouble(biandai.getPosition().get(i)),
+                    roundToDouble(valu_biandai.get(i)),
+                    roundToDouble(fuzhi_biandai.get(i)),
+                    roundToDouble(k.get(i)),
+                    roundToDouble(dB.get(i)))
             );
         }
 
@@ -238,13 +242,13 @@ public class BaseFrequencyDomainOfV {
          * %%%%%%%%%%%%%%%%%%%%%%%%用于作图的数据%%%%%%%%%%%%%%%%%%%%%%%%
          */
         //f_plot=f;   %横轴：频率
-        final List<BigDecimal> f_plot = f.stream().map(NumberFormatUtils::roundToDecimal).collect(toList());
+        final List<Double> f_plot = f.stream().map(NumberFormatUtils::roundToDouble).collect(toList());
         //v_plot=vi; %纵轴：幅值
-        final List<BigDecimal> v_plot = vi.stream().map(NumberFormatUtils::roundToDecimal).collect(toList());
+        final List<Double> v_plot = vi.stream().map(NumberFormatUtils::roundToDouble).collect(toList());
 
         //to result
         final FrequencyResult result = FrequencyResult.from(TV, output_BPFI, output_BPFO, output_BSF, output_FTF,
-                xieboResults, biandaiResults, f_plot, v_plot, roundToDecimal(fuzhi_zhuanpin));
+                xieboResults, biandaiResults, f_plot, v_plot, roundToDouble(fuzhi_zhuanpin));
         return toValue(result, new TypeReference<Map<String, Object>>() {
         });
     }

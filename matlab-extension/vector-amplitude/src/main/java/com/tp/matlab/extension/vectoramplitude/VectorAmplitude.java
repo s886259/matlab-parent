@@ -12,7 +12,6 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -20,7 +19,7 @@ import java.util.stream.DoubleStream;
 
 import static com.tp.matlab.kernel.util.MatlabUtils.getMax;
 import static com.tp.matlab.kernel.util.MatlabUtils.getMin;
-import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDecimal;
+import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDouble;
 import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
 import static java.util.stream.Collectors.toList;
 
@@ -161,14 +160,14 @@ public class VectorAmplitude {
         final double a2 = pm3.getVal() - pm4.getVal();
 
         final VectorAmplitudeResult result = VectorAmplitudeResult.builder()
-                .leftx(leftx.stream().map(NumberFormatUtils::roundToDecimal).collect(toList()))
-                .lefty(lefty.stream().map(NumberFormatUtils::roundToDecimal).collect(toList()))
-                .rightx(rightx.stream().map(NumberFormatUtils::roundToDecimal).collect(toList()))
-                .righty(righty.stream().map(NumberFormatUtils::roundToDecimal).collect(toList()))
-                .theta1(roundToDecimal(theta1))
-                .theta2(roundToDecimal(theta2))
-                .a1(roundToDecimal(a1))
-                .a2(roundToDecimal(a2))
+                .leftx(leftx.stream().map(NumberFormatUtils::roundToDouble).collect(toList()))
+                .lefty(lefty.stream().map(NumberFormatUtils::roundToDouble).collect(toList()))
+                .rightx(rightx.stream().map(NumberFormatUtils::roundToDouble).collect(toList()))
+                .righty(righty.stream().map(NumberFormatUtils::roundToDouble).collect(toList()))
+                .theta1(roundToDouble(theta1))
+                .theta2(roundToDouble(theta2))
+                .a1(roundToDouble(a1))
+                .a2(roundToDouble(a2))
                 .build();
         return toValue(result, new TypeReference<Map<String, Object>>() {
         });
@@ -180,34 +179,34 @@ public class VectorAmplitude {
         /**
          * leftx：单位mm,左侧（对应通道1、2）X数组
          */
-        private List<BigDecimal> leftx;
+        private List<Double> leftx;
         /**
          * lefty：单位mm,左侧（对应通道1、2）Y数组
          */
-        private List<BigDecimal> lefty;
+        private List<Double> lefty;
         /**
          * rightx：单位mm,右侧（对应通道4、5）X数组
          */
-        private List<BigDecimal> rightx;
+        private List<Double> rightx;
         /**
          * righty：单位mm,右侧（对应通道4、5）Y数组
          */
-        private List<BigDecimal> righty;
+        private List<Double> righty;
         /**
          * theta1：左侧（对应通道1、2）与水平方向夹角
          */
-        private BigDecimal theta1;
+        private Double theta1;
         /**
          * theta2：右侧（对应通道4、5）与水平方向夹角
          */
-        private BigDecimal theta2;
+        private Double theta2;
         /**
          * a1：左侧矢量振幅A1（对应通道1、2）
          */
-        private BigDecimal a1;
+        private Double a1;
         /**
          * a2：右侧矢量振幅A2（对应通道4、5）
          */
-        private BigDecimal a2;
+        private Double a2;
     }
 }

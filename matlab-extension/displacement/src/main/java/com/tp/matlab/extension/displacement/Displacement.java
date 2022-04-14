@@ -12,12 +12,11 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.DoubleStream;
 
-import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDecimal;
+import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDouble;
 import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
 import static java.util.stream.Collectors.toList;
 
@@ -81,21 +80,21 @@ public class Displacement {
          * %%%%%%%%%%%%%%%%%%%%%%%%用于输出图像的数据%%%%%%%%%%%%%%%%%%%%%%%%
          */
         //t=(1:N)/fs; %横轴：时间
-        final List<BigDecimal> t = DoubleStream.iterate(1, i -> i + 1)
+        final List<Double> t = DoubleStream.iterate(1, i -> i + 1)
                 .limit(N)
                 .map(i -> i / fs)
                 .boxed()
-                .map(NumberFormatUtils::roundToDecimal)
+                .map(NumberFormatUtils::roundToDouble)
                 .collect(toList());
         //x_plot=x;   %纵轴：位移
-        final List<BigDecimal> x_plot = a2v2xResult.getX().stream().map(NumberFormatUtils::roundToDecimal).collect(toList());
+        final List<Double> x_plot = a2v2xResult.getX().stream().map(NumberFormatUtils::roundToDouble).collect(toList());
 
         final DisplacementResult result = DisplacementResult.builder()
-                .ppv(roundToDecimal(ppv))
-                .p1(roundToDecimal(pm1.getVal()))
-                .m1(roundToDecimal(m1))
-                .p2(roundToDecimal(pm1.getVal()))
-                .m2(roundToDecimal(m2))
+                .ppv(roundToDouble(ppv))
+                .p1(roundToDouble(pm1.getVal()))
+                .m1(roundToDouble(m1))
+                .p2(roundToDouble(pm1.getVal()))
+                .m2(roundToDouble(m2))
                 .x(t)
                 .y(x_plot)
                 .build();
@@ -109,24 +108,24 @@ public class Displacement {
         /**
          * 检测值：峰峰值PPV（就是位移单值）
          */
-        private BigDecimal ppv;
+        private Double ppv;
         /**
          * p1：正半轴峰值
          */
-        private BigDecimal p1;
+        private Double p1;
         /**
          * p2：负半轴峰值
          */
-        private BigDecimal p2;
+        private Double p2;
         /**
          * m1：正半轴峰值对应的频率
          */
-        private BigDecimal m1;
+        private Double m1;
         /**
          * m2：负半轴峰值对应的频率
          */
-        private BigDecimal m2;
-        private List<BigDecimal> x;
-        private List<BigDecimal> y;
+        private Double m2;
+        private List<Double> x;
+        private List<Double> y;
     }
 }

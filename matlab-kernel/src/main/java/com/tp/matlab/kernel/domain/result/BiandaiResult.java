@@ -13,25 +13,25 @@ public class BiandaiResult {
      * 位置
      */
     @NonNull
-    private final BigDecimal position;
+    private final Double position;
     /**
      * 频率
      */
     @NonNull
-    private final BigDecimal pl;
+    private final Double pl;
     /**
      * 幅值
      */
     @NonNull
-    private final BigDecimal fz;
+    private final Double fz;
     /**
      * 阶次
      */
     @NonNull
-    private final BigDecimal k;
+    private final Double k;
     /**
      * db
      */
     @NonNull
-    private final BigDecimal db;
+    private final Double db;
 }

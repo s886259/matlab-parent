@@ -17,69 +17,69 @@ public class TimeResult {
      * rpp：真峰峰值
      */
     @NonNull
-    private BigDecimal rpp;
+    private Double rpp;
     /**
      * time：总时间，时间范围：0~time
      */
     @NonNull
-    private BigDecimal time;
+    private Double time;
     /**
      * A：幅值
      */
     @NonNull
-    private BigDecimal a;
+    private Double a;
     /**
      * p：峰值；
      */
     @NonNull
-    private BigDecimal p;
+    private Double p;
     /**
      * tm：时域值（峰值对应的时间点）
      */
     @NonNull
-    private BigDecimal tm;
+    private Double tm;
     /**
      * Pp：正峰值；
      */
     @NonNull
-    private BigDecimal pp;
+    private Double pp;
     /**
      * Np：负峰值
      */
     @NonNull
-    private BigDecimal np;
+    private Double np;
     /**
      * vrms：均方根值
      */
     @NonNull
-    private BigDecimal vrms;
+    private Double vrms;
     /**
      * sigma：标准偏差
      */
     @NonNull
-    private BigDecimal sigma;
+    private Double sigma;
     /**
      * pf：波峰因素
      */
     @NonNull
-    private BigDecimal pf;
+    private Double pf;
     /**
      * ske：偏斜度
      */
     @NonNull
-    private BigDecimal ske;
+    private Double ske;
     /**
      * kur：峭度
      */
     @NonNull
-    private BigDecimal kur;
+    private Double kur;
     /**
      * TV：振动总值，m/s^2（用于计算整体趋势）
      */
     @NonNull
-    private BigDecimal tv;
+    private Double tv;
     @NonNull
-    private List<BigDecimal> x;
+    private List<Double> x;
     @NonNull
-    private List<BigDecimal> y;
+    private List<Double> y;
 }

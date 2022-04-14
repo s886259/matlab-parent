@@ -10,14 +10,13 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDecimal;
+import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDouble;
 import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
 import static java.util.stream.Collectors.toList;
 
@@ -98,16 +97,16 @@ public class Trails {
         final double delta = Math.abs(phi_2 - phi_1);
 
         final TrailsResult result = new TrailsResult.TrailsResultBuilder()
-                .x1(x1.stream().map(NumberFormatUtils::roundToDecimal).collect(toList()))
-                .y1(y1.stream().map(NumberFormatUtils::roundToDecimal).collect(toList()))
-                .z1(z1.stream().map(NumberFormatUtils::roundToDecimal).collect(toList()))
-                .x2(x2.stream().map(NumberFormatUtils::roundToDecimal).collect(toList()))
-                .y2(y2.stream().map(NumberFormatUtils::roundToDecimal).collect(toList()))
-                .z2(z2.stream().map(NumberFormatUtils::roundToDecimal).collect(toList()))
-                .phi_1(roundToDecimal(phi_1))
-                .phi_2(roundToDecimal(phi_2))
-                .delta(roundToDecimal(delta))
-                .pks(pks.stream().map(NumberFormatUtils::roundToDecimal).collect(toList()))
+                .x1(x1.stream().map(NumberFormatUtils::roundToDouble).collect(toList()))
+                .y1(y1.stream().map(NumberFormatUtils::roundToDouble).collect(toList()))
+                .z1(z1.stream().map(NumberFormatUtils::roundToDouble).collect(toList()))
+                .x2(x2.stream().map(NumberFormatUtils::roundToDouble).collect(toList()))
+                .y2(y2.stream().map(NumberFormatUtils::roundToDouble).collect(toList()))
+                .z2(z2.stream().map(NumberFormatUtils::roundToDouble).collect(toList()))
+                .phi_1(roundToDouble(phi_1))
+                .phi_2(roundToDouble(phi_2))
+                .delta(roundToDouble(delta))
+                .pks(pks.stream().map(NumberFormatUtils::roundToDouble).collect(toList()))
                 .build();
         return toValue(result, new TypeReference<Map<String, Object>>() {
         });
@@ -116,28 +115,28 @@ public class Trails {
     @Getter
     @Builder
     private static class TrailsResult {
-        private List<BigDecimal> x1;
-        private List<BigDecimal> y1;
-        private List<BigDecimal> z1;
-        private List<BigDecimal> x2;
-        private List<BigDecimal> y2;
-        private List<BigDecimal> z2;
+        private List<Double> x1;
+        private List<Double> y1;
+        private List<Double> z1;
+        private List<Double> x2;
+        private List<Double> y2;
+        private List<Double> z2;
         /**
          * 左侧轨迹角度值 单位：mm
          */
-        private BigDecimal phi_1;
+        private Double phi_1;
         /**
          * 右侧轨迹角度值 单位：mm
          */
-        private BigDecimal phi_2;
+        private Double phi_2;
         /**
          * 两侧轨迹角度差（反映了偏离程度）单位：mm
          */
-        private BigDecimal delta;
+        private Double delta;
         /**
          * 幅值（峰峰值），从pks（1）到pks（6）分别为1~6通道的位移值
          */
-        private List<BigDecimal> pks;
+        private List<Double> pks;
 
     }
 }

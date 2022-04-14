@@ -13,15 +13,15 @@ public class XieboResult {
      * 频率
      */
     @NonNull
-    private final BigDecimal pl;
+    private final Double pl;
     /**
      * 幅值
      */
     @NonNull
-    private final BigDecimal fz;
+    private final Double fz;
     /**
      * 相对百分比
      */
     @NonNull
-    private final BigDecimal percent;
+    private final Double percent;
 }

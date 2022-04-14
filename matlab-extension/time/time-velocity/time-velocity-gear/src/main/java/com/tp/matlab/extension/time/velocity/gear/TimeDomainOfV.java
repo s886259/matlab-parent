@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.DoubleStream;
 
-import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDecimal;
+import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDouble;
 import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
 import static java.util.stream.Collectors.toList;
 
@@ -114,31 +114,31 @@ public class TimeDomainOfV {
          * %%%%%%%%%%%%%%%%%%%%%%%%用于输出图像的数据%%%%%%%%%%%%%%%%%%%%%%%%
          */
         //t=(1:N)/fs; %图像的横轴
-        final List<BigDecimal> t = DoubleStream.iterate(1, i -> i + 1)
+        final List<Double> t = DoubleStream.iterate(1, i -> i + 1)
                 .limit(N)
                 .map(i -> i / fs)
                 .boxed()
-                .map(NumberFormatUtils::roundToDecimal)
+                .map(NumberFormatUtils::roundToDouble)
                 .collect(toList());
         //v_plot=v;   %图像的纵轴
-        final List<BigDecimal> v_plot = v.stream()
-                .map(NumberFormatUtils::roundToDecimal)
+        final List<Double> v_plot = v.stream()
+                .map(NumberFormatUtils::roundToDouble)
                 .collect(toList());
 
         final TimeResult result = TimeResult.builder()
-                .rpp(roundToDecimal(rpp))
-                .time(roundToDecimal(time))
-                .a(roundToDecimal(A))
-                .p(roundToDecimal(pm_max.getVal()))
-                .tm(roundToDecimal(tm))
-                .pp(roundToDecimal(valueOfPeakResult.getPp()))
-                .np(roundToDecimal(valueOfPeakResult.getNp()))
-                .vrms(roundToDecimal(vrms))
-                .sigma(roundToDecimal(sigma))
-                .pf(roundToDecimal(pf))
-                .ske(roundToDecimal(ske))
-                .kur(roundToDecimal(kur))
-                .tv(roundToDecimal(TV))
+                .rpp(roundToDouble(rpp))
+                .time(roundToDouble(time))
+                .a(roundToDouble(A))
+                .p(roundToDouble(pm_max.getVal()))
+                .tm(roundToDouble(tm))
+                .pp(roundToDouble(valueOfPeakResult.getPp()))
+                .np(roundToDouble(valueOfPeakResult.getNp()))
+                .vrms(roundToDouble(vrms))
+                .sigma(roundToDouble(sigma))
+                .pf(roundToDouble(pf))
+                .ske(roundToDouble(ske))
+                .kur(roundToDouble(kur))
+                .tv(roundToDouble(TV))
                 .x(t)
                 .y(v_plot)
                 .build();

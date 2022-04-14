@@ -43,12 +43,12 @@ public class A2x {
         final int fs = 25600;
         final int n = a1.size();     //%采样点数
         //t=(0:n-1)/fs; %时间
-        final List<BigDecimal> t = DoubleStream.iterate(0, i -> i + 1)
-                .limit(n)
-                .map(i -> i / fs)
-                .boxed()
-                .map(NumberFormatUtils::roundToDecimal)
-                .collect(toList());
+//        final List<Double> t = DoubleStream.iterate(0, i -> i + 1)
+//                .limit(n)
+//                .map(i -> i / fs)
+//                .boxed()
+//                .map(NumberFormatUtils::roundToDouble)
+//                .collect(toList());
 
         //final double a_fft= fft(detrend(a));
         final List<Double> detrend = MatlabUtils.detrend(a1);

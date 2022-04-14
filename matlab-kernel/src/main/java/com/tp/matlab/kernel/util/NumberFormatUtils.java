@@ -4,6 +4,7 @@ import cn.hutool.core.util.NumberUtil;
 import lombok.experimental.UtilityClass;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 
 /**
  * Created by tangpeng on 2021-04-27
@@ -20,11 +21,15 @@ public class NumberFormatUtils {
         return NumberUtil.decimalFormat(DECIMAL_FORMAT, d);
     }
 
-    public static BigDecimal roundToDecimal(final double d) {
+    private static BigDecimal roundToDecimal(final double d) {
         if (d == 0) {
             return new BigDecimal(0);
         }
         return new BigDecimal(NumberUtil.decimalFormat(DECIMAL_FORMAT, d));
+    }
+
+    public static Double roundToDouble(final double d) {
+       return roundToDecimal(d).doubleValue();
     }
 
 }

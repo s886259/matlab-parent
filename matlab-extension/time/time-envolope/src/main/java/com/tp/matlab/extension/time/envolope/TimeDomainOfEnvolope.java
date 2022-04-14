@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDecimal;
+import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDouble;
 import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
 import static java.util.stream.Collectors.toList;
 
@@ -113,27 +113,27 @@ public class TimeDomainOfEnvolope {
         double TV = new TotalValue(a, fs, fmin_1, fmax_1).execute();
         TV = TV / g;//单位转换
 
-        final List<BigDecimal> x = m.stream()
-                .map(NumberFormatUtils::roundToDecimal)
+        final List<Double> x = m.stream()
+                .map(NumberFormatUtils::roundToDouble)
                 .collect(toList());
-        final List<BigDecimal> y = p.stream()
-                .map(NumberFormatUtils::roundToDecimal)
+        final List<Double> y = p.stream()
+                .map(NumberFormatUtils::roundToDouble)
                 .collect(toList());
 
         final TimeResult result = TimeResult.builder()
-                .rpp(roundToDecimal(rpp))
-                .time(roundToDecimal(time))
-                .a(roundToDecimal(A))
-                .p(roundToDecimal(pm_max.getVal()))
-                .tm(roundToDecimal(tm))
-                .pp(roundToDecimal(valueOfPeakResult.getPp()))
-                .np(roundToDecimal(valueOfPeakResult.getNp()))
-                .vrms(roundToDecimal(vrms))
-                .sigma(roundToDecimal(sigma))
-                .pf(roundToDecimal(pf))
-                .ske(roundToDecimal(ske))
-                .kur(roundToDecimal(kur))
-                .tv(roundToDecimal(TV))
+                .rpp(roundToDouble(rpp))
+                .time(roundToDouble(time))
+                .a(roundToDouble(A))
+                .p(roundToDouble(pm_max.getVal()))
+                .tm(roundToDouble(tm))
+                .pp(roundToDouble(valueOfPeakResult.getPp()))
+                .np(roundToDouble(valueOfPeakResult.getNp()))
+                .vrms(roundToDouble(vrms))
+                .sigma(roundToDouble(sigma))
+                .pf(roundToDouble(pf))
+                .ske(roundToDouble(ske))
+                .kur(roundToDouble(kur))
+                .tv(roundToDouble(TV))
                 .x(x)
                 .y(y)
                 .build();
