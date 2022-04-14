@@ -14,8 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.tp.matlab.kernel.util.ExcelUtils.xlsRead;
-import static com.tp.matlab.web.base.AbstractTransformTest.TEST_EXCEL_COLUMN_INDEX;
-import static com.tp.matlab.web.base.AbstractTransformTest.TIME_DOMAIN_TEST_EXCEL;
+import static com.tp.matlab.web.base.AbstractTransformTest.*;
 import static org.apache.commons.lang3.ArrayUtils.toPrimitive;
 
 /**
@@ -32,7 +31,7 @@ public class VectorAmplitudeServiceTest {
     @Test
     public void testMain() throws IOException, InvalidFormatException {
         //my output
-        final String fileName = this.getClass().getResource(TIME_DOMAIN_TEST_EXCEL).getFile();
+        final String fileName = this.getClass().getResource(TEST_VECTOR_AMPLITUDE_EXCEL).getFile();
         final List<Double> records = xlsRead(fileName, TEST_EXCEL_COLUMN_INDEX);
         //save source input file
         FileUtils.double2File(String.format("%s_column%d_source_.txt", fileName, TEST_EXCEL_COLUMN_INDEX), records);

@@ -22,6 +22,7 @@ public class FrequencyDomainOfV extends BaseFrequencyDomainOfV {
     /**
      * @param a       需要分析的列值
      * @param fs      采样频率
+     * @param n       转频      (20220414新增)
      * @param fam     * %%%%%%%%%%%%%%%%%%%%%%%FAM栏计算 (20220323)%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
      *                1、BPFI、BPFO、BSF、FTF、n为输入变量，入参；
      *                2、默认K1的倍频为1、2、3、4去乘以计算，但也可以作为输入变量，作为入参；
@@ -42,6 +43,7 @@ public class FrequencyDomainOfV extends BaseFrequencyDomainOfV {
     public Map<String, Object> execute(
             @NonNull final List<Double> a,
             @NonNull final Integer fs,
+            @NonNull final Integer n,
             @NonNull final FamRequest fam,
             @NonNull final XieboRequest xiebo,
             @NonNull final BiandaiRequest biandai,
@@ -54,6 +56,6 @@ public class FrequencyDomainOfV extends BaseFrequencyDomainOfV {
         final double fmax_1 = Optional.ofNullable(fmax).orElse(500d);           //famx：终止频率
         final double flcut_1 = Optional.ofNullable(flcut).orElse(5d);           //flcut：低频截止
         final double fhcut_1 = Optional.ofNullable(fhcut).orElse(fs / 2.56);    //fhcut：高频截止
-        return super.execute(a, fs, fam, xiebo, biandai, fmin_1, fmax_1, flcut_1, fhcut_1);
+        return super.execute(a, fs, n, fam, xiebo, biandai, fmin_1, fmax_1, flcut_1, fhcut_1);
     }
 }

@@ -74,10 +74,10 @@ public class TimeDomainOfEnvolope {
         final int N = a.size();   //%数据长度
         //df=fs/N;
         final double df = (double) fs / N;
-        final double fmin_1 = Optional.ofNullable(fmin).orElse(2d);             //fmin：起始频率
+        final double fmin_1 = Optional.ofNullable(fmin).orElse(0d);             //fmin：起始频率
         final double fmax_1 = Optional.ofNullable(fmax).orElse(1000d);          //famx：终止频率
         final double flcut_1 = Optional.ofNullable(flcut).orElse(500d);         //flcut：低频截止
-        final double fhcut_1 = Optional.ofNullable(fhcut).orElse(fs / 2.56);    //fhcut：高频截止
+        final double fhcut_1 = Optional.ofNullable(fhcut).orElse(fs/2.56);      //fhcut：高频截止
         final double time = (double) N / fs;
         //[a_fir]=hann_filt(a,fs,flcut,fhcut);
         final List<Double> a_fir = new HannFilt(fs, a, flcut_1, fhcut_1).execute();

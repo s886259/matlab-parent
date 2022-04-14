@@ -34,11 +34,6 @@ public class FamRequest {
     @NonNull
     private Double ftf;
     /**
-     * 转频
-     */
-    @NonNull
-    private Integer n;
-    /**
      * 默认K1的倍频为1、2、3、4去乘以计算，但也可以作为输入变量，作为入参
      */
     @NonNull

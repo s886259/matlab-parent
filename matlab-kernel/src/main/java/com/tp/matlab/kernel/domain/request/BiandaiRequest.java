@@ -14,11 +14,6 @@ import java.util.List;
 @Builder
 public class BiandaiRequest {
     /**
-     * 转频
-     */
-    @NonNull
-    private Integer n;
-    /**
      * 默认position为-5、-4、-3、-2 -1 0 1 2 3 4 5，但也可以作为输入变量，作为入参
      */
     @NonNull

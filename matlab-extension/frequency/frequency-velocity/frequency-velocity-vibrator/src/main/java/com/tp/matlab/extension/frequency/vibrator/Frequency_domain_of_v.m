@@ -18,12 +18,14 @@ a=aa(:,c);
 % //2¡¢ÂË²¨Æ÷£º
 % //1£©Ã¿ÕÅÍ¼±íÓĞ¹Ì¶¨µÄÂË²¨Æ÷ÉèÖÃ£»
 % //2£©Ò²¿ÉÒÔ×÷ÎªÈë²ÎÊäÈëÊµÏÖÍ¼±íÖØĞÂ¼ÆËã£ºfmin¡¢fmax¡¢flcut¡¢fhcutµÈ×Ö¶Î£»
+% //3¡¢×ªÆµÎªÈë²Î
+n=0;           %ÊäÈë×ªÆµ
 fs=25600;      %²ÉÑùÆµÂÊ
 N=length(a);   %Êı¾İ³¤¶È
+fmin=0;        %fmin£ºÆğÊ¼ÆµÂÊ
+fmax=500;      %famx£ºÖÕÖ¹ÆµÂÊ
 flcut=5;       %µÍÆµ½ØÖ¹
 fhcut=fs/2.56; %¸ßÆµ½ØÖ¹
-fmin=0;        %fmin£ºÆğÊ¼ÆµÂÊ£»
-fmax=500;      %famx£ºÖÕÖ¹ÆµÂÊ
 df=fs/N;
 [a_fir]=hann_filt(a,fs,flcut,fhcut);
 [v]=a2v(a_fir,fs);
@@ -32,11 +34,16 @@ df=fs/N;
 mf=f(m);    %·åÖµ¶ÔÓ¦ÆµÂÊÖµ
 [vrms]=Value_of_RMS(v);
 [TV]=total_value(v,fs,fmin,fmax);  %ÕûÌåÆµÆ× (Ò²ÊÇÕûÌåÇ÷ÊÆ£©    //¸ÃÖµÎªÊä³öÖµ£¬ĞèÒª´æ¿â
+if n==0
+    fuzhi_zhuanpin=0;                         % ×ªÆµÎª0Ê±µÄ·ùÖµ
+else
+    num_n=floor(n/df)+1;      
+    fuzhi_zhuanpin=vi(num_n);                  %×ªÆµ²»Îª0¶ÔÓ¦µÄ·ùÖµ
+end
 %%%%%%%%%%%%%%%%%%%%%%%FAMÀ¸¼ÆËã%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
 % //1¡¢BPFI¡¢BPFO¡¢BSF¡¢FTF¡¢nÎªÊäÈë±äÁ¿£¬Èë²Î£»
 % //2¡¢Ä¬ÈÏK1µÄ±¶ÆµÎª1¡¢2¡¢3¡¢4È¥³ËÒÔ¼ÆËã£¬µ«Ò²¿ÉÒÔ×÷ÎªÊäÈë±äÁ¿£¬×÷ÎªÈë²Î£»
 BPFI=9.429032;BPFO=6.570968;BSF=2.645376;FTF=0.410686;
-n=12;                      %×ªÆµ
 k1=n*[1 2 3 4];            %Ğ³²¨
 f_BPFI=k1*BPFI;f_BPFO=k1*BPFO;f_BSF=k1*BSF;f_FTF=k1*FTF;
 num_BPFI=floor(f_BPFI/df)+1;
@@ -79,13 +86,16 @@ FTF_4=output_FTF(4,:);            %Êä³öFTF*4µÄÆµÂÊºÍ·ùÖµ //¸ÃÖµÎªÊä³öÖµ£¬ĞèÒª´æ¿
 %%%%%%%%%%%%%%%%%%%%%%%Ğ³²¨¹â±ê¼ÆËã%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 % //1¡¢nÎªÊäÈë±äÁ¿£¬Èë²Î£» 
 % //2¡¢Ä¬ÈÏK2Ğ³²¨Îª1¡¢2¡¢3¡¢4¡¢5¡¢6¡¢7¡¢8¡¢9¡¢10È¥³ËÒÔ¼ÆËã£¬µ«Ò²¿ÉÒÔ×÷ÎªÊäÈë±äÁ¿£¬×÷ÎªÈë²Î£» 
-n=12;                       %×ªÆµ
 k2=[1 2 3 4 5 6 7 8 9 10];   %Ğ³²¨
 f_xiebo=k2*n;   %Ğ³²¨
 num_f=floor(f_xiebo/df)+1;
 [valu_xiebo]=f(num_f);        %Ğ³²¨ÆµÂÊ
-[fuzhi_xiebo]=vi(num_f);        %Ğ³²¨·ùÖµ
-percent=100*(fuzhi_xiebo./fuzhi_xiebo(1)); %Ïà¶ÔÓÚ»ùÆµµÄ°Ù·Ö±È
+[fuzhi_xiebo]=vi(num_f);      %Ğ³²¨·ùÖµ
+if n==0
+    percent=zeros(1,10);
+else
+    percent=100*(fuzhi_xiebo./fuzhi_xiebo(1)); %Ïà¶ÔÓÚ»ùÆµµÄ°Ù·Ö±È
+end
 xiebo=[valu_xiebo',fuzhi_xiebo',percent'];  %Êä³ö¡¾ÆµÂÊ ·ùÖµ Ïà¶Ô°Ù·Ö±È¡¿
 
 
@@ -103,16 +113,17 @@ xiebo_10=xiebo(10,:);              %Êä³öĞ³²¨Îª10Ê±¡¾ÆµÂÊ ·ùÖµ Ïà¶Ô°Ù·Ö±È¡¿//¶ÔÓ¦
 %%%%%%%%%%%%%%%%%%%%%%%±ß´ø¼ÆËã%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
 % //1¡¢nÎªÊäÈë±äÁ¿£¬Èë²Î£» 
 % //2¡¢Ä¬ÈÏpositionÎª-5¡¢-4¡¢-3¡¢-2 -1 0 1 2 3 4 5£¬µ«Ò²¿ÉÒÔ×÷ÎªÊäÈë±äÁ¿£¬×÷ÎªÈë²Î£»
-if n~=0
-num_n=floor(n/df)+1;      
-fuzhi_zhuanpin=vi(num_n);                  %×ªÆµ¶ÔÓ¦µÄ·ùÖµ
 position=[-5 -4 -3 -2 -1 0 1 2 3 4 5];    %Î»ÖÃ
 f1=fmax/2+n*position;
 num_f1=floor(f1/df)+1;
 num_zx=floor((fmax/2)/df)+1;
 [fuzhi_biandai]=vi(num_f1);               %·ùÖµ
 [valu_biandai]=f(num_f1);                 %ÆµÂÊ
-k=[valu_biandai]./n;                      %½×´Î
+if n==0
+    k=zeros(1,11);                        %½×´Î
+else
+    k=[valu_biandai]./n;                  %½×´Î
+end
 dB=20*log10([fuzhi_biandai]./vi(num_zx));  %dB
 biandai=[position',valu_biandai',fuzhi_biandai',k',dB'] ;%Êä³ö¡¾Î»ÖÃ ÆµÂÊ ·ùÖµ ½×´Î dB¡¿ 
 
@@ -127,10 +138,6 @@ biandai_8=biandai(8,:);                    %Êä³ö²»Í¬Î»ÖÃµÄ¡¾Î»ÖÃ ÆµÂÊ ·ùÖµ ½×´Î 
 biandai_9=biandai(9,:);                    %Êä³ö²»Í¬Î»ÖÃµÄ¡¾Î»ÖÃ ÆµÂÊ ·ùÖµ ½×´Î dB¡¿//£¬¶ÔÓ¦positionµÄµÚ9¸öÖµ£¬¸ÃÖµÎªÊä³öÖµ£¬ĞèÒª´æ¿â sidcband9
 biandai_10=biandai(10,:);                  %Êä³ö²»Í¬Î»ÖÃµÄ¡¾Î»ÖÃ ÆµÂÊ ·ùÖµ ½×´Î dB¡¿//£¬¶ÔÓ¦positionµÄµÚ10¸öÖµ£¬¸ÃÖµÎªÊä³öÖµ£¬ĞèÒª´æ¿â sidcband10
 biandai_11=biandai(11,:);                  %Êä³ö²»Í¬Î»ÖÃµÄ¡¾Î»ÖÃ ÆµÂÊ ·ùÖµ ½×´Î dB¡¿//£¬¶ÔÓ¦positionµÄµÚ11¸öÖµ£¬¸ÃÖµÎªÊä³öÖµ£¬ĞèÒª´æ¿â sidcband11
-else
-   k=0;                                    %×ªÆµÎª0Ê±£¬½×´ÎÎª0
-   fuzhi_zhuanpin=0;                       %×ªÆµÎª0Ê±¶ÔÓ¦µÄ·ùÖµ
-end
 %%%%%%%%%%%%%%%%%%%%%%%%ÓÃÓÚ×÷Í¼µÄÊı¾İ%%%%%%%%%%%%%%%%%%%%%%%%
 f_plot=f;   %ºáÖá£ºÆµÂÊ
 v_plot=vi; %×İÖá£º·ùÖµ
@@ -144,5 +151,5 @@ xlabel('ÆµÂÊ      Hz');
 ylabel('·ùÖµ      mm/s');
 hold on;
 plot([0,mf],[p,p],'r','linewidth',3);
-s1=sprintf('(%2.2f, %2.2f)',mf,p);
+s1=sprintf('(%2.4f, %2.4f)',mf,p);
 text(mf,p,['·åÖµµã£º',s1]);

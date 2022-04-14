@@ -22,6 +22,7 @@ import static java.util.stream.Collectors.toList;
 public abstract class AbstractTransformTest {
 
     public static final String TEST_EXCEL = "/1414.xlsx";
+    public static final String TEST_VECTOR_AMPLITUDE_EXCEL = "/1.xlsx";
     public static final String TIME_DOMAIN_TEST_EXCEL = "/1417.xlsx";
     public static final int TEST_EXCEL_ROW_SIZE = 8192;
     public static final int TEST_EXCEL_COLUMN_INDEX = 8;

@@ -25,10 +25,10 @@ public class FreqEnvolopeService {
         final double bpfo = 6.570968;
         final double bsf = 2.645376;
         final double ftf = 0.410686;
-        final FamRequest fam = FamRequest.builder().bpfi(bpfi).bpfo(bpfo).bsf(bsf).ftf(ftf).n(12).build();
-        final XieboRequest xiebo = XieboRequest.builder().n(12).build();
-        final BiandaiRequest biandai = BiandaiRequest.builder().n(12).build();
-        return new FrequencyDomainOfEnvolope().execute(array, 25600, fam, xiebo, biandai, null, null, null, null);
+        final FamRequest fam = FamRequest.builder().bpfi(bpfi).bpfo(bpfo).bsf(bsf).ftf(ftf).build();
+        final XieboRequest xiebo = XieboRequest.builder().build();
+        final BiandaiRequest biandai = BiandaiRequest.builder().build();
+        return new FrequencyDomainOfEnvolope().execute(array, 25600, 0, fam, xiebo, biandai, null, null, null, null);
     }
 
 }

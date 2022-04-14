@@ -2,7 +2,8 @@ package com.tp.matlab.extension.displacement;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.tp.matlab.extension.displacement.A2v2x.A2v2xResult;
+import com.tp.matlab.kernel.core.A2v2x;
+import com.tp.matlab.kernel.core.A2v2x.A2v2xResult;
 import com.tp.matlab.kernel.domain.ValueWithIndex;
 import com.tp.matlab.kernel.util.MatlabUtils;
 import com.tp.matlab.kernel.util.NumberFormatUtils;
@@ -38,6 +39,8 @@ public class Displacement {
             @NonNull final Integer fs,
             @NonNull final Integer n
     ) throws JsonProcessingException {
+        //N=length(a); %采样点数
+        int N = a.size();
         /**
          *  %%%%%%%%%%%%%%%%%%%%%%%%字母说明%%%%%%%%%%%%%%%%%%%%%%%%
          *     单位：gE
@@ -47,10 +50,18 @@ public class Displacement {
          *  %%%%%%%%%%%%%%%%%%%%%%%%计算%%%%%%%%%%%%%%%%%%%%%%%%
          *  1、转频为入参；
          */
-        //flcut=n-0.25*n;        %低频截止
-        final double flcut = n - 0.25 * n;
-        //fhcut=n+0.25*n;        %高频截止
-        final double fhcut = n + 0.25 * n;
+        final double flcut;
+        final double fhcut;
+        if (n == 0) {
+            //flcut=0;fhcut=1;    %低频截止与高频截止
+            flcut = 0d;
+            fhcut = 1d;
+        } else {
+            //flcut=n-0.25*n;        %低频截止
+            flcut = n - 0.25 * n;
+            //fhcut=n+0.25*n;        %高频截止
+            fhcut = n + 0.25 * n;
+        }
         //[v,x]=a2v2x(a,fs,flcut,fhcut);
         final A2v2xResult a2v2xResult = new A2v2x(a, fs, flcut, fhcut).execute();
         //x=x*1000;              %单位换算
@@ -71,7 +82,7 @@ public class Displacement {
          */
         //t=(1:N)/fs; %横轴：时间
         final List<BigDecimal> t = DoubleStream.iterate(1, i -> i + 1)
-                .limit(n)
+                .limit(N)
                 .map(i -> i / fs)
                 .boxed()
                 .map(NumberFormatUtils::roundToDecimal)

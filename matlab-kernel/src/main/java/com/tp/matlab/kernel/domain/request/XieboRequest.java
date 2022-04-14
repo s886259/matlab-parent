@@ -16,11 +16,6 @@ import java.util.List;
 @Builder
 public class XieboRequest {
     /**
-     * 转频
-     */
-    @NonNull
-    private Integer n;
-    /**
      * 默认K2谐波为1、2、3、4、5、6、7、8、9、10去乘以计算，但也可以作为输入变量，作为入参；
      */
     @NonNull

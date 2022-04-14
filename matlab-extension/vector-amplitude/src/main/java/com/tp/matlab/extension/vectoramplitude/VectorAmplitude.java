@@ -2,7 +2,8 @@ package com.tp.matlab.extension.vectoramplitude;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.tp.matlab.extension.vectoramplitude.A2v2x.A2v2xResult;
+import com.tp.matlab.kernel.core.A2v2x;
+import com.tp.matlab.kernel.core.A2v2x.A2v2xResult;
 import com.tp.matlab.kernel.domain.ValueWithIndex;
 import com.tp.matlab.kernel.util.NumberFormatUtils;
 import lombok.Builder;
@@ -69,8 +70,18 @@ public class VectorAmplitude {
          * //1）每张图表有固定的滤波器设置；
          * //2）也可以作为入参输入实现图表重新计算：flcut、fhcut作为入参；
          */
-        final double flcut_1 = Optional.ofNullable(flcut).orElse(n - 0.25 * n);      //flcut：低频截止
-        final double fhcut_1 = Optional.ofNullable(fhcut).orElse(n + 0.25 * n);      //fhcut：高频截止
+        final double flcut_1;
+        final double fhcut_1;
+        if (n == 0) {
+            //flcut=0;fhcut=1;    %低频截止与高频截止
+            flcut_1 = Optional.ofNullable(flcut).orElse(0d);
+            fhcut_1 = Optional.ofNullable(fhcut).orElse(1d);
+        } else {
+            //flcut=n-0.25*n;        %低频截止
+            flcut_1 = Optional.ofNullable(flcut).orElse(n - 0.25 * n);
+            //fhcut=n+0.25*n;        %高频截止
+            fhcut_1 = Optional.ofNullable(fhcut).orElse(n + 0.25 * n);
+        }
         //[v1,x1]=a2v2x(ax1,fs,flcut,fhcut);
         final A2v2xResult v1x1 = new A2v2x(ax1, fs, flcut_1, fhcut_1).execute();
         //[v2,y1]=a2v2x(ay1,fs,flcut,fhcut);

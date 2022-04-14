@@ -76,7 +76,7 @@ public class TimeDomainOfV {
         final int N = a.size();   //%数据长度
         //df=fs/N;
         final double df = (double) fs / N;
-        final double fmin_1 = Optional.ofNullable(fmin).orElse(5d);             //fmin：起始频率
+        final double fmin_1 = Optional.ofNullable(fmin).orElse(0d);             //fmin：起始频率
         final double fmax_1 = Optional.ofNullable(fmax).orElse(5000d);          //famx：终止频率
         final double flcut_1 = Optional.ofNullable(flcut).orElse(4d);           //flcut：低频截止
         final double fhcut_1 = Optional.ofNullable(fhcut).orElse(fs / 2.56);    //fhcut：高频截止

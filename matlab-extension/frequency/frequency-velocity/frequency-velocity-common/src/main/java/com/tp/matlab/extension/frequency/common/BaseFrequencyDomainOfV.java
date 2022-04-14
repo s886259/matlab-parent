@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.DoubleStream;
 
 import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDecimal;
 import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
@@ -37,6 +38,7 @@ public class BaseFrequencyDomainOfV {
     /**
      * @param a       需要分析的列值
      * @param fs      采样频率
+     * @param n       转频      (20220414新增)
      * @param fam     * %%%%%%%%%%%%%%%%%%%%%%%FAM栏计算 (20220323)%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
      *                1、BPFI、BPFO、BSF、FTF、n为输入变量，入参；
      *                2、默认K1的倍频为1、2、3、4去乘以计算，但也可以作为输入变量，作为入参；
@@ -56,6 +58,7 @@ public class BaseFrequencyDomainOfV {
     public Map<String, Object> execute(
             @NonNull final List<Double> a,
             @NonNull final Integer fs,
+            @NonNull final Integer n,
             @NonNull final FamRequest fam,
             @NonNull final XieboRequest xiebo,
             @NonNull final BiandaiRequest biandai,
@@ -102,6 +105,17 @@ public class BaseFrequencyDomainOfV {
         final double vrms = new ValueOfRMS(v).execute();
         //[TV]=total_value(v,fs,fmin,fmax,16);  %整体频谱 (也是整体趋势）    //该值为输出值，需要存库
         final double TV = new TotalValue(v, fs, fmin, fmax).execute();
+        final double fuzhi_zhuanpin;
+        //if n==0
+        if (n == 0) {
+            //fuzhi_zhuanpin=0;                         % 转频为0时的幅值
+            fuzhi_zhuanpin = 0d;
+        } else {
+            //num_n=floor(n/df)+1;
+            final int num_n = (int) (Math.floor(n / df) + 1);
+            //fuzhi_zhuanpin=vi(num_n);                  %转频不为0对应的幅值
+            fuzhi_zhuanpin = vi.get(num_n - 1);
+        }
 
         /**
          * %%%%%%%%%%%%%%%%%%%%%%%FAM栏计算%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -109,7 +123,7 @@ public class BaseFrequencyDomainOfV {
          * % 2、默认K1的倍频为1、2、3、4去乘以计算，但也可以作为输入变量，作为入参；
          */
         //BPFI=9.429032;BPFO=6.570968;BSF=2.645376;FTF=0.410686;
-        final List<Integer> f_k = fam.getK1().stream().map(k -> k * fam.getN()).collect(toList());
+        final List<Integer> f_k = fam.getK1().stream().map(k -> k * n).collect(toList());
         //f_BPFI=k*BPFI;f_BPFO=k*BPFO;f_BSF=k*BSF;f_FTF=k*FTF;
         final List<Double> f_BPFI = f_k.stream().map(i -> i * fam.getBpfi()).collect(toList());
         final List<Double> f_BPFO = f_k.stream().map(i -> i * fam.getBpfo()).collect(toList());
@@ -160,15 +174,22 @@ public class BaseFrequencyDomainOfV {
          * 2、默认K2谐波为1、2、3、4、5、6、7、8、9、10去乘以计算，但也可以作为输入变量，作为入参；
          */
         //f_xiebo=k2*n;   %谐波
-        final List<Integer> f_xiebo = xiebo.getK2().stream().map(i -> i * 12).collect(toList());
+        final List<Integer> f_xiebo = xiebo.getK2().stream().map(i -> i * n).collect(toList());
         //num_f=floor(f_xiebo/df)+1;
         final List<Integer> num_f = f_xiebo.stream().map(i -> i / df).map(Math::floor).map(i -> i + 1).map(Double::intValue).collect(toList());
         //[xiebo_pinlv]=f(num_f);        %谐波频率
         final List<Double> valu_xiebo = num_f.stream().map(i -> f.get(i - 1)).collect(toList());
         //[fuzhi_xiebo]=vi(num_f);      %谐波幅值
         final List<Double> fuzhi_xiebo = num_f.stream().map(i -> vi.get(i - 1)).collect(toList());
-        //percent=100*fuzhi_xiebo/fuzhi_xiebo(1); %相对于基频的百分比
-        final List<Double> percent = fuzhi_xiebo.stream().map(i -> i / fuzhi_xiebo.get(0)).map(i -> i * 100).collect(toList());
+        //if n==0
+        final List<Double> percent;
+        if (n == 0) {
+            //percent=zeros(1,10);
+            percent = DoubleStream.iterate(0, i -> i).limit((long) (10)).boxed().collect(toList());
+        } else {
+            //percent=100*fuzhi_xiebo/fuzhi_xiebo(1); %相对于基频的百分比
+            percent = fuzhi_xiebo.stream().map(i -> i / fuzhi_xiebo.get(0)).map(i -> i * 100).collect(toList());
+        }
         //xiebo=[xiebo_pinlv',fuzhi_xiebo',percent'];  %输出【频率 幅值 相对百分比】
         final List<XieboResult> xieboResults = new ArrayList<>();
         for (int i = 0; i < valu_xiebo.size(); i++) {
@@ -180,37 +201,37 @@ public class BaseFrequencyDomainOfV {
          * 1、n为输入变量，入参；
          * 2、默认position为-5、-4、-3、-2 -1 0 1 2 3 4 5，但也可以作为输入变量，作为入参；
          */
-        Double fuzhi_zhuanpin = null;
         final List<BiandaiResult> biandaiResults = new ArrayList<>();
-        //if n~=0
-        if (biandai.getN() != 0) {
-            //num_n=floor(n/df)+1;
-            final int num_n = (int) (Math.floor(xiebo.getN() / df) + 1);
-            //fuzhi_zhuanpin=ai(num_n);   %转频对应的幅值
-            fuzhi_zhuanpin = vi.get(num_n - 1);
-            //f1=fmax/2+n*position;
-            final List<Double> f1 = biandai.getPosition().stream().map(i -> fmax / 2 + biandai.getN() * i).collect(toList());
-            //num_f1=floor(f1/df)+1;
-            final List<Integer> num_f1 = f1.stream().map(i -> i / df).map(Math::floor).map(i -> i + 1).map(Double::intValue).collect(toList());
-            //num_zx=floor((fmax/2)/df)+1;
-            final Double num_zx = Math.floor((fmax / 2) / df + 1);
-            //[fuzhi_biandai]=vi(num_f1);                   %幅值
-            final List<Double> fuzhi_biandai = num_f1.stream().map(i -> vi.get(i - 1)).collect(toList());
-            //[valu_biandai]=f(num_f1);                     %频率
-            final List<Double> valu_biandai = num_f1.stream().map(i -> f.get(i - 1)).collect(toList());
-            //k=[valu_biandai]./n;                          %阶次
-            final List<Double> k = valu_biandai.stream().map(i -> i / biandai.getN()).collect(toList());
-            //dB=20*log10([fuzhi_biandai]./vi(num_zx));     %dB
-            final List<Double> dB = fuzhi_biandai.stream().map(i -> 20 * Math.log10(i / vi.get(num_zx.intValue() - 1))).collect(toList());
-            //biandai=[position',valu_biandai',fuzhi_biandai',k',dB'] ;%输出【位置 频率 幅值 阶次 dB】
-            for (int i = 0; i < fuzhi_biandai.size(); i++) {
-                biandaiResults.add(BiandaiResult.of(roundToDecimal(biandai.getPosition().get(i)), roundToDecimal(valu_biandai.get(i)),
-                        roundToDecimal(fuzhi_biandai.get(i)), roundToDecimal(k.get(i)), roundToDecimal(dB.get(i))));
-            }
+        //f1=fmax/2+n*position;
+        final List<Double> f1 = biandai.getPosition().stream().map(i -> fmax / 2 + n * i).collect(toList());
+        //num_f1=floor(f1/df)+1;
+        final List<Integer> num_f1 = f1.stream().map(i -> i / df).map(Math::floor).map(i -> i + 1).map(Double::intValue).collect(toList());
+        //num_zx=floor((fmax/2)/df)+1;
+        final Double num_zx = Math.floor((fmax / 2) / df + 1);
+        //[fuzhi_biandai]=vi(num_f1);                   %幅值
+        final List<Double> fuzhi_biandai = num_f1.stream().map(i -> vi.get(i - 1)).collect(toList());
+        //[valu_biandai]=f(num_f1);                     %频率
+        final List<Double> valu_biandai = num_f1.stream().map(i -> f.get(i - 1)).collect(toList());
+        //if n==0
+        final List<Double> k;
+        if (n == 0) {
+            //k=zeros(1,11);                        %阶次
+            k = DoubleStream.iterate(0, i -> i).limit((long) (11)).boxed().collect(toList());
         } else {
-            // k=0;
-            // fuzhi_zhuanpin=0;   %转频对应的幅值
-            fuzhi_zhuanpin = 0d;
+            //k=[valu_biandai]./n;                  %阶次
+            k = valu_biandai.stream().map(i -> i / n).collect(toList());
+        }
+        //dB=20*log10([fuzhi_biandai]./vi(num_zx));     %dB
+        final List<Double> dB = fuzhi_biandai.stream().map(i -> 20 * Math.log10(i / vi.get(num_zx.intValue() - 1))).collect(toList());
+        //biandai=[position',valu_biandai',fuzhi_biandai',k',dB'] ;%输出【位置 频率 幅值 阶次 dB】
+        for (int i = 0; i < fuzhi_biandai.size(); i++) {
+            biandaiResults.add(BiandaiResult.of(
+                    roundToDecimal(biandai.getPosition().get(i)),
+                    roundToDecimal(valu_biandai.get(i)),
+                    roundToDecimal(fuzhi_biandai.get(i)),
+                    roundToDecimal(k.get(i)),
+                    roundToDecimal(dB.get(i)))
+            );
         }
 
         /**

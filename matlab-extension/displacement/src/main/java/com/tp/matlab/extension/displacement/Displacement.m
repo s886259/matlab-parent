@@ -13,9 +13,14 @@ N=length(a); %采样点数
     %   p：峰值；m：峰值对应的频率
  %%%%%%%%%%%%%%%%%%%%%%%%计算%%%%%%%%%%%%%%%%%%%%%%%% 
 % //1、转频为入参；
-n=12;                  %设置转频为12
-flcut=n-0.25*n;        %低频截止     
-fhcut=n+0.25*n;        %高频截止
+n=0;                  %设置转频为12
+if n==0
+    flcut=0;fhcut=1;    %低频截止与高频截止
+else
+    flcut=n-0.25*n;    %低频截止
+    fhcut=n+0.25*n;    %高频截止
+end
+
 [v,x]=a2v2x(a,fs,flcut,fhcut);
 x=x*1000;              %单位换算
 [p1,m1]=max(x);        %正半轴
@@ -34,7 +39,7 @@ title(['通道',num2str(c),'的位移时域图','     位移单值：',num2str(PPV)]);
 hold on;
 plot([0,m1],[p1,p1],'r','linewidth',3);
 plot([0,m2],[-p2,-p2],'r','linewidth',3);
-s1=sprintf('(%2.2f, %2.2f)',m1,p1);
+s1=sprintf('(%2.4f, %2.4f)',m1,p1);
 text(m1,p1,['峰值点：',s1]);
-s2=sprintf('(%2.2f, %2.2f)',m2,-p2);
+s2=sprintf('(%2.4f, %2.4f)',m2,-p2);
 text(m2,-p2,['峰值点：',s2]);
