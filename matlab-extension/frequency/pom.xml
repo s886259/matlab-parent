@@ -19,6 +19,5 @@
         <module>frequency-acceleration</module>
         <module>frequency-envolope</module>
         <module>frequency-velocity</module>
-        <module>frequency-triaxial</module>
     </modules>
 </project>

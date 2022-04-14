@@ -35,12 +35,10 @@ matlab-parent
 |        |──frequency-velocity-gear --速度频谱(齿轮)
 |        |
 |        |──frequency-velocity-vibrator --速度频谱(激振器)
-|     | 
-|     |──frequency-triaxial --轴心轨迹
 |     
 |  |──displacement --位移(单轴加速度传感器使用)单值
 |
-|  |──vector-amplitude --矢量振幅程序
+|  |──vector-amplitude --矢量振幅和轴心轨迹
 |
 ├──matlab-kernel --核心算法及工具类
 |

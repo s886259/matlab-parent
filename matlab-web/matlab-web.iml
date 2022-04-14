@@ -68,7 +68,6 @@
     <orderEntry type="module" module-name="frequency-velocity-gear" />
     <orderEntry type="module" module-name="frequency-velocity-common" />
     <orderEntry type="module" module-name="frequency-velocity-vibrator" />
-    <orderEntry type="module" module-name="frequency-triaxial" />
     <orderEntry type="module" module-name="displacement" />
     <orderEntry type="module" module-name="vector-amplitude" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.12.0" level="project" />

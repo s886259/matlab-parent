@@ -24,7 +24,7 @@ import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
 import static java.util.stream.Collectors.toList;
 
 /**
- * 矢量振幅
+ * 矢量振幅和轴心轨迹
  * Created by tangpeng on 2021-08-01
  */
 @Slf4j
