@@ -28,7 +28,7 @@ public class NumberFormatUtils {
         return new BigDecimal(NumberUtil.decimalFormat(DECIMAL_FORMAT, d));
     }
 
-    public static Double roundToDouble(final double d) {
+    public static Double round(final double d) {
        return roundToDecimal(d).doubleValue();
     }
 

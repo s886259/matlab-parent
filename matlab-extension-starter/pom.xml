@@ -58,11 +58,6 @@
         </dependency>
         <dependency>
             <groupId>com.tp.matlab.extension</groupId>
-            <artifactId>frequency-triaxial</artifactId>
-            <version>0.0.2-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.tp.matlab.extension</groupId>
             <artifactId>displacement</artifactId>
             <version>${project.version}</version>
         </dependency>

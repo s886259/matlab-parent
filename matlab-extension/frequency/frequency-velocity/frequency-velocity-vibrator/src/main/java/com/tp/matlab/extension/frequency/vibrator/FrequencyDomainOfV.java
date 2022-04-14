@@ -1,7 +1,7 @@
 package com.tp.matlab.extension.frequency.vibrator;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.tp.matlab.extension.frequency.common.BaseFrequencyDomainOfV;
+import com.tp.matlab.extension.frequency.common.AbstractFrequencyDomainOfV;
 import com.tp.matlab.kernel.domain.request.BiandaiRequest;
 import com.tp.matlab.kernel.domain.request.FamRequest;
 import com.tp.matlab.kernel.domain.request.XieboRequest;
@@ -18,7 +18,7 @@ import java.util.Optional;
  * Created by tangpeng on 2021-05-05
  */
 @Slf4j
-public class FrequencyDomainOfV extends BaseFrequencyDomainOfV {
+public class FrequencyDomainOfV extends AbstractFrequencyDomainOfV {
     /**
      * @param a       需要分析的列值
      * @param fs      采样频率

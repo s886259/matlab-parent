@@ -19,13 +19,12 @@ import com.tp.matlab.kernel.util.NumberFormatUtils;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.DoubleStream;
 
-import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDouble;
+import static com.tp.matlab.kernel.util.NumberFormatUtils.round;
 import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
 import static java.util.stream.Collectors.toList;
 
@@ -34,7 +33,7 @@ import static java.util.stream.Collectors.toList;
  * Created by tangpeng on 2021-05-05
  */
 @Slf4j
-public class BaseFrequencyDomainOfV {
+public abstract class AbstractFrequencyDomainOfV {
     /**
      * @param a       需要分析的列值
      * @param fs      采样频率
@@ -162,10 +161,10 @@ public class BaseFrequencyDomainOfV {
         //output_FTF=[r_FTF',valu_FTF'];      %输出FTF的频率和幅值
         final List<FamResult> output_FTF = new ArrayList<>();
         for (int i = 0; i < r_BPFI.size(); i++) {
-            output_BPFI.add(FamResult.of(roundToDouble(r_BPFI.get(i)), roundToDouble(valu_BPFI.get(i))));
-            output_BPFO.add(FamResult.of(roundToDouble(r_BPFO.get(i)), roundToDouble(valu_BPFO.get(i))));
-            output_BSF.add(FamResult.of(roundToDouble(r_BSF.get(i)), roundToDouble(valu_BSF.get(i))));
-            output_FTF.add(FamResult.of(roundToDouble(r_FTF.get(i)), roundToDouble(valu_FTF.get(i))));
+            output_BPFI.add(FamResult.of(round(r_BPFI.get(i)), round(valu_BPFI.get(i))));
+            output_BPFO.add(FamResult.of(round(r_BPFO.get(i)), round(valu_BPFO.get(i))));
+            output_BSF.add(FamResult.of(round(r_BSF.get(i)), round(valu_BSF.get(i))));
+            output_FTF.add(FamResult.of(round(r_FTF.get(i)), round(valu_FTF.get(i))));
         }
 
         /**
@@ -194,9 +193,9 @@ public class BaseFrequencyDomainOfV {
         final List<XieboResult> xieboResults = new ArrayList<>();
         for (int i = 0; i < valu_xiebo.size(); i++) {
             xieboResults.add(XieboResult.of(
-                    roundToDouble(valu_xiebo.get(i)),
-                    roundToDouble(fuzhi_xiebo.get(i)),
-                    roundToDouble(percent.get(i)))
+                    round(valu_xiebo.get(i)),
+                    round(fuzhi_xiebo.get(i)),
+                    round(percent.get(i)))
             );
         }
 
@@ -230,11 +229,11 @@ public class BaseFrequencyDomainOfV {
         //biandai=[position',valu_biandai',fuzhi_biandai',k',dB'] ;%输出【位置 频率 幅值 阶次 dB】
         for (int i = 0; i < fuzhi_biandai.size(); i++) {
             biandaiResults.add(BiandaiResult.of(
-                    roundToDouble(biandai.getPosition().get(i)),
-                    roundToDouble(valu_biandai.get(i)),
-                    roundToDouble(fuzhi_biandai.get(i)),
-                    roundToDouble(k.get(i)),
-                    roundToDouble(dB.get(i)))
+                    round(biandai.getPosition().get(i)),
+                    round(valu_biandai.get(i)),
+                    round(fuzhi_biandai.get(i)),
+                    round(k.get(i)),
+                    round(dB.get(i)))
             );
         }
 
@@ -242,13 +241,13 @@ public class BaseFrequencyDomainOfV {
          * %%%%%%%%%%%%%%%%%%%%%%%%用于作图的数据%%%%%%%%%%%%%%%%%%%%%%%%
          */
         //f_plot=f;   %横轴：频率
-        final List<Double> f_plot = f.stream().map(NumberFormatUtils::roundToDouble).collect(toList());
+        final List<Double> f_plot = f.stream().map(NumberFormatUtils::round).collect(toList());
         //v_plot=vi; %纵轴：幅值
-        final List<Double> v_plot = vi.stream().map(NumberFormatUtils::roundToDouble).collect(toList());
+        final List<Double> v_plot = vi.stream().map(NumberFormatUtils::round).collect(toList());
 
         //to result
         final FrequencyResult result = FrequencyResult.from(TV, output_BPFI, output_BPFO, output_BSF, output_FTF,
-                xieboResults, biandaiResults, f_plot, v_plot, roundToDouble(fuzhi_zhuanpin));
+                xieboResults, biandaiResults, f_plot, v_plot, round(fuzhi_zhuanpin));
         return toValue(result, new TypeReference<Map<String, Object>>() {
         });
     }

@@ -19,7 +19,7 @@ import java.util.stream.DoubleStream;
 
 import static com.tp.matlab.kernel.util.MatlabUtils.getMax;
 import static com.tp.matlab.kernel.util.MatlabUtils.getMin;
-import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDouble;
+import static com.tp.matlab.kernel.util.NumberFormatUtils.round;
 import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
 import static java.util.stream.Collectors.toList;
 
@@ -160,14 +160,14 @@ public class VectorAmplitude {
         final double a2 = pm3.getVal() - pm4.getVal();
 
         final VectorAmplitudeResult result = VectorAmplitudeResult.builder()
-                .leftx(leftx.stream().map(NumberFormatUtils::roundToDouble).collect(toList()))
-                .lefty(lefty.stream().map(NumberFormatUtils::roundToDouble).collect(toList()))
-                .rightx(rightx.stream().map(NumberFormatUtils::roundToDouble).collect(toList()))
-                .righty(righty.stream().map(NumberFormatUtils::roundToDouble).collect(toList()))
-                .theta1(roundToDouble(theta1))
-                .theta2(roundToDouble(theta2))
-                .a1(roundToDouble(a1))
-                .a2(roundToDouble(a2))
+                .leftx(leftx.stream().map(NumberFormatUtils::round).collect(toList()))
+                .lefty(lefty.stream().map(NumberFormatUtils::round).collect(toList()))
+                .rightx(rightx.stream().map(NumberFormatUtils::round).collect(toList()))
+                .righty(righty.stream().map(NumberFormatUtils::round).collect(toList()))
+                .theta1(round(theta1))
+                .theta2(round(theta2))
+                .a1(round(a1))
+                .a2(round(a2))
                 .build();
         return toValue(result, new TypeReference<Map<String, Object>>() {
         });

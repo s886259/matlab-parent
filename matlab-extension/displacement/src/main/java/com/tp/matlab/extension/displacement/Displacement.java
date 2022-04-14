@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.DoubleStream;
 
-import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDouble;
+import static com.tp.matlab.kernel.util.NumberFormatUtils.round;
 import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
 import static java.util.stream.Collectors.toList;
 
@@ -84,17 +84,17 @@ public class Displacement {
                 .limit(N)
                 .map(i -> i / fs)
                 .boxed()
-                .map(NumberFormatUtils::roundToDouble)
+                .map(NumberFormatUtils::round)
                 .collect(toList());
         //x_plot=x;   %纵轴：位移
-        final List<Double> x_plot = a2v2xResult.getX().stream().map(NumberFormatUtils::roundToDouble).collect(toList());
+        final List<Double> x_plot = a2v2xResult.getX().stream().map(NumberFormatUtils::round).collect(toList());
 
         final DisplacementResult result = DisplacementResult.builder()
-                .ppv(roundToDouble(ppv))
-                .p1(roundToDouble(pm1.getVal()))
-                .m1(roundToDouble(m1))
-                .p2(roundToDouble(pm1.getVal()))
-                .m2(roundToDouble(m2))
+                .ppv(round(ppv))
+                .p1(round(pm1.getVal()))
+                .m1(round(m1))
+                .p2(round(pm1.getVal()))
+                .m2(round(m2))
                 .x(t)
                 .y(x_plot)
                 .build();

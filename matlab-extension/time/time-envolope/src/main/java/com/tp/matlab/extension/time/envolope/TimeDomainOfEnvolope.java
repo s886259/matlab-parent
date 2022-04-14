@@ -13,12 +13,11 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.lang.Nullable;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDouble;
+import static com.tp.matlab.kernel.util.NumberFormatUtils.round;
 import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
 import static java.util.stream.Collectors.toList;
 
@@ -114,26 +113,26 @@ public class TimeDomainOfEnvolope {
         TV = TV / g;//单位转换
 
         final List<Double> x = m.stream()
-                .map(NumberFormatUtils::roundToDouble)
+                .map(NumberFormatUtils::round)
                 .collect(toList());
         final List<Double> y = p.stream()
-                .map(NumberFormatUtils::roundToDouble)
+                .map(NumberFormatUtils::round)
                 .collect(toList());
 
         final TimeResult result = TimeResult.builder()
-                .rpp(roundToDouble(rpp))
-                .time(roundToDouble(time))
-                .a(roundToDouble(A))
-                .p(roundToDouble(pm_max.getVal()))
-                .tm(roundToDouble(tm))
-                .pp(roundToDouble(valueOfPeakResult.getPp()))
-                .np(roundToDouble(valueOfPeakResult.getNp()))
-                .vrms(roundToDouble(vrms))
-                .sigma(roundToDouble(sigma))
-                .pf(roundToDouble(pf))
-                .ske(roundToDouble(ske))
-                .kur(roundToDouble(kur))
-                .tv(roundToDouble(TV))
+                .rpp(round(rpp))
+                .time(round(time))
+                .a(round(A))
+                .p(round(pm_max.getVal()))
+                .tm(round(tm))
+                .pp(round(valueOfPeakResult.getPp()))
+                .np(round(valueOfPeakResult.getNp()))
+                .vrms(round(vrms))
+                .sigma(round(sigma))
+                .pf(round(pf))
+                .ske(round(ske))
+                .kur(round(kur))
+                .tv(round(TV))
                 .x(x)
                 .y(y)
                 .build();

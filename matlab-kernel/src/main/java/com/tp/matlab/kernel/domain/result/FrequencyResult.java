@@ -5,10 +5,9 @@ import lombok.Getter;
 import lombok.NonNull;
 import org.apache.commons.collections4.CollectionUtils;
 
-import java.math.BigDecimal;
 import java.util.List;
 
-import static com.tp.matlab.kernel.util.NumberFormatUtils.roundToDouble;
+import static com.tp.matlab.kernel.util.NumberFormatUtils.round;
 
 
 /**
@@ -130,7 +129,7 @@ public class FrequencyResult {
             @NonNull final Double fuzhi_zhuanpin
     ) {
         FrequencyResultBuilder builder = FrequencyResult.builder()
-                .tv(roundToDouble(TV))
+                .tv(round(TV))
                 /**
                  * bpfi
                  */
