@@ -4,9 +4,9 @@
 ```
 matlab-parent
 |
-├──matlab-extension-starter --提供matlab-extension-starter.jar
+├──matlab-extension-starter --提供matlab-extension-starter.jar,只需引用此jar
 |
-├──matlab-extension --程序扩展
+├──matlab-extension --程序扩展(公式更新在此处)
 |  |
 |  |──time --时域程序
 |     | 
@@ -40,9 +40,9 @@ matlab-parent
 |
 |  |──vector-amplitude --矢量振幅和轴心轨迹
 |
-├──matlab-kernel --核心算法及工具类
+├──matlab-kernel --核心算法及工具类(公共包)
 |
-├──matlab-web --对外提供api
+├──matlab-web --对外提供api(废弃)
 |  |
 |  |──logs --日志目录
 |  |
