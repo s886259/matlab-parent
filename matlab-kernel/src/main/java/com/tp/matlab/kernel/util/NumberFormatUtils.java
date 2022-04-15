@@ -29,7 +29,9 @@ public class NumberFormatUtils {
     }
 
     public static Double round(final double d) {
-       return roundToDecimal(d).doubleValue();
+//       return roundToDecimal(d).doubleValue();
+        //暂时不处理小数，直接返回
+        return d;
     }
 
 }
