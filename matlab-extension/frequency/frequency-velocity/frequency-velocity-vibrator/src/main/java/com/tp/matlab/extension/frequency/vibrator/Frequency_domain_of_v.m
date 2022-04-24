@@ -2,7 +2,7 @@
 clear;
 clc;
 c=8;    %输入需要分析的通道序号
-aa=xlsread('1417.xlsx',2);
+aa=xlsread('1.xlsx',2);
 a=aa(:,c);
 %%%%%%%%%%%%%%%%%%%%%%%%字母说明%%%%%%%%%%%%%%%%%%%%%%%%
     %   单位：mm/s
@@ -18,7 +18,6 @@ a=aa(:,c);
 % //2、滤波器：
 % //1）每张图表有固定的滤波器设置；
 % //2）也可以作为入参输入实现图表重新计算：fmin、fmax、flcut、fhcut等字段；
-% //3、转频为入参
 n=0;           %输入转频
 fs=25600;      %采样频率
 N=length(a);   %数据长度
@@ -27,8 +26,9 @@ fmax=500;      %famx：终止频率
 flcut=5;       %低频截止
 fhcut=fs/2.56; %高频截止
 df=fs/N;
-[a_fir]=hann_filt(a,fs,flcut,fhcut);
-[v]=a2v(a_fir,fs);
+[v]=a2v(a,fs,flcut,fhcut);
+v=v';
+[v]=hann_filt(v,fs,flcut,fhcut);
 [f,vi]=spectrum(fs,v);    %ai用于存储频谱幅值数据
 [p,m]=max(vi);  %寻峰
 mf=f(m);    %峰值对应频率值
@@ -90,7 +90,7 @@ k2=[1 2 3 4 5 6 7 8 9 10];   %谐波
 f_xiebo=k2*n;   %谐波
 num_f=floor(f_xiebo/df)+1;
 [valu_xiebo]=f(num_f);        %谐波频率
-[fuzhi_xiebo]=vi(num_f);      %谐波幅值
+[fuzhi_xiebo]=vi(num_f);        %谐波幅值
 if n==0
     percent=zeros(1,10);
 else
@@ -120,9 +120,9 @@ num_zx=floor((fmax/2)/df)+1;
 [fuzhi_biandai]=vi(num_f1);               %幅值
 [valu_biandai]=f(num_f1);                 %频率
 if n==0
-    k=zeros(1,11);                        %阶次
+    k=zeros(1,11);                      %阶次
 else
-    k=[valu_biandai]./n;                  %阶次
+    k=[valu_biandai]./n;                      %阶次
 end
 dB=20*log10([fuzhi_biandai]./vi(num_zx));  %dB
 biandai=[position',valu_biandai',fuzhi_biandai',k',dB'] ;%输出【位置 频率 幅值 阶次 dB】 
@@ -141,6 +141,10 @@ biandai_11=biandai(11,:);                  %输出不同位置的【位置 频率 幅值 阶次 
 %%%%%%%%%%%%%%%%%%%%%%%%用于作图的数据%%%%%%%%%%%%%%%%%%%%%%%%
 f_plot=f;   %横轴：频率
 v_plot=vi; %纵轴：幅值
+[~,f_judge]=min(abs(f_plot-fmax));
+i=f_judge+1:length(f_plot);
+f_plot(i)=[];
+v_plot(i)=[];
 %%%%%%%%%%%%%%%%%%%%%%%%图形示例%%%%%%%%%%%%%%%%%%%%%%%%   //图形示范部分不涉及，该部分为MatLab输出图形使用；
 figure;
 plot(f_plot,v_plot);

@@ -2,7 +2,7 @@
 clear;
 clc;
 c=8;    %输入需要分析的通道序号
-aa=xlsread('1417.xlsx',2);
+aa=xlsread('1.xlsx',2);
 a=aa(:,c);
 g=9.8;
 %%%%%%%%%%%%%%%%%%%%%%%%字母说明%%%%%%%%%%%%%%%%%%%%%%%%
@@ -24,19 +24,19 @@ g=9.8;
 n=0;               %输入转频
 fs=25600;          %采样频率
 N=length(a);       %数据长度
-fmin=0;            %fmin：起始频率
+fmin=2;            %fmin：起始频率
 fmax=1000;         %famx：终止频率
 flcut=500;         %低频截止
-fhcut=10000;       %高频截止
+fhcut=fs/2.56;     %高频截止
 df=fs/N;
 [a_fir]=hann_filt(a,fs,flcut,fhcut);
 a_fir_2=a_fir.^2;
-[a_fir_3]=hann_filt(a_fir_2,fs,flcut,fhcut);
+[a_fir_3]=hann_filt(a_fir_2,fs,fmin,fmax);
 [f,ai]=spectrum(fs,a_fir_3);    %ai用于存储频谱幅值数据
 [p,m]=max(ai(1:fmax));  %寻峰
 mf=f(m);    %峰值对应频率值
 [TV]=total_value(a_fir,fs,fmin,fmax);  %整体频谱 (也是 整体趋势）
-
+TV=TV/g;
 if n==0
     fuzhi_zhuanpin=0;                         %转频为0时，对应的幅值为0
 else
@@ -142,9 +142,13 @@ biandai_8=biandai(8,:);                    %输出不同位置的【位置 频率 幅值 阶次 
 biandai_9=biandai(9,:);                    %输出不同位置的【位置 频率 幅值 阶次 dB】//，对应position的第9个值，该值为输出值，需要存库 sidcband9
 biandai_10=biandai(10,:);                  %输出不同位置的【位置 频率 幅值 阶次 dB】//，对应position的第10个值，该值为输出值，需要存库 sidcband10
 biandai_11=biandai(11,:);                  %输出不同位置的【位置 频率 幅值 阶次 dB】//，对应position的第11个值，该值为输出值，需要存库 sidcband11
-%%%%%%%%%%%%%%%%%%%%%%%%用于作图的数据%%%%%%%%%%%%%%%%%%%%%%%% //输出X，Y
-f_plot=f;   %横轴：频率   //X轴数组
-Am_plot=ai; %纵轴：幅值   //Y轴数组
+%%%%%%%%%%%%%%%%%%%%%%%%用于作图的数据%%%%%%%%%%%%%%%%%%%%%%%%  //输出X，Y
+f_plot=f;   %横轴：频率
+Am_plot=ai; %纵轴：幅值
+[~,f_judge]=min(abs(f_plot-fmax));
+i=f_judge+1:length(f_plot);
+f_plot(i)=[];
+Am_plot(i)=[];
 %%%%%%%%%%%%%%%%%%%%%%%%图形示例%%%%%%%%%%%%%%%%%%%%%%%%   //图形示范部分不涉及，该部分为MatLab输出图形使用；
 figure;
 plot(f_plot,Am_plot);

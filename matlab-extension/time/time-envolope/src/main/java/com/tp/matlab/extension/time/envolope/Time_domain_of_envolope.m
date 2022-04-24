@@ -2,7 +2,7 @@
 clear;
 clc;
 c=8;    %输入需要分析的通道序号
-aa=xlsread('1417.xlsx',2);
+aa=xlsread('2.xlsx',2);
 a=aa(:,c);
 g=9.80;
 %%%%%%%%%%%%%%%%%%%%%%%%字母说明%%%%%%%%%%%%%%%%%%%%%%%%
@@ -29,7 +29,7 @@ g=9.80;
 % //3、使用的是汉宁窗函数；
 fs=25600;        %采样频率
 N=length(a);     %数据长度
-fmin=0;          %fmin：起始频率
+fmin=2;          %fmin：起始频率
 fmax=1000;       %famx：终止频率
 flcut=500;       %低频截止
 fhcut=fs/2.56;   %高频截止
@@ -50,8 +50,8 @@ rpp=abs(Pp)+abs(Np);
 pf=pv/vrms;
 [ske]=Value_of_Skewness(p,vmean);
 [kur]=Value_of_Kurtosis(p,vmean,sigma);
-[TV]=total_value(a,fs,fmin,fmax);
-TV=TV/g;  %单位转换
+[TV]=total_value(a_fir,fs,fmin,fmax);  
+TV=TV/g;   %单位转换
 %%%%%%%%%%%%%%%%%%%%%%%%图形示范%%%%%%%%%%%%%%%%%%%%%%%%   //图形示范部分不涉及，该部分为MatLab输出图形使用；
 figure;
 plot(m,p);

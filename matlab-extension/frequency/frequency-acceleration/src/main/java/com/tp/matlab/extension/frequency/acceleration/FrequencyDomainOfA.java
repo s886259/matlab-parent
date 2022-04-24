@@ -2,6 +2,7 @@ package com.tp.matlab.extension.frequency.acceleration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.tp.matlab.kernel.core.HannFilt;
 import com.tp.matlab.kernel.core.Spectrum;
 import com.tp.matlab.kernel.core.Spectrum.SpectrumResult;
 import com.tp.matlab.kernel.domain.TotalValue;
@@ -25,6 +26,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.DoubleStream;
 
+import static com.tp.matlab.kernel.util.MatlabUtils.getMin;
 import static com.tp.matlab.kernel.util.NumberFormatUtils.round;
 import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
 import static java.util.stream.Collectors.toList;
@@ -92,7 +94,7 @@ public class FrequencyDomainOfA {
         final double flcut_1 = Optional.ofNullable(flcut).orElse(5d);           //flcut：低频截止
         final double fhcut_1 = Optional.ofNullable(fhcut).orElse(fs / 2.56d);   //fhcut：高频截止
         //[a_fir]=hann_filt(a,fs,flcut,fhcut);
-        final List<Double> a_fir = new HannFilt(fs, a, flcut_1, fhcut_1).execute();
+        final List<Double> a_fir = new HannFilt(a, fs, flcut_1, fhcut_1).execute();
         //[f,ai]=spectrum(fs,a_fir);    %ai用于存储频谱幅值数据
         final SpectrumResult spectrumResult = new Spectrum(fs, a_fir).execute();    //%ai用于存储频谱幅值数据
         final List<Double> ai = spectrumResult.getAi();
@@ -252,6 +254,13 @@ public class FrequencyDomainOfA {
         final List<Double> Am_plot = spectrumResult.getAi().stream()
                 .map(NumberFormatUtils::round)
                 .collect(toList());
+        //[~,f_judge]=min(abs(f_plot-fmax));
+        final int f_judge = getMin(f_plot.stream().map(i -> Math.abs(i - fmax_1)).collect(toList())).getIndex();
+        //i=f_judge+1:length(f_plot);
+        //f_plot(i)=[];
+        f_plot.subList(f_judge, f_plot.size()).clear();
+        //Am_plot(i)=[];
+        Am_plot.subList(f_judge, Am_plot.size()).clear();
 
         //to result
         final FrequencyResult result = FrequencyResult.from(TV, output_BPFI, output_BPFO, output_BSF, output_FTF,

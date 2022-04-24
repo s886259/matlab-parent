@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.tp.matlab.extension.time.velocity.common.*;
 import com.tp.matlab.extension.time.velocity.common.ValueOfPeak.ValueOfPeakResult;
+import com.tp.matlab.kernel.core.A2v;
 import com.tp.matlab.kernel.core.HannFilt;
 import com.tp.matlab.kernel.core.MeanValue;
 import com.tp.matlab.kernel.domain.TotalValue;
@@ -81,9 +82,9 @@ public class TimeDomainOfV {
         final double fhcut_1 = Optional.ofNullable(fhcut).orElse(fs / 2.56);    //fhcut：高频截止
         final double time = (double) N / fs;                                          //总时间
         //[v]=a2v(a,fs,flcut,fhcut);
-        final List<Double> v = new A2v(a, fs, flcut_1, fhcut_1).execute();
-        //[a_fir]=hann_filt(a,fs,flcut,fhcut);
-        final List<Double> a_fir = new HannFilt(fs, a, flcut_1, fhcut_1).execute();
+        List<Double> v = new A2v(a, fs, flcut_1, fhcut_1).execute();
+        //[v]=hann_filt(v,fs,flcut,fhcut);
+        v = new HannFilt(v, fs, flcut_1, fhcut_1).execute();
         //[p,m]=max(v);
         final ValueWithIndex pm_max = MatlabUtils.getMax(v);
         //tm=m/fs;

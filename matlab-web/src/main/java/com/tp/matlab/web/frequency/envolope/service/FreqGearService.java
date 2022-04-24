@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 速度频谱(齿轮)
  * Created by tangpeng on 2021-05-10
  */
 @Service

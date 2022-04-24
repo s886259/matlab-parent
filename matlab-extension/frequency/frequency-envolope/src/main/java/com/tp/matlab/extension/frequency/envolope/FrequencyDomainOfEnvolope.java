@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.DoubleStream;
 
+import static com.tp.matlab.kernel.util.MatlabUtils.getMin;
 import static com.tp.matlab.kernel.util.NumberFormatUtils.round;
 import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
 import static java.util.stream.Collectors.toList;
@@ -68,6 +69,7 @@ public class FrequencyDomainOfEnvolope {
             @Nullable final Double flcut,
             @Nullable final Double fhcut
     ) throws JsonProcessingException {
+        final double g = 9.8;
         /**
          * %%%%%%%%%%%%%%%%%%%%%%%%字母说明%%%%%%%%%%%%%%%%%%%%%%%%
          *     单位：gE
@@ -89,16 +91,16 @@ public class FrequencyDomainOfEnvolope {
         final int N = a.size();   //%数据长度
         //df=fs/N;
         final double df = (double) fs / N;
-        final Double fmin_1 = Optional.ofNullable(fmin).orElse(0d);             //fmin：起始频率
+        final Double fmin_1 = Optional.ofNullable(fmin).orElse(2d);             //fmin：起始频率
         final Double fmax_1 = Optional.ofNullable(fmax).orElse(1000d);          //famx：终止频率
         final Double flcut_1 = Optional.ofNullable(flcut).orElse(500d);         //flcut：低频截止
-        final Double fhcut_1 = Optional.ofNullable(fhcut).orElse(10000d);       //fhcut：高频截止
+        final Double fhcut_1 = Optional.ofNullable(fhcut).orElse(fs / 2.56);      //fhcut：高频截止
         //[a_fir]=hann_filt(a,fs,flcut,fhcut);
-        final List<Double> a_fir = new HannFilt(fs, a, flcut_1, fhcut_1).execute();
+        final List<Double> a_fir = new HannFilt(a, fs, flcut_1, fhcut_1).execute();
         //a_fir_2=a_fir.^2;
         final List<Double> a_fir_2 = a_fir.stream().map(i -> Math.pow(i, 2)).collect(toList());
-        //[a_fir_3]=hann_filt(fs,a_fir_2,fmin,fmax);
-        final List<Double> a_fir_3 = new HannFilt(fs, a_fir_2, flcut_1, fhcut_1).execute();
+        //[a_fir_3]=hann_filt(a_fir_2,fs,fmin,fmax);
+        final List<Double> a_fir_3 = new HannFilt(a_fir_2, fs, fmin_1, fmax_1).execute();
         final SpectrumResult spectrumResult = new Spectrum(fs, a_fir_3).execute();    //%ai用于存储频谱幅值数据
         final List<Double> ai = spectrumResult.getAi();
         final List<Double> f = spectrumResult.getF();
@@ -107,7 +109,9 @@ public class FrequencyDomainOfEnvolope {
         //mf=f(m);    %峰值对应频率值
         final double mf = spectrumResult.getF().get(pm_max.getIndex() - 1);
         //[TV]=total_value(a_fir,fs,fmin,fmax,16);  %整体频谱 (也是 整体趋势）
-        final double TV = new TotalValue(a_fir, fs, fmin_1, fmax_1).execute();
+        double TV = new TotalValue(a_fir, fs, fmin_1, fmax_1).execute();
+        TV = TV / g;
+
         final double fuzhi_zhuanpin;
         //if n==0
         if (n == 0) {
@@ -248,6 +252,13 @@ public class FrequencyDomainOfEnvolope {
         final List<Double> f_plot = spectrumResult.getF().stream().map(NumberFormatUtils::round).collect(toList());
         //Am_plot=ai; %纵轴：幅值
         final List<Double> Am_plot = spectrumResult.getAi().stream().map(NumberFormatUtils::round).collect(toList());
+        //[~,f_judge]=min(abs(f_plot-fmax));
+        final int f_judge = getMin(f_plot.stream().map(i -> Math.abs(i - fmax_1)).collect(toList())).getIndex();
+        //i=f_judge+1:length(f_plot);
+        //f_plot(i)=[];
+        f_plot.subList(f_judge, f_plot.size()).clear();
+        //Am_plot(i)=[];
+        Am_plot.subList(f_judge, Am_plot.size()).clear();
 
         //to result
         final FrequencyResult result = FrequencyResult.from(TV, output_BPFI, output_BPFO, output_BSF, output_FTF,

@@ -2,6 +2,7 @@ package com.tp.matlab.extension.frequency.common;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.tp.matlab.kernel.core.A2v;
 import com.tp.matlab.kernel.core.HannFilt;
 import com.tp.matlab.kernel.core.Spectrum;
 import com.tp.matlab.kernel.core.Spectrum.SpectrumResult;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.DoubleStream;
 
+import static com.tp.matlab.kernel.util.MatlabUtils.getMin;
 import static com.tp.matlab.kernel.util.NumberFormatUtils.round;
 import static com.tp.matlab.kernel.util.ObjectMapperUtils.toValue;
 import static java.util.stream.Collectors.toList;
@@ -88,10 +90,12 @@ public abstract class AbstractFrequencyDomainOfV {
         //df=fs/N;
         final double df = (double) fs / N;
 
-        //[a_fir]=hann_filt(a,fs,flcut,fhcut);
-        final List<Double> a_fir = new HannFilt(fs, a, flcut, fhcut).execute();
-        //[v]=a2v(a_fir,fs);
-        final List<Double> v = new A2v(a_fir, fs).execute();
+        //[v]=a2v(a,fs,flcut,fhcut);
+        List<Double> v = new A2v(a, fs, flcut, fhcut).execute();
+        //v=v';
+        //[v]=hann_filt(v,fs,flcut,fhcut);
+        v = new HannFilt(v, fs, flcut, fhcut).execute();
+
         //[f,vi]=spectrum(fs,v);    %ai用于存储频谱幅值数据
         final SpectrumResult spectrumResult = new Spectrum(fs, v).execute();    //%ai用于存储频谱幅值数据
         final List<Double> vi = spectrumResult.getAi();
@@ -244,6 +248,13 @@ public abstract class AbstractFrequencyDomainOfV {
         final List<Double> f_plot = f.stream().map(NumberFormatUtils::round).collect(toList());
         //v_plot=vi; %纵轴：幅值
         final List<Double> v_plot = vi.stream().map(NumberFormatUtils::round).collect(toList());
+        //[~,f_judge]=min(abs(f_plot-fmax));
+        final int f_judge = getMin(f_plot.stream().map(i -> Math.abs(i - fmax)).collect(toList())).getIndex();
+        //i=f_judge+1:length(f_plot);
+        //f_plot(i)=[];
+        f_plot.subList(f_judge, f_plot.size()).clear();
+        //v_plot(i)=[];
+        v_plot.subList(f_judge, v_plot.size()).clear();
 
         //to result
         final FrequencyResult result = FrequencyResult.from(TV, output_BPFI, output_BPFO, output_BSF, output_FTF,

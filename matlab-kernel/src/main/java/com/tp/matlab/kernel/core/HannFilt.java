@@ -14,13 +14,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class HannFilt {
     /**
-     * 采样频率
-     */
-    private final Integer fs;
-    /**
      * 源数据
      */
     private final List<Double> a;
+    /**
+     * 采样频率
+     */
+    private final Integer fs;
     /**
      * 低频截止
      */

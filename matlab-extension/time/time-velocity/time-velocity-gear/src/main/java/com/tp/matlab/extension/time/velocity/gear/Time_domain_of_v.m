@@ -2,7 +2,7 @@
 clear;
 clc;
 c=8;    %输入需要分析的通道序号
-aa=xlsread('1417.xlsx',2);
+aa=xlsread('2.xlsx',2);
 a=aa(:,c);
 %%%%%%%%%%%%%%%%%%%%%%%%字母说明%%%%%%%%%%%%%%%%%%%%%%%%
     %   单位：mm/s
@@ -28,14 +28,14 @@ a=aa(:,c);
 % //3、使用的是汉宁窗函数；
 fs=25600;        %采样频率
 N=length(a);     %数据长度
-fmin=5;          %fmin：起始频率
+fmin=0;          %fmin：起始频率
 fmax=5000;       %famx：终止频率
 flcut=4;         %低频截止
 fhcut=fs/2.56;   %高频截止
 df=fs/N;
 time=N/fs;       %总时间
 [v]=a2v(a,fs,flcut,fhcut);
-[a_fir]=hann_filt(a,fs,flcut,fhcut);
+[v]=hann_filt(v,fs,flcut,fhcut);
 [p,m]=max(v);
 tm=m/fs;
 A=p;

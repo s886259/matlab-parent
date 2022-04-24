@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 包络频谱(轴承)
  * Created by tangpeng on 2021-05-11
  */
 @Service

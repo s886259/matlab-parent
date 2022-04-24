@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 速度频谱(激振器)
  * Created by tangpeng on 2021-05-11
  */
 @Service
@@ -28,7 +29,7 @@ public class FreqVibratorService {
         final FamRequest fam = FamRequest.builder().bpfi(bpfi).bpfo(bpfo).bsf(bsf).ftf(ftf).build();
         final XieboRequest xiebo = XieboRequest.builder().build();
         final BiandaiRequest biandai = BiandaiRequest.builder().build();
-        return new FrequencyDomainOfV().execute(array, 25600, 12, fam, xiebo, biandai, null, null, null, null);
+        return new FrequencyDomainOfV().execute(array, 25600, 0, fam, xiebo, biandai, null, null, null, null);
     }
 
 }

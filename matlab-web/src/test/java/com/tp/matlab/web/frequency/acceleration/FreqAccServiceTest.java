@@ -14,10 +14,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.IOException;
 import java.util.List;
 
-import static com.tp.matlab.web.base.AbstractTransformTest.TEST_EXCEL_COLUMN_INDEX;
-import static com.tp.matlab.web.base.AbstractTransformTest.TIME_DOMAIN_TEST_EXCEL;
+import static com.tp.matlab.web.base.AbstractTransformTest.*;
 
 /**
+ * 加速度频谱(激振器)
  * Created by tangpeng on 2021-05-04
  */
 @Slf4j
@@ -29,9 +29,18 @@ public class FreqAccServiceTest {
     private FreqAccService FreqAccService;
 
     @Test
-    public void testMain() throws IOException, InvalidFormatException {
+    public void testOpen() throws IOException, InvalidFormatException {
+        test(TEST_POWER_ON_EXCEL);
+    }
+
+    @Test
+    public void testShutdown() throws IOException, InvalidFormatException {
+        test(TEST_POWER_OFF_EXCEL);
+    }
+
+    public void test(String file) throws IOException, InvalidFormatException {
         //my output
-        final String fileName = this.getClass().getResource(TIME_DOMAIN_TEST_EXCEL).getFile();
+        final String fileName = this.getClass().getResource(file).getFile();
         final List<Double> records = ExcelUtils.xlsRead(fileName, TEST_EXCEL_COLUMN_INDEX);
         //save source input file
         FileUtils.double2File(String.format("%s_column%d_source_.txt", fileName, TEST_EXCEL_COLUMN_INDEX), records);

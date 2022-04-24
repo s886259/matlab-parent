@@ -1,8 +1,8 @@
-%%%%%%%%%%%%%%%%%%%%%%%%速度频谱图（激振器）%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%速度频谱图（齿轮）%%%%%%%%%%%%%%%%%%%%%%%%
 clear;
 clc;
 c=8;    %输入需要分析的通道序号
-aa=xlsread('1417.xlsx',2);
+aa=xlsread('1.xlsx',2);
 a=aa(:,c);
 
 %%%%%%%%%%%%%%%%%%%%%%%%字母说明%%%%%%%%%%%%%%%%%%%%%%%%
@@ -28,8 +28,9 @@ fhcut=fs/2.56;  %高频截止
 fmin=0;         %fmin：起始频率；
 fmax=5000;      %famx：终止频率
 df=fs/N;
-[a_fir]=hann_filt(a,fs,flcut,fhcut);
-[v]=a2v(a_fir,fs);
+[v]=a2v(a,fs,flcut,fhcut);
+v=v';
+[v]=hann_filt(v,fs,flcut,fhcut);
 [f,vi]=spectrum(fs,v);    %vi用于存储频谱幅值数据
 [p,m]=max(vi);  %寻峰
 mf=f(m);    %峰值对应频率值
@@ -94,13 +95,12 @@ num_f=floor(f_xiebo/df)+1;
 [valu_xiebo]=f(num_f);        %谐波频率
 [fuzhi_xiebo]=vi(num_f);        %谐波幅值
 
-if  n==0
+if n==0
     percent=zeros(1,10);
 else
     percent=100*(fuzhi_xiebo./fuzhi_xiebo(1)); %相对于基频的百分比
 end
-    xiebo=[valu_xiebo',fuzhi_xiebo',percent'];  %输出【频率 幅值 相对百分比】
-
+xiebo=[valu_xiebo',fuzhi_xiebo',percent'];  %输出【频率 幅值 相对百分比】
 xiebo_1=xiebo(1,:);                %输出谐波为1时【频率 幅值 相对百分比】//对应K2的第1个值，该值为输出值，需要存库 harmonic1
 xiebo_2=xiebo(2,:);                %输出谐波为2时【频率 幅值 相对百分比】//对应K2的第2个值，该值为输出值，需要存库 harmonic2
 xiebo_3=xiebo(3,:);                %输出谐波为3时【频率 幅值 相对百分比】//对应K2的第3个值，该值为输出值，需要存库 harmonic3
@@ -122,10 +122,10 @@ num_zx=floor((fmax/2)/df)+1;
 [fuzhi_biandai]=vi(num_f1);               %幅值
 [valu_biandai]=f(num_f1);                 %频率
 
-if  n==0
+if n==0
     k=zeros(1,11);                      %阶次
 else
-    k=[valu_biandai]./n;                %阶次
+    k=[valu_biandai]./n;                      %阶次
 end
 
 dB=20*log10([fuzhi_biandai]./vi(num_zx));  %dB
@@ -146,12 +146,16 @@ biandai_11=biandai(11,:);                  %输出不同位置的【位置 频率 幅值 阶次 
 %%%%%%%%%%%%%%%%%%%%%%%%用于作图的数据%%%%%%%%%%%%%%%%%%%%%%%%
 f_plot=f;   %横轴：频率
 v_plot=vi; %纵轴：幅值
+[~,f_judge]=min(abs(f_plot-fmax));
+i=f_judge+1:length(f_plot);
+f_plot(i)=[];
+v_plot(i)=[];
 %%%%%%%%%%%%%%%%%%%%%%%%图形示例%%%%%%%%%%%%%%%%%%%%%%%%   //图形示范部分不涉及，该部分为MatLab输出图形使用；
 figure;
 plot(f_plot,v_plot);
 xlim([fmin,fmax]); 
 ylim([0,1.25*p]); 
-title(['通道',num2str(c),'的速度频谱图（激振器）']);
+title(['通道',num2str(c),'的速度频谱图（齿轮）']);
 xlabel('频率      Hz');
 ylabel('幅值      mm/s');
 hold on;
